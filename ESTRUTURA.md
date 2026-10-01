@@ -1,4 +1,4 @@
-# Estrutura do site (NutriForma, nome provisório)
+# Estrutura do site (Paiva Nutri, nome provisório)
 
 Site estático (HTML/CSS/JS puro, sem build). Pode ser hospedado de graça em GitHub Pages, Netlify ou Cloudflare Pages.
 

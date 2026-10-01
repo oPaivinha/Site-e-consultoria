@@ -1,4 +1,4 @@
-# Mensagens automáticas — NutriForma (modelo)
+# Mensagens automáticas — Paiva Nutri (modelo)
 
 Textos prontos para colar no n8n/Make e no WhatsApp Business. Troque o que está entre `{{chaves}}` por variáveis do seu fluxo.
 
