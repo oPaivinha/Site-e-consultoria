@@ -1,4 +1,4 @@
-# Estrutura do site (Paiva Nutri, nome provisório)
+# Estrutura do site (Paiva Nutri)
 
 Site estático (HTML/CSS/JS puro, sem build). Pode ser hospedado de graça em GitHub Pages, Netlify ou Cloudflare Pages.
 
