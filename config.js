@@ -4,11 +4,12 @@
   Nada aqui é segredo: este arquivo é público no site.
 */
 window.SITE_CONFIG = {
-  // Identidade (provisório: troque quando definir o nome e o @)
+  // Identidade
   brand: "Paiva Nutri",
   name: "Gabriel Paiva",
-  crn: "Nutricionista · CRN-X 00000",
-  instagram: "https://instagram.com/seu_arroba",
+  // Campos vazios ficam escondidos no site. Preencha quando quiser mostrar.
+  crn: "",          // Ex.: "CRN-3 12345" (aparece como "Nutricionista · CRN-3 12345")
+  instagram: "",    // Ex.: "https://instagram.com/paivanutri"
 
   // Oferta
   // showPrice: false esconde o valor no site (mostra só o que o plano inclui)
