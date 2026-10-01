@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Anamnese | NutriForma</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="form-page">
+
+  <header class="topbar">
+    <div class="container topbar__inner">
+      <span class="brand" data-brand>NutriForma</span>
+      <span class="muted" style="font-size:.92rem">Anamnese nutricional</span>
+    </div>
+  </header>
+
+  <main class="form-wrap">
+    <div class="form-card">
+      <div class="progress" aria-hidden="true"><div class="progress__bar" id="bar"></div></div>
+      <p class="progress__label" id="progressLabel" aria-live="polite"></p>
+
+      <form id="anamneseForm" novalidate autocomplete="on">
+        <div class="hp" aria-hidden="true">
+          <label>Não preencha <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+        </div>
+
+        <!-- 1. IDENTIFICAÇÃO E ROTINA -->
+        <section class="step is-active" data-step="1">
+          <h1 style="font-size:1.8rem">Vamos nos conhecer melhor</h1>
+          <p class="muted">Quanto mais completas as respostas, mais o seu plano fica a sua cara. Leva cerca de 15 minutos e você pode responder pelo celular.</p>
+
+          <div class="field" data-field="nome" data-required>
+            <label for="nome">Nome completo</label>
+            <input type="text" id="nome" name="nome" autocomplete="name">
+            <p class="error">Informe seu nome.</p>
+          </div>
+          <div class="field" data-field="whatsapp" data-required>
+            <label for="whatsapp">WhatsApp <span class="hint">o mesmo que você usou no pré-formulário</span></label>
+            <input type="tel" id="whatsapp" name="whatsapp" inputmode="tel" autocomplete="tel" placeholder="(11) 99999-9999">
+            <p class="error">Informe seu WhatsApp com DDD.</p>
+          </div>
+          <div class="field" data-field="ocupacao" data-required>
+            <label for="ocupacao">Profissão / ocupação principal</label>
+            <input type="text" id="ocupacao" name="ocupacao">
+            <p class="error">Informe sua ocupação.</p>
+          </div>
+          <div class="field" data-field="horario_trabalho">
+            <label for="horario_trabalho">Horário de trabalho ou estudo <span class="hint">opcional</span></label>
+            <input type="text" id="horario_trabalho" name="horario_trabalho" placeholder="Ex.: 8h às 17h, home office">
+          </div>
+          <div class="field" data-field="mora_com" data-required>
+            <label for="mora_com">Com quem você mora?</label>
+            <select id="mora_com" name="mora_com">
+              <option value="">Selecione</option>
+              <option>Sozinho(a)</option>
+              <option>Com família ou parceiro(a)</option>
+              <option>Com amigos / república</option>
+            </select>
+            <p class="error">Selecione uma opção.</p>
+          </div>
+
+          <!-- código do paciente, vindo do link (anamnese.html?p=...) -->
+          <input type="hidden" name="codigo" id="codigo">
+
+          <div class="field" data-field="consent" data-required style="margin-top:20px">
+            <label class="option">
+              <input type="checkbox" name="consent" value="sim">
+              <span>Autorizo o uso dos meus dados pessoais e de saúde informados nesta anamnese para o meu atendimento nutricional, conforme a <a href="privacidade.html" target="_blank" rel="noopener">Política de Privacidade</a>.</span>
+            </label>
+            <p class="error">Para continuar, é preciso autorizar o uso dos dados.</p>
+          </div>
+        </section>
+
+        <!-- 2. SAÚDE -->
+        <section class="step" data-step="2">
+          <h1 style="font-size:1.8rem">Histórico de saúde</h1>
+
+          <div class="field" data-field="alergias" data-required>
+            <label for="alergias">Alergias ou intolerâncias alimentares</label>
+            <textarea id="alergias" name="alergias" placeholder="Se não tiver nenhuma, escreva &quot;nenhuma&quot;"></textarea>
+            <p class="error">Responda este campo (pode ser &quot;nenhuma&quot;).</p>
+          </div>
+          <div class="field" data-field="medicamentos" data-required>
+            <label for="medicamentos">Medicamentos de uso contínuo ou frequente</label>
+            <textarea id="medicamentos" name="medicamentos" placeholder="Nome e para que usa. Se não usa, escreva &quot;nenhum&quot;"></textarea>
+            <p class="error">Responda este campo (pode ser &quot;nenhum&quot;).</p>
+          </div>
+          <div class="field" data-field="doencas_cirurgias" data-required>
+            <label for="doencas_cirurgias">Doenças diagnosticadas e cirurgias que já fez</label>
+            <textarea id="doencas_cirurgias" name="doencas_cirurgias" placeholder="Inclua o ano, se lembrar. Se não tiver, escreva &quot;nenhuma&quot;"></textarea>
+            <p class="error">Responda este campo (pode ser &quot;nenhuma&quot;).</p>
+          </div>
+          <div class="field" data-field="suplementos">
+            <label for="suplementos">Suplementos que usa <span class="hint">opcional</span></label>
+            <textarea id="suplementos" name="suplementos" placeholder="Ex.: whey, creatina, vitamina D, com as doses se souber"></textarea>
+          </div>
+
+          <div class="field" data-field="hormonios" data-required>
+            <span class="label">Usa ou já usou hormônios, anabolizantes ou termogênicos?</span>
+            <span class="hint">Pergunto porque eles mudam necessidades nutricionais e a leitura dos exames. A resposta fica só entre nós, sem julgamento.</span>
+            <div class="options">
+              <label class="option"><input type="radio" name="hormonios" value="sim"> Sim</label>
+              <label class="option"><input type="radio" name="hormonios" value="nao"> Não</label>
+            </div>
+            <p class="error">Selecione uma opção.</p>
+          </div>
+          <div class="field qa__qual" data-field="hormonios_qual" data-if="hormonios=sim" hidden>
+            <label for="hormonios_qual">Quais e quando? <span class="hint">opcional</span></label>
+            <input type="text" id="hormonios_qual" name="hormonios_qual">
+          </div>
+          <div class="field" data-field="sintomas_gerais" data-required>
+            <span class="label">Sente com frequência algum destes?</span>
+            <div class="options">
+              <label class="option"><input type="checkbox" name="sintomas_gerais" value="caibras"> Cãibras</label>
+              <label class="option"><input type="checkbox" name="sintomas_gerais" value="queda_cabelo"> Queda de cabelo</label>
+              <label class="option"><input type="checkbox" name="sintomas_gerais" value="unhas_fracas"> Unhas fracas</label>
+              <label class="option"><input type="checkbox" name="sintomas_gerais" value="cansaco"> Cansaço fora do normal</label>
+              <label class="option"><input type="checkbox" name="sintomas_gerais" value="tontura"> Tontura</label>
+              <label class="option"><input type="checkbox" name="sintomas_gerais" value="nenhum" data-exclusive> Nenhum desses</label>
+            </div>
+            <p class="error">Marque ao menos uma opção.</p>
+          </div>
+
+          <div class="field" data-field="historico_familiar" data-required>
+            <span class="label">Histórico na família (pais, irmãos, avós)</span>
+            <div class="options">
+              <label class="option"><input type="checkbox" name="historico_familiar" value="diabetes"> Diabetes</label>
+              <label class="option"><input type="checkbox" name="historico_familiar" value="hipertensao"> Pressão alta</label>
+              <label class="option"><input type="checkbox" name="historico_familiar" value="colesterol"> Colesterol alto</label>
+              <label class="option"><input type="checkbox" name="historico_familiar" value="cardiaca"> Doença do coração</label>
+              <label class="option"><input type="checkbox" name="historico_familiar" value="obesidade"> Obesidade</label>
+              <label class="option"><input type="checkbox" name="historico_familiar" value="nenhum_nao_sei" data-exclusive> Nenhum / não sei</label>
+            </div>
+            <p class="error">Marque ao menos uma opção.</p>
+          </div>
+
+          <div class="field" data-field="exames" data-required>
+            <span class="label">Fez exames de sangue recentemente?</span>
+            <div class="options">
+              <label class="option"><input type="radio" name="exames" value="menos_6m"> Sim, nos últimos 6 meses</label>
+              <label class="option"><input type="radio" name="exames" value="mais_6m"> Sim, há mais de 6 meses</label>
+              <label class="option"><input type="radio" name="exames" value="nao"> Não</label>
+            </div>
+            <p class="error">Selecione uma opção.</p>
+          </div>
+          <div class="field qa__qual" data-field="envio_exames" data-if-not="exames=nao" hidden>
+            <span class="label">Como prefere me enviar os resultados?</span>
+            <div class="options">
+              <label class="option"><input type="radio" name="envio_exames" value="whatsapp"> Mando pelo WhatsApp (PDF ou foto)</label>
+              <label class="option"><input type="radio" name="envio_exames" value="consulta"> Levo/mostro na consulta</label>
+              <label class="option"><input type="radio" name="envio_exames" value="nao_tenho"> Não tenho os resultados</label>
+            </div>
+            <span class="hint">Por segurança, os exames não são enviados por este formulário.</span>
+          </div>
+
+          <div class="field" data-field="lesoes">
+            <label for="lesoes">Lesões ou limitações físicas <span class="hint">opcional</span></label>
+            <textarea id="lesoes" name="lesoes"></textarea>
+          </div>
+
+          <div class="field" data-field="ciclo" data-sexo="feminino">
+            <label for="ciclo">Ciclo menstrual <span class="hint">opcional, ajuda a interpretar variações de peso e energia</span></label>
+            <select id="ciclo" name="ciclo">
+              <option value="">Prefiro não informar / não se aplica</option>
+              <option value="regular">Regular</option>
+              <option value="irregular">Irregular</option>
+              <option value="sem_ciclo">Não menstruo (uso contínuo de método contraceptivo ou outro motivo)</option>
+            </select>
+          </div>
+        </section>
+
+        <!-- 3. SONO E ESTILO DE VIDA -->
+        <section class="step" data-step="3">
+          <h1 style="font-size:1.8rem">Sono e estilo de vida</h1>
+
+          <div class="row">
+            <div class="field" data-field="horario_dormir" data-required>
+              <label for="horario_dormir">Costuma dormir às</label>
+              <input type="text" id="horario_dormir" name="horario_dormir" placeholder="Ex.: 23h30">
+              <p class="error">Informe o horário.</p>
+            </div>
+            <div class="field" data-field="horario_acordar" data-required>
+              <label for="horario_acordar">Costuma acordar às</label>
+              <input type="text" id="horario_acordar" name="horario_acordar" placeholder="Ex.: 6h30">
+              <p class="error">Informe o horário.</p>
+            </div>
+          </div>
+
+          <div class="field" data-field="qualidade_sono" data-required>
+            <span class="label">Como é a qualidade do seu sono?</span>
+            <div class="options">
+              <label class="option"><input type="radio" name="qualidade_sono" value="boa"> Boa, acordo descansado(a)</label>
+              <label class="option"><input type="radio" name="qualidade_sono" value="regular"> Regular</label>
+              <label class="option"><input type="radio" name="qualidade_sono" value="ruim"> Ruim, acordo cansado(a) ou várias vezes na noite</label>
+            </div>
+            <p class="error">Selecione uma opção.</p>
+          </div>
+
+          <div class="field" data-field="estresse" data-required>
+            <label for="estresse">Nível de estresse no dia a dia</label>
+            <select id="estresse" name="estresse">
+              <option value="">Selecione</option>
+              <option value="1">1 – muito baixo</option>
+              <option value="2">2 – baixo</option>
+              <option value="3">3 – moderado</option>
+              <option value="4">4 – alto</option>
+              <option value="5">5 – muito alto</option>
+            </select>
+            <p class="error">Selecione uma opção.</p>
+          </div>
+
+          <div class="row">
+            <div class="field" data-field="agua" data-required>
+              <label for="agua">Água por dia</label>
+              <select id="agua" name="agua">
+                <option value="">Selecione</option>
+                <option value="menos_1l">Menos de 1 litro</option>
+                <option value="1_2l">1 a 2 litros</option>
+                <option value="2_3l">2 a 3 litros</option>
+                <option value="mais_3l">Mais de 3 litros</option>
+              </select>
+              <p class="error">Selecione uma opção.</p>
+            </div>
+            <div class="field" data-field="alcool" data-required>
+              <label for="alcool">Bebida alcoólica</label>
+              <select id="alcool" name="alcool">
+                <option value="">Selecione</option>
+                <option value="nao">Não bebo</option>
+                <option value="social">De vez em quando</option>
+                <option value="1_2x">1 a 2 vezes por semana</option>
+                <option value="3x_mais">3 vezes por semana ou mais</option>
+              </select>
+              <p class="error">Selecione uma opção.</p>
+            </div>
+          </div>
+
+          <div class="field" data-field="fumo" data-required>
+            <span class="label">Fuma?</span>
+            <div class="options">
+              <label class="option"><input type="radio" name="fumo" value="nao"> Não</label>
+              <label class="option"><input type="radio" name="fumo" value="ex"> Parei</label>
+              <label class="option"><input type="radio" name="fumo" value="sim"> Sim</label>
+            </div>
+            <p class="error">Selecione uma opção.</p>
+          </div>
+        </section>
+
+        <!-- 4. ATIVIDADE FÍSICA -->
+        <section class="step" data-step="4">
+          <h1 style="font-size:1.8rem">Atividade física</h1>
+
+          <div class="field" data-field="modalidades" data-required>
+            <label for="modalidades">O que você pratica?</label>
+            <input type="text" id="modalidades" name="modalidades" placeholder="Ex.: musculação, corrida, crossfit. Se não treina, escreva &quot;nenhuma&quot;">
+            <p class="error">Responda este campo.</p>
+          </div>
+          <div class="row">
+            <div class="field" data-field="freq_treino" data-required>
+              <label for="freq_treino">Frequência semanal</label>
+              <select id="freq_treino" name="freq_treino">
+                <option value="">Selecione</option>
+                <option value="0">Não treino</option>
+                <option value="1_2">1 a 2 vezes</option>
+                <option value="3_4">3 a 4 vezes</option>
+                <option value="5_mais">5 vezes ou mais</option>
+              </select>
+              <p class="error">Selecione uma opção.</p>
+            </div>
+            <div class="field" data-field="duracao_treino" data-required>
+              <label for="duracao_treino">Duração de cada treino</label>
+              <select id="duracao_treino" name="duracao_treino">
+                <option value="">Selecione</option>
+                <option value="nao_treina">Não se aplica</option>
+                <option value="ate_45">Até 45 minutos</option>
+                <option value="45_75">45 a 75 minutos</option>
+                <option value="mais_75">Mais de 75 minutos</option>
+              </select>
+              <p class="error">Selecione uma opção.</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="field" data-field="horario_treino" data-required>
+              <label for="horario_treino">Horário em que treina</label>
+              <select id="horario_treino" name="horario_treino">
+                <option value="">Selecione</option>
+                <option value="nao_treina">Não se aplica</option>
+                <option value="manha_cedo">Manhã cedo, antes das 8h</option>
+                <option value="manha">Manhã</option>
+                <option value="tarde">Tarde</option>
+                <option value="noite">Noite</option>
+                <option value="varia">Varia</option>
+              </select>
+              <p class="error">Selecione uma opção.</p>
+            </div>
+            <div class="field" data-field="tempo_treino" data-required>
+              <label for="tempo_treino">Há quanto tempo treina?</label>
+              <select id="tempo_treino" name="tempo_treino">
+                <option value="">Selecione</option>
+                <option value="nao_treina">Ainda não treino</option>
+                <option value="menos_6m">Menos de 6 meses</option>
+                <option value="6m_2a">6 meses a 2 anos</option>
+                <option value="mais_2a">Mais de 2 anos</option>
+              </select>
+              <p class="error">Selecione uma opção.</p>
+            </div>
+          </div>
+          <div class="field" data-field="atividade_diaria" data-required>
+            <label for="atividade_diaria">Fora do treino, como é o seu dia?</label>
+            <select id="atividade_diaria" name="atividade_diaria">
+              <option value="">Selecione</option>
+              <option value="sentado">Passo a maior parte do tempo sentado(a)</option>
+              <option value="leve">Me movimento um pouco (caminho, ando bastante a pé)</option>
+              <option value="ativo">Fico em pé ou em movimento a maior parte do dia</option>
+              <option value="pesado">Trabalho com esforço físico</option>
+            </select>
+            <p class="error">Selecione uma opção.</p>
+          </div>
+          <div class="field" data-field="meta_esportiva">
+            <label for="meta_esportiva">Meta esportiva específica <span class="hint">opcional</span></label>
+            <input type="text" id="meta_esportiva" name="meta_esportiva" placeholder="Ex.: correr 10 km, subir carga no supino, competir">
+          </div>
+        </section>
+
+        <!-- 5. INTESTINO -->
+        <section class="step" data-step="5">
+          <h1 style="font-size:1.8rem">Funcionamento intestinal</h1>
+          <p class="muted">Pode ser um assunto desconfortável, mas é importante para ajustar o plano. Responda com tranquilidade.</p>
+
+          <div class="field" data-field="freq_evacuacao" data-required>
+            <label for="freq_evacuacao">Com que frequência você vai ao banheiro (número 2)?</label>
+            <select id="freq_evacuacao" name="freq_evacuacao">
+              <option value="">Selecione</option>
+              <option value="mais_1x_dia">Mais de uma vez por dia</option>
+              <option value="1x_dia">Uma vez por dia</option>
+              <option value="3_6x_semana">3 a 6 vezes por semana</option>
+              <option value="1_2x_semana">1 a 2 vezes por semana</option>
+              <option value="menos">Menos de uma vez por semana</option>
+            </select>
+            <p class="error">Selecione uma opção.</p>
+          </div>
+
+          <div class="field" data-field="bristol" data-required>
+            <span class="label">Na maior parte dos dias, as fezes são mais parecidas com qual destas? <span class="hint">Escala de Bristol</span></span>
+            <div class="options">
+              <label class="option"><input type="radio" name="bristol" value="1"> Tipo 1: bolinhas duras separadas, difíceis de sair</label>
+              <label class="option"><input type="radio" name="bristol" value="2"> Tipo 2: formato de salsicha, mas encaroçada e dura</label>
+              <label class="option"><input type="radio" name="bristol" value="3"> Tipo 3: salsicha com rachaduras na superfície</label>
+              <label class="option"><input type="radio" name="bristol" value="4"> Tipo 4: salsicha lisa e macia</label>
+              <label class="option"><input type="radio" name="bristol" value="5"> Tipo 5: pedaços macios com bordas definidas</label>
+              <label class="option"><input type="radio" name="bristol" value="6"> Tipo 6: pedaços moles, bordas irregulares, pastosa</label>
+              <label class="option"><input type="radio" name="bristol" value="7"> Tipo 7: líquida, sem pedaços sólidos</label>
+            </div>
+            <p class="error">Selecione uma opção.</p>
+          </div>
+
+          <div class="field" data-field="sintomas_gi" data-required>
+            <span class="label">Costuma sentir:</span>
+            <div class="options">
+              <label class="option"><input type="checkbox" name="sintomas_gi" value="gases"> Gases em excesso</label>
+              <label class="option"><input type="checkbox" name="sintomas_gi" value="inchaco"> Barriga inchada</label>
+              <label class="option"><input type="checkbox" name="sintomas_gi" value="dor"> Dor ou cólica abdominal</label>
+              <label class="option"><input type="checkbox" name="sintomas_gi" value="azia"> Azia ou refluxo</label>
+              <label class="option"><input type="checkbox" name="sintomas_gi" value="incompleta"> Sensação de não ter evacuado por completo</label>
+              <label class="option"><input type="checkbox" name="sintomas_gi" value="nenhum" data-exclusive> Nenhum desses</label>
+            </div>
+            <p class="error">Marque ao menos uma opção.</p>
+          </div>
+
+          <div class="field" data-field="laxantes" data-required>
+            <span class="label">Usa laxantes ou chás para o intestino?</span>
+            <div class="options">
+              <label class="option"><input type="radio" name="laxantes" value="nunca"> Nunca</label>
+              <label class="option"><input type="radio" name="laxantes" value="as_vezes"> Às vezes</label>
+              <label class="option"><input type="radio" name="laxantes" value="frequente"> Com frequência</label>
+            </div>
+            <p class="error">Selecione uma opção.</p>
+          </div>
+
+          <div class="field" data-field="obs_intestino">
+            <label for="obs_intestino">Quer acrescentar algo? <span class="hint">opcional</span></label>
+            <textarea id="obs_intestino" name="obs_intestino"></textarea>
+          </div>
+        </section>
+
+        <!-- 6. HÁBITOS ALIMENTARES -->
+        <section class="step" data-step="6">
+          <h1 style="font-size:1.8rem">Hábitos alimentares</h1>
+
+          <div class="row">
+            <div class="field" data-field="n_refeicoes" data-required>
+              <label for="n_refeicoes">Refeições por dia (contando lanches)</label>
+              <select id="n_refeicoes" name="n_refeicoes">
+                <option value="">Selecione</option>
+                <option>1 a 2</option><option>3</option><option>4</option><option>5</option><option>6 ou mais</option>
+              </select>
+              <p class="error">Selecione uma opção.</p>
+            </div>
+            <div class="field" data-field="pula_refeicao" data-required>
+              <label for="pula_refeicao">Costuma pular refeições?</label>
+              <select id="pula_refeicao" name="pula_refeicao">
+                <option value="">Selecione</option>
+                <option value="nunca">Nunca</option>
+                <option value="as_vezes">Às vezes</option>
+                <option value="frequente">Com frequência</option>
+              </select>
+              <p class="error">Selecione uma opção.</p>
+            </div>
+          </div>
+
+          <div class="field" data-field="quem_cozinha" data-required>
+            <label for="quem_cozinha">Quem prepara a sua comida?</label>
+            <select id="quem_cozinha" name="quem_cozinha">
+              <option value="">Selecione</option>
+              <option>Eu mesmo(a)</option>
+              <option>Familiar ou parceiro(a)</option>
+              <option>Funcionário(a) / diarista</option>
+              <option>Como fora ou peço delivery</option>
+              <option>Um pouco de cada</option>
+            </select>
+            <p class="error">Selecione uma opção.</p>
+          </div>
+
+          <div class="field" data-field="onde_come" data-required>
+            <span class="label">Onde costuma fazer as refeições?</span>
+            <div class="options">
+              <label class="option"><input type="checkbox" name="onde_come" value="casa"> Em casa</label>
+              <label class="option"><input type="checkbox" name="onde_come" value="marmita"> No trabalho, com marmita</label>
+              <label class="option"><input type="checkbox" name="onde_come" value="restaurante"> Restaurante, self-service ou delivery</label>
+            </div>
+            <p class="error">Marque ao menos uma opção.</p>
+          </div>
+
+          <div class="row">
+            <div class="field" data-field="tempo_cozinhar" data-required>
+              <label for="tempo_cozinhar">Tempo disponível para cozinhar</label>
+              <select id="tempo_cozinhar" name="tempo_cozinhar">
+                <option value="">Selecione</option>
+                <option value="pouco">Pouco (até 15 min por refeição)</option>
+                <option value="medio">Médio (cerca de 30 min)</option>
+                <option value="bastante">Tenho tempo e gosto de cozinhar</option>
+                <option value="nao_cozinha">Não cozinho</option>
+              </select>
+              <p class="error">Selecione uma opção.</p>
+            </div>
+            <div class="field" data-field="orcamento" data-required>
+              <label for="orcamento">Orçamento com alimentação</label>
+              <select id="orcamento" name="orcamento">
+                <option value="">Selecione</option>
+                <option value="apertado">Preciso economizar</option>
+                <option value="moderado">Moderado</option>
+                <option value="folgado">Sem restrição</option>
+              </select>
+              <p class="error">Selecione uma opção.</p>
+            </div>
+          </div>
+
+          <div class="field" data-field="restricoes" data-required>
+            <span class="label">Segue alguma restrição por escolha?</span>
+            <div class="options">
+              <label class="option"><input type="checkbox" name="restricoes" value="vegetariano"> Vegetariano(a)</label>
+              <label class="option"><input type="checkbox" name="restricoes" value="vegano"> Vegano(a)</label>
+              <label class="option"><input type="checkbox" name="restricoes" value="sem_lactose"> Evito lactose</label>
+              <label class="option"><input type="checkbox" name="restricoes" value="sem_gluten"> Evito glúten</label>
+              <label class="option"><input type="checkbox" name="restricoes" value="religiosa"> Restrição religiosa</label>
+              <label class="option"><input type="checkbox" name="restricoes" value="nenhuma" data-exclusive> Nenhuma</label>
+            </div>
+            <p class="error">Marque ao menos uma opção.</p>
+          </div>
+
+          <div class="field" data-field="gosta" data-required>
+            <label for="gosta">Alimentos e preparações que você gosta e quer manter</label>
+            <textarea id="gosta" name="gosta"></textarea>
+            <p class="error">Responda este campo.</p>
+          </div>
+          <div class="field" data-field="nao_gosta">
+            <label for="nao_gosta">Alimentos que você não gosta ou não come <span class="hint">opcional</span></label>
+            <textarea id="nao_gosta" name="nao_gosta"></textarea>
+          </div>
+
+          <div class="row">
+            <div class="field" data-field="doces_refri" data-required>
+              <label for="doces_refri">Doces e refrigerantes</label>
+              <select id="doces_refri" name="doces_refri">
+                <option value="">Selecione</option>
+                <option value="raro">Raramente</option>
+                <option value="1_2x">1 a 2 vezes por semana</option>
+                <option value="3_5x">3 a 5 vezes por semana</option>
+                <option value="diario">Todos os dias</option>
+              </select>
+              <p class="error">Selecione uma opção.</p>
+            </div>
+            <div class="field" data-field="fastfood" data-required>
+              <label for="fastfood">Fast food, pizza, lanches</label>
+              <select id="fastfood" name="fastfood">
+                <option value="">Selecione</option>
+                <option value="raro">Raramente</option>
+                <option value="1_2x">1 a 2 vezes por semana</option>
+                <option value="3_5x">3 a 5 vezes por semana</option>
+                <option value="diario">Todos os dias</option>
+              </select>
+              <p class="error">Selecione uma opção.</p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="field" data-field="peso_max">
+              <label for="peso_max">Maior peso na vida adulta (kg) <span class="hint">opcional</span></label>
+              <input type="number" id="peso_max" name="peso_max" min="20" max="300" step="0.1" inputmode="decimal">
+            </div>
+            <div class="field" data-field="peso_min">
+              <label for="peso_min">Menor peso na vida adulta (kg) <span class="hint">opcional</span></label>
+              <input type="number" id="peso_min" name="peso_min" min="20" max="300" step="0.1" inputmode="decimal">
+            </div>
+          </div>
+          <div class="field" data-field="dietas_antes" data-required>
+            <span class="label">Já fez dietas antes?</span>
+            <div class="options">
+              <label class="option"><input type="radio" name="dietas_antes" value="sim"> Sim</label>
+              <label class="option"><input type="radio" name="dietas_antes" value="nao"> Não</label>
+            </div>
+            <p class="error">Selecione uma opção.</p>
+          </div>
+          <div class="field" data-field="peso_volta">
+            <span class="label">Depois das dietas, o peso costuma voltar?</span>
+            <div class="options">
+              <label class="option"><input type="radio" name="peso_volta" value="sim"> Sim</label>
+              <label class="option"><input type="radio" name="peso_volta" value="as_vezes"> Às vezes</label>
+              <label class="option"><input type="radio" name="peso_volta" value="nao"> Não</label>
+              <label class="option"><input type="radio" name="peso_volta" value="nao_se_aplica"> Não se aplica</label>
+            </div>
+            <p class="error">Selecione uma opção.</p>
+          </div>
+          <div class="field" data-field="cafe_xicaras" data-required>
+            <label for="cafe_xicaras">Café ou outras bebidas com cafeína por dia</label>
+            <select id="cafe_xicaras" name="cafe_xicaras">
+              <option value="">Selecione</option>
+              <option value="0">Não tomo</option>
+              <option value="1">1 xícara</option>
+              <option value="2-3">2 a 3 xícaras</option>
+              <option value="4+">4 ou mais</option>
+            </select>
+            <p class="error">Selecione uma opção.</p>
+          </div>
+          <div class="field" data-field="adocante" data-required>
+            <label for="adocante">Usa adoçante?</label>
+            <select id="adocante" name="adocante">
+              <option value="">Selecione</option>
+              <option value="nao">Não uso</option>
+              <option value="as_vezes">Às vezes</option>
+              <option value="diario">Todo dia</option>
+            </select>
+            <p class="error">Selecione uma opção.</p>
+          </div>
+          <div class="field qa__qual" data-field="adocante_qual" data-if-not="adocante=nao" hidden>
+            <label for="adocante_qual">Qual adoçante? <span class="hint">opcional</span></label>
+            <input type="text" id="adocante_qual" name="adocante_qual">
+          </div>
+          <div class="field" data-field="horario_fome" data-required>
+            <label for="horario_fome">Em que horário sente mais fome?</label>
+            <select id="horario_fome" name="horario_fome">
+              <option value="">Selecione</option>
+              <option value="manha">Manhã</option>
+              <option value="almoco">Perto do almoço</option>
+              <option value="tarde">Tarde</option>
+              <option value="noite">Noite</option>
+              <option value="madrugada">Madrugada</option>
+              <option value="igual">Não noto diferença</option>
+            </select>
+            <p class="error">Selecione uma opção.</p>
+          </div>
+          <div class="field" data-field="come_rapido" data-required>
+            <span class="label">Come rápido ou mastiga pouco?</span>
+            <div class="options">
+              <label class="option"><input type="radio" name="come_rapido" value="sim"> Sim</label>
+              <label class="option"><input type="radio" name="come_rapido" value="as_vezes"> Às vezes</label>
+              <label class="option"><input type="radio" name="come_rapido" value="nao"> Não</label>
+            </div>
+            <p class="error">Selecione uma opção.</p>
+          </div>
+          <p class="label" style="margin-top:18px">Consumo da casa <span class="hint">opcional: ajuda a estimar o que vai "escondido" na comida</span></p>
+          <div class="row">
+            <div class="field" data-field="pessoas_casa">
+              <label for="pessoas_casa">Pessoas que comem em casa</label>
+              <input type="number" id="pessoas_casa" name="pessoas_casa" min="1" max="30" inputmode="numeric">
+            </div>
+            <div class="field" data-field="oleo_mes">
+              <label for="oleo_mes">Óleo por mês <span class="hint">latas de 900 ml</span></label>
+              <input type="number" id="oleo_mes" name="oleo_mes" min="0" max="50" step="0.5" inputmode="decimal">
+            </div>
+          </div>
+          <div class="row">
+            <div class="field" data-field="sal_mes">
+              <label for="sal_mes">Sal por mês <span class="hint">kg</span></label>
+              <input type="number" id="sal_mes" name="sal_mes" min="0" max="20" step="0.1" inputmode="decimal">
+            </div>
+            <div class="field" data-field="acucar_mes">
+              <label for="acucar_mes">Açúcar por mês <span class="hint">kg</span></label>
+              <input type="number" id="acucar_mes" name="acucar_mes" min="0" max="50" step="0.5" inputmode="decimal">
+            </div>
+          </div>
+          <div class="field" data-field="fome_emocional" data-required>
+            <label for="fome_emocional">Come por ansiedade, tédio ou estresse?</label>
+            <select id="fome_emocional" name="fome_emocional">
+              <option value="">Selecione</option>
+              <option value="nunca">Quase nunca</option>
+              <option value="as_vezes">Às vezes</option>
+              <option value="frequente">Com frequência</option>
+            </select>
+            <p class="error">Selecione uma opção.</p>
+          </div>
+
+          <div data-child hidden>
+            <p class="eyebrow" style="margin-top:24px">Para crianças</p>
+          <div class="field" data-field="alimentacao_escola" data-required>
+            <label for="alimentacao_escola">Na escola, a criança come</label>
+            <select id="alimentacao_escola" name="alimentacao_escola">
+              <option value="">Selecione</option>
+              <option value="lanche_levado">Lanche levado de casa</option>
+              <option value="merenda">Merenda da escola</option>
+              <option value="ambos">Os dois</option>
+              <option value="cantina">Compra na cantina</option>
+              <option value="nao_estuda">Não está na escola</option>
+            </select>
+            <p class="error">Selecione uma opção.</p>
+          </div>
+          <div class="field" data-field="quem_decide" data-required>
+            <label for="quem_decide">Quem decide o que a criança come no dia a dia?</label>
+            <select id="quem_decide" name="quem_decide">
+              <option value="">Selecione</option>
+              <option value="pais">Pais / responsáveis</option>
+              <option value="avos">Avós ou outro cuidador</option>
+              <option value="escola">Escola / creche</option>
+              <option value="crianca">A própria criança escolhe</option>
+              <option value="misto">Varia</option>
+            </select>
+            <p class="error">Selecione uma opção.</p>
+          </div>
+          <div class="field" data-field="curva_crescimento">
+            <label for="curva_crescimento">Peso e altura das últimas consultas no pediatra <span class="hint">opcional; datas e valores, para a curva de crescimento</span></label>
+            <textarea id="curva_crescimento" name="curva_crescimento" placeholder="Ex.: 03/2026: 28 kg, 1,30 m"></textarea>
+          </div>
+          </div>
+        </section>
+
+        <!-- 7. RECORDATÓRIO 24H -->
+        <section class="step" data-step="7">
+          <h1 style="font-size:1.8rem">Um dia de alimentação</h1>
+          <p class="muted">Descreva o que você comeu e bebeu em um dia comum recente, com horário e quantidades aproximadas (ex.: &quot;2 ovos mexidos, 1 pão francês, 1 café com leite&quot;). Se não fez alguma refeição, escreva &quot;não fiz&quot;. Não precisa ser perfeito.</p>
+
+          <div class="field" data-field="rec_cafe" data-required>
+            <label for="rec_cafe">Café da manhã</label>
+            <textarea id="rec_cafe" name="rec_cafe" placeholder="Horário e o que comeu"></textarea>
+            <p class="error">Responda este campo.</p>
+          </div>
+          <div class="field" data-field="rec_lanche_manha">
+            <label for="rec_lanche_manha">Lanche da manhã <span class="hint">opcional</span></label>
+            <textarea id="rec_lanche_manha" name="rec_lanche_manha"></textarea>
+          </div>
+          <div class="field" data-field="rec_almoco" data-required>
+            <label for="rec_almoco">Almoço</label>
+            <textarea id="rec_almoco" name="rec_almoco" placeholder="Horário e o que comeu"></textarea>
+            <p class="error">Responda este campo.</p>
+          </div>
+          <div class="field" data-field="rec_lanche_tarde">
+            <label for="rec_lanche_tarde">Lanche da tarde <span class="hint">opcional</span></label>
+            <textarea id="rec_lanche_tarde" name="rec_lanche_tarde"></textarea>
+          </div>
+          <div class="field" data-field="rec_jantar" data-required>
+            <label for="rec_jantar">Jantar</label>
+            <textarea id="rec_jantar" name="rec_jantar" placeholder="Horário e o que comeu"></textarea>
+            <p class="error">Responda este campo.</p>
+          </div>
+          <div class="field" data-field="rec_ceia">
+            <label for="rec_ceia">Ceia ou beliscadas à noite <span class="hint">opcional</span></label>
+            <textarea id="rec_ceia" name="rec_ceia"></textarea>
+          </div>
+          <div class="field" data-field="rec_bebidas">
+            <label for="rec_bebidas">Outras bebidas ao longo do dia <span class="hint">opcional</span></label>
+            <textarea id="rec_bebidas" name="rec_bebidas" placeholder="Café, suco, refrigerante, energético..."></textarea>
+          </div>
+          <div class="field" data-field="dia_tipico" data-required>
+            <span class="label">Esse dia foi parecido com o seu dia a dia?</span>
+            <div class="options">
+              <label class="option"><input type="radio" name="dia_tipico" value="sim"> Sim, foi típico</label>
+              <label class="option"><input type="radio" name="dia_tipico" value="mais_leve"> Comi melhor que o normal</label>
+              <label class="option"><input type="radio" name="dia_tipico" value="mais_pesado"> Comi pior que o normal</label>
+            </div>
+            <p class="error">Selecione uma opção.</p>
+          </div>
+        </section>
+
+        <!-- 8. OBJETIVOS -->
+        <section class="step" data-step="8">
+          <h1 style="font-size:1.8rem">Seus objetivos</h1>
+
+          <div class="field" data-field="objetivo_detalhe" data-required>
+            <label for="objetivo_detalhe">O que você quer alcançar?</label>
+            <textarea id="objetivo_detalhe" name="objetivo_detalhe" placeholder="Em suas palavras"></textarea>
+            <p class="error">Responda este campo.</p>
+          </div>
+          <div class="row">
+            <div class="field" data-field="meta_peso">
+              <label for="meta_peso">Meta de peso (kg) <span class="hint">opcional</span></label>
+              <input type="number" id="meta_peso" name="meta_peso" min="30" max="300" step="0.1" inputmode="decimal">
+            </div>
+            <div class="field" data-field="prazo" data-required>
+              <label for="prazo">Prazo que você imagina</label>
+              <select id="prazo" name="prazo">
+                <option value="">Selecione</option>
+                <option value="3m">3 meses</option>
+                <option value="6m">6 meses</option>
+                <option value="12m">1 ano ou mais</option>
+                <option value="sem_prazo">Sem prazo definido</option>
+              </select>
+              <p class="error">Selecione uma opção.</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="field" data-field="cintura">
+              <label for="cintura">Cintura (cm) <span class="hint">opcional</span></label>
+              <input type="number" id="cintura" name="cintura" min="40" max="250" step="0.5" inputmode="decimal">
+            </div>
+            <div class="field" data-field="quadril">
+              <label for="quadril">Quadril (cm) <span class="hint">opcional</span></label>
+              <input type="number" id="quadril" name="quadril" min="40" max="250" step="0.5" inputmode="decimal">
+            </div>
+          </div>
+          <div class="field" data-field="dificuldade" data-required>
+            <label for="dificuldade">O que mais dificulta a sua alimentação hoje?</label>
+            <textarea id="dificuldade" name="dificuldade" placeholder="Ex.: falta de tempo, vontade de doce à noite, final de semana..."></textarea>
+            <p class="error">Responda este campo.</p>
+          </div>
+          <div class="field" data-field="inegociaveis">
+            <label for="inegociaveis">Algo que você não abre mão de comer ou fazer? <span class="hint">opcional</span></label>
+            <textarea id="inegociaveis" name="inegociaveis"></textarea>
+          </div>
+          <div class="field" data-field="mais_algo">
+            <label for="mais_algo">Mais alguma coisa que eu deveria saber? <span class="hint">opcional</span></label>
+            <textarea id="mais_algo" name="mais_algo"></textarea>
+          </div>
+        </section>
+
+        <!-- RESULTADO -->
+        <section class="step" data-step="ok">
+          <div class="notice notice--ok">
+            <h2>Anamnese recebida!</h2>
+            <p>Obrigado, <strong id="okNome"></strong>. Vou analisar tudo com cuidado antes da nossa consulta.</p>
+            <p style="margin-bottom:0">Se você tem exames recentes, me avise pelo WhatsApp para combinarmos como enviar.</p>
+            <div class="notice__actions">
+              <a class="btn" id="btnWhats" href="#" target="_blank" rel="noopener" hidden>Falar no WhatsApp</a>
+            </div>
+          </div>
+          <p class="legal-text" id="demoNote" style="margin-top:14px" hidden>Modo demonstração: nenhum dado foi enviado. Configure o webhook em config.js.</p>
+        </section>
+
+        <p class="error" id="submitError" role="alert">Não foi possível enviar agora. Verifique sua conexão e tente novamente.</p>
+
+        <div class="actions" id="actions">
+          <button type="button" class="btn btn--ghost" id="btnBack" hidden>Voltar</button>
+          <button type="button" class="btn" id="btnNext" style="margin-left:auto">Continuar</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="site.js"></script>
+  <script src="anamnese.js"></script>
+</body>
+</html>

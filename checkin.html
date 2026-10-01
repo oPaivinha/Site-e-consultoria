@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Check-in quinzenal | NutriForma</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="form-page">
+
+  <header class="topbar">
+    <div class="container topbar__inner">
+      <span class="brand" data-brand>NutriForma</span>
+      <span class="muted" style="font-size:.92rem">Check-in quinzenal</span>
+    </div>
+  </header>
+
+  <main class="form-wrap">
+    <div class="form-card">
+      <div class="progress" aria-hidden="true"><div class="progress__bar" id="bar"></div></div>
+      <p class="progress__label" id="progressLabel" aria-live="polite"></p>
+
+      <!--
+        Link enviado ao paciente: checkin.html?p=CODIGO
+        CODIGO é o código aleatório do paciente na planilha (coluna "codigo").
+        Sem o código, o formulário pede o WhatsApp para identificar a pessoa.
+        Os valores de água e intestino são os mesmos da anamnese, para comparar a evolução.
+      -->
+      <form id="checkinForm" novalidate autocomplete="on">
+        <div class="hp" aria-hidden="true">
+          <label>Não preencha <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+        </div>
+
+        <!-- 1. PLANO -->
+        <section class="step is-active" data-step="1">
+          <h1 style="font-size:1.8rem">Como foram estes 15 dias?</h1>
+          <p class="muted">Leva uns 2 minutos. Responda com sinceridade: não existe resposta errada, isso me ajuda a ajustar o plano para você.</p>
+
+          <div class="field" data-field="whatsapp" id="fieldWhats" hidden>
+            <label for="whatsapp">Seu WhatsApp</label>
+            <input type="tel" id="whatsapp" name="whatsapp" inputmode="tel" autocomplete="tel" placeholder="(11) 99999-9999">
+            <p class="error">Informe o número com DDD.</p>
+          </div>
+
+          <div class="field" data-field="adesao" data-required>
+            <span class="label">De 0 a 10, quanto você conseguiu seguir o plano?</span>
+            <div class="options options--scale">
+              <label class="option"><input type="radio" name="adesao" value="0"> 0</label>
+              <label class="option"><input type="radio" name="adesao" value="1"> 1</label>
+              <label class="option"><input type="radio" name="adesao" value="2"> 2</label>
+              <label class="option"><input type="radio" name="adesao" value="3"> 3</label>
+              <label class="option"><input type="radio" name="adesao" value="4"> 4</label>
+              <label class="option"><input type="radio" name="adesao" value="5"> 5</label>
+              <label class="option"><input type="radio" name="adesao" value="6"> 6</label>
+              <label class="option"><input type="radio" name="adesao" value="7"> 7</label>
+              <label class="option"><input type="radio" name="adesao" value="8"> 8</label>
+              <label class="option"><input type="radio" name="adesao" value="9"> 9</label>
+              <label class="option"><input type="radio" name="adesao" value="10"> 10</label>
+            </div>
+            <p class="hint">0 = não consegui seguir nada · 10 = segui tudo</p>
+            <p class="error">Escolha uma nota.</p>
+          </div>
+
+          <div class="field" data-field="refeicoes_dificeis" data-required>
+            <span class="label">Qual parte do plano está mais difícil?</span>
+            <div class="options">
+              <label class="option"><input type="checkbox" name="refeicoes_dificeis" value="cafe"> Café da manhã</label>
+              <label class="option"><input type="checkbox" name="refeicoes_dificeis" value="almoco"> Almoço</label>
+              <label class="option"><input type="checkbox" name="refeicoes_dificeis" value="lanches"> Lanches</label>
+              <label class="option"><input type="checkbox" name="refeicoes_dificeis" value="jantar"> Jantar</label>
+              <label class="option"><input type="checkbox" name="refeicoes_dificeis" value="fim_de_semana"> Fim de semana</label>
+              <label class="option"><input type="checkbox" name="refeicoes_dificeis" value="nenhuma" data-exclusive> Nenhuma, está tranquilo</label>
+            </div>
+            <p class="error">Marque pelo menos uma opção.</p>
+          </div>
+
+          <div class="field" data-field="fome" data-required>
+            <span class="label">Como está a quantidade de comida?</span>
+            <div class="options">
+              <label class="option"><input type="radio" name="fome" value="passando_fome"> Estou passando fome</label>
+              <label class="option"><input type="radio" name="fome" value="ok"> Na medida</label>
+              <label class="option"><input type="radio" name="fome" value="sobrando"> Está sobrando, não consigo comer tudo</label>
+            </div>
+            <p class="error">Selecione uma opção.</p>
+          </div>
+        </section>
+
+        <!-- 2. DESLIZES E ÁGUA -->
+        <section class="step" data-step="2">
+          <h1 style="font-size:1.8rem">Deslizes e hidratação</h1>
+
+          <div class="field" data-field="deslizes" data-required>
+            <span class="label">Quantas vezes você saiu do plano nestes 15 dias?</span>
+            <div class="options">
+              <label class="option"><input type="radio" name="deslizes" value="nenhuma"> Nenhuma</label>
+              <label class="option"><input type="radio" name="deslizes" value="1_2"> 1 ou 2 vezes</label>
+              <label class="option"><input type="radio" name="deslizes" value="3_5"> 3 a 5 vezes</label>
+              <label class="option"><input type="radio" name="deslizes" value="mais_5"> Mais de 5 vezes</label>
+            </div>
+            <p class="error">Selecione uma opção.</p>
+          </div>
+
+          <div class="field" data-field="deslize_motivo" id="fieldMotivo" hidden>
+            <span class="label">O que aconteceu? <span class="hint">pode marcar mais de uma</span></span>
+            <div class="options">
+              <label class="option"><input type="checkbox" name="deslize_motivo" value="social"> Festa, encontro ou restaurante</label>
+              <label class="option"><input type="checkbox" name="deslize_motivo" value="emocional"> Estresse, ansiedade ou tristeza</label>
+              <label class="option"><input type="checkbox" name="deslize_motivo" value="tempo"> Falta de tempo para preparar</label>
+              <label class="option"><input type="checkbox" name="deslize_motivo" value="fome"> Fome fora de hora</label>
+              <label class="option"><input type="checkbox" name="deslize_motivo" value="vontade"> Vontade de doce ou de algo específico</label>
+              <label class="option"><input type="checkbox" name="deslize_motivo" value="outro"> Outro motivo</label>
+            </div>
+            <p class="error">Marque pelo menos uma opção.</p>
+          </div>
+
+          <div class="field" data-field="agua" data-required>
+            <label for="agua">Quanta água você tem tomado por dia?</label>
+            <select id="agua" name="agua">
+              <option value="">Selecione</option>
+              <option value="menos_1l">Menos de 1 litro</option>
+              <option value="1_2l">1 a 2 litros</option>
+              <option value="2_3l">2 a 3 litros</option>
+              <option value="mais_3l">Mais de 3 litros</option>
+            </select>
+            <p class="error">Selecione uma opção.</p>
+          </div>
+        </section>
+
+        <!-- 3. INTESTINO -->
+        <section class="step" data-step="3">
+          <h1 style="font-size:1.8rem">Funcionamento intestinal</h1>
+
+          <div class="field" data-field="freq_evacuacao" data-required>
+            <label for="freq_evacuacao">Nestes 15 dias, com que frequência foi ao banheiro (número 2)?</label>
+            <select id="freq_evacuacao" name="freq_evacuacao">
+              <option value="">Selecione</option>
+              <option value="mais_1x_dia">Mais de uma vez por dia</option>
+              <option value="1x_dia">Uma vez por dia</option>
+              <option value="3_6x_semana">3 a 6 vezes por semana</option>
+              <option value="1_2x_semana">1 a 2 vezes por semana</option>
+              <option value="menos">Menos de uma vez por semana</option>
+            </select>
+            <p class="error">Selecione uma opção.</p>
+          </div>
+
+          <div class="field" data-field="bristol" data-required>
+            <span class="label">Na maior parte dos dias, as fezes ficaram mais parecidas com qual destas? <span class="hint">Escala de Bristol</span></span>
+            <div class="options">
+              <label class="option"><input type="radio" name="bristol" value="1"> Tipo 1: bolinhas duras separadas, difíceis de sair</label>
+              <label class="option"><input type="radio" name="bristol" value="2"> Tipo 2: formato de salsicha, mas encaroçada e dura</label>
+              <label class="option"><input type="radio" name="bristol" value="3"> Tipo 3: salsicha com rachaduras na superfície</label>
+              <label class="option"><input type="radio" name="bristol" value="4"> Tipo 4: salsicha lisa e macia</label>
+              <label class="option"><input type="radio" name="bristol" value="5"> Tipo 5: pedaços macios com bordas definidas</label>
+              <label class="option"><input type="radio" name="bristol" value="6"> Tipo 6: pedaços moles, bordas irregulares, pastosa</label>
+              <label class="option"><input type="radio" name="bristol" value="7"> Tipo 7: líquida, sem pedaços sólidos</label>
+            </div>
+            <p class="error">Selecione uma opção.</p>
+          </div>
+
+          <div class="field" data-field="sintomas_gi" data-required>
+            <span class="label">Sentiu algum destes?</span>
+            <div class="options">
+              <label class="option"><input type="checkbox" name="sintomas_gi" value="gases"> Gases em excesso</label>
+              <label class="option"><input type="checkbox" name="sintomas_gi" value="inchaco"> Barriga inchada</label>
+              <label class="option"><input type="checkbox" name="sintomas_gi" value="dor"> Dor ou cólica abdominal</label>
+              <label class="option"><input type="checkbox" name="sintomas_gi" value="azia"> Azia ou refluxo</label>
+              <label class="option"><input type="checkbox" name="sintomas_gi" value="incompleta"> Sensação de não ter evacuado por completo</label>
+              <label class="option"><input type="checkbox" name="sintomas_gi" value="nenhum" data-exclusive> Nenhum desses</label>
+            </div>
+            <p class="error">Marque pelo menos uma opção.</p>
+          </div>
+
+          <div class="field" data-field="alerta" data-required>
+            <span class="label">E algum destes sinais?</span>
+            <div class="options">
+              <label class="option"><input type="checkbox" name="alerta" value="sangue_fezes"> Sangue nas fezes ou fezes pretas</label>
+              <label class="option"><input type="checkbox" name="alerta" value="dor_forte"> Dor abdominal forte</label>
+              <label class="option"><input type="checkbox" name="alerta" value="diarreia_vomito"> Diarreia ou vômitos por mais de 2 dias</label>
+              <label class="option"><input type="checkbox" name="alerta" value="tontura"> Tontura, fraqueza forte ou desmaio</label>
+              <label class="option"><input type="checkbox" name="alerta" value="nenhum" data-exclusive> Nenhum</label>
+            </div>
+            <p class="error">Marque pelo menos uma opção.</p>
+            <div class="notice" id="alertaAviso" hidden style="margin-top:12px">
+              <p style="margin:0"><strong>Procure atendimento médico</strong> o quanto antes. Esses sinais precisam de avaliação presencial. Eu também vou ser avisado e entro em contato.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. ROTINA E RECADO -->
+        <section class="step" data-step="4">
+          <h1 style="font-size:1.8rem">Para fechar</h1>
+
+          <div class="field" data-field="energia" data-required>
+            <span class="label">Como está sua energia no dia a dia e nos treinos?</span>
+            <div class="options">
+              <label class="option"><input type="radio" name="energia" value="baixa"> Baixa, tenho me sentido cansado(a)</label>
+              <label class="option"><input type="radio" name="energia" value="normal"> Normal</label>
+              <label class="option"><input type="radio" name="energia" value="alta"> Alta, me sentindo bem</label>
+            </div>
+            <p class="error">Selecione uma opção.</p>
+          </div>
+
+          <div class="field" data-field="peso">
+            <label for="peso">Se você se pesou, qual foi o peso? (kg) <span class="hint">opcional</span></label>
+            <input type="number" id="peso" name="peso" min="30" max="300" step="0.1" inputmode="decimal">
+          </div>
+
+          <div class="field" data-field="recado">
+            <label for="recado">Quer me contar algo ou pedir algum ajuste? <span class="hint">opcional</span></label>
+            <textarea id="recado" name="recado" placeholder="Ex.: troquei de horário no trabalho, enjoei do almoço, quero opções de lanche..."></textarea>
+          </div>
+
+          <div class="field" data-field="quer_contato" data-required>
+            <span class="label">Quer conversar comigo antes da próxima consulta?</span>
+            <div class="options">
+              <label class="option"><input type="radio" name="quer_contato" value="nao"> Não precisa, está tudo certo</label>
+              <label class="option"><input type="radio" name="quer_contato" value="sim"> Sim, me chama no WhatsApp</label>
+            </div>
+            <p class="error">Selecione uma opção.</p>
+          </div>
+        </section>
+
+        <!-- RESULTADO -->
+        <section class="step" data-step="ok">
+          <div class="notice notice--ok">
+            <h2>Check-in recebido!</h2>
+            <p style="margin-bottom:0">Obrigado por responder. Vou olhar com calma e, se precisar ajustar algo no plano, te chamo no WhatsApp.</p>
+          </div>
+          <p class="legal-text" id="demoNote" style="margin-top:14px" hidden>Modo demonstração: nenhum dado foi enviado. Configure o webhook em config.js.</p>
+        </section>
+
+        <p class="error" id="submitError" role="alert">Não foi possível enviar agora. Verifique sua conexão e tente novamente.</p>
+
+        <div class="actions" id="actions">
+          <button type="button" class="btn btn--ghost" id="btnBack" hidden>Voltar</button>
+          <button type="button" class="btn" id="btnNext" style="margin-left:auto">Continuar</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <style>
+    /* escala 0–10 em linha */
+    .options--scale { grid-template-columns: repeat(6, 1fr); gap: 6px; }
+    .options--scale .option { justify-content: center; align-items: center; padding-left: 6px; padding-right: 6px; }
+    .options--scale .option input { margin-top: 0; }
+    /* garante que [hidden] esconda até botões com display próprio */
+    [hidden] { display: none !important; }
+  </style>
+
+  <script src="config.js"></script>
+  <script src="site.js"></script>
+  <script src="checkin.js"></script>
+</body>
+</html>

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Pré-formulário | NutriForma</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="form-page">
+
+  <header class="topbar">
+    <div class="container topbar__inner">
+      <a href="index.html" class="brand" data-brand>NutriForma</a>
+      <a href="index.html" class="muted" style="font-size:.92rem;text-decoration:none">← Voltar ao site</a>
+    </div>
+  </header>
+
+  <main class="form-wrap">
+    <div class="form-card">
+      <div class="progress" aria-hidden="true"><div class="progress__bar" id="bar"></div></div>
+      <p class="progress__label" id="progressLabel" aria-live="polite"></p>
+
+      <form id="prefForm" novalidate autocomplete="on">
+        <!-- honeypot anti-spam -->
+        <div class="hp" aria-hidden="true">
+          <label>Não preencha <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+        </div>
+
+        <!-- ETAPA 1: Consentimento -->
+        <section class="step is-active" data-step="1">
+          <h1 style="font-size:1.8rem">Vamos começar</h1>
+          <p class="muted">Este pré-formulário leva cerca de 5 minutos. Com ele eu entendo seu objetivo e confirmo se o acompanhamento é adequado para você.</p>
+
+          <div class="notice">
+            <p><strong>Seus dados de saúde são protegidos.</strong></p>
+            <p class="legal-text">Vou coletar dados pessoais e de saúde (dados sensíveis) apenas para avaliar e conduzir seu atendimento nutricional, conforme a LGPD. Você pode pedir acesso, correção ou exclusão dos seus dados a qualquer momento. Detalhes na <a href="privacidade.html" target="_blank" rel="noopener">Política de Privacidade</a>.</p>
+          </div>
+
+          <div class="field" style="margin-top:20px" data-field="consent">
+            <label class="option">
+              <input type="checkbox" name="consent" value="sim">
+              <span>Autorizo o uso dos meus dados pessoais e de saúde para avaliação e atendimento nutricional, conforme a <a href="privacidade.html" target="_blank" rel="noopener">Política de Privacidade</a>. <span class="hint">obrigatório</span></span>
+            </label>
+            <p class="error">Para continuar, é preciso autorizar o uso dos dados.</p>
+          </div>
+          <div class="field">
+            <label class="option">
+              <input type="checkbox" name="aceita_checkin" value="sim">
+              <span>Quero receber check-ins e lembretes pelo WhatsApp a cada 15 dias. <span class="hint">opcional, você pode parar quando quiser</span></span>
+            </label>
+          </div>
+          <p class="legal-text">Se o atendimento for para um menor de 18 anos, o responsável legal preenche e autoriza na etapa seguinte.</p>
+        </section>
+
+        <!-- ETAPA 2: Dados -->
+        <section class="step" data-step="2">
+          <h1 style="font-size:1.8rem">Seus dados</h1>
+
+          <div class="field" data-field="nome">
+            <label for="nome">Nome completo</label>
+            <input type="text" id="nome" name="nome" autocomplete="name" required>
+            <p class="error">Informe seu nome.</p>
+          </div>
+
+          <div class="row">
+            <div class="field" data-field="whatsapp">
+              <label for="whatsapp">WhatsApp <span class="hint">com DDD</span></label>
+              <input type="tel" id="whatsapp" name="whatsapp" inputmode="tel" autocomplete="tel" placeholder="(11) 99999-9999" required>
+              <p class="error">Informe um WhatsApp válido com DDD.</p>
+            </div>
+            <div class="field" data-field="email">
+              <label for="email">E-mail</label>
+              <input type="email" id="email" name="email" autocomplete="email" required>
+              <p class="error">Informe um e-mail válido.</p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="field" data-field="nascimento">
+              <label for="nascimento">Data de nascimento</label>
+              <input type="date" id="nascimento" name="nascimento" autocomplete="bday" required>
+              <p class="error">Informe uma data de nascimento válida.</p>
+            </div>
+            <div class="field" data-field="sexo">
+              <label for="sexo">Sexo biológico <span class="hint">usado nos cálculos de gasto energético</span></label>
+              <select id="sexo" name="sexo" required>
+                <option value="">Selecione</option>
+                <option value="feminino">Feminino</option>
+                <option value="masculino">Masculino</option>
+              </select>
+              <p class="error">Selecione uma opção.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ETAPA R: Responsável legal (só para menores de 18) -->
+        <section class="step" data-step="resp">
+          <h1 style="font-size:1.8rem">Responsável legal</h1>
+          <p class="muted">Como o atendimento é para alguém com menos de 18 anos, esta etapa deve ser preenchida pelo pai, mãe ou responsável legal.</p>
+
+          <div class="field" data-field="resp_nome">
+            <label for="resp_nome">Nome completo do responsável</label>
+            <input type="text" id="resp_nome" name="resp_nome" autocomplete="off">
+            <p class="error">Informe o nome completo do responsável.</p>
+          </div>
+          <div class="field" data-field="resp_parentesco">
+            <label for="resp_parentesco">Parentesco</label>
+            <select id="resp_parentesco" name="resp_parentesco">
+              <option value="">Selecione</option>
+              <option value="mae">Mãe</option>
+              <option value="pai">Pai</option>
+              <option value="tutor">Tutor(a)</option>
+              <option value="outro">Outro</option>
+            </select>
+            <p class="error">Selecione o parentesco.</p>
+          </div>
+          <div class="row">
+            <div class="field" data-field="resp_whatsapp">
+              <label for="resp_whatsapp">WhatsApp do responsável <span class="hint">com DDD</span></label>
+              <input type="tel" id="resp_whatsapp" name="resp_whatsapp" inputmode="tel" placeholder="(11) 99999-9999" data-mask="tel">
+              <p class="error">Informe um WhatsApp válido com DDD.</p>
+            </div>
+            <div class="field" data-field="resp_email">
+              <label for="resp_email">E-mail do responsável</label>
+              <input type="email" id="resp_email" name="resp_email">
+              <p class="error">Informe um e-mail válido.</p>
+            </div>
+          </div>
+          <fieldset data-field="resp_presente" data-if-child hidden>
+            <legend>A consulta será com o responsável presente?</legend>
+            <div class="options">
+              <label class="option"><input type="radio" name="resp_presente" value="sim"> Sim</label>
+              <label class="option"><input type="radio" name="resp_presente" value="nao"> Não</label>
+            </div>
+            <p class="error">Escolha uma opção.</p>
+          </fieldset>
+          <div class="field" data-field="resp_consent" style="margin-top:12px">
+            <label class="option">
+              <input type="checkbox" name="resp_consent" value="sim">
+              <span>Sou o(a) responsável legal por <strong data-paciente-nome>este paciente</strong> e autorizo o tratamento dos dados pessoais e de saúde dele(a) para avaliação e atendimento nutricional, conforme a <a href="privacidade.html" target="_blank" rel="noopener">Política de Privacidade</a>.</span>
+            </label>
+            <p class="error">Para continuar, é preciso a autorização do responsável legal.</p>
+          </div>
+        </section>
+
+        <!-- ETAPA 3: Saúde (nenhuma resposta encerra o fluxo; cada "sim" vira alerta) -->
+        <section class="step" data-step="3">
+          <h1 style="font-size:1.8rem">Sobre sua saúde</h1>
+          <p class="muted">Responda com sinceridade. Nenhuma resposta impede o atendimento: ela me ajuda a avaliar o seu caso com o cuidado que ele pede.</p>
+
+          <div id="triagem" data-field="triagem">
+            <div class="qa">
+              <span class="qa__q">Está gestante, tentando engravidar ou amamentando?</span>
+              <span class="qa__opts">
+                <label><input type="radio" name="t_gestacao" value="sim"> Sim</label>
+                <label><input type="radio" name="t_gestacao" value="nao"> Não</label>
+              </span>
+            </div>
+            <div class="field qa__qual" data-if="t_gestacao=sim" hidden>
+              <label for="t_gestacao_qual">Qual situação? <span class="hint">opcional</span></label>
+              <input type="text" id="t_gestacao_qual" name="t_gestacao_qual">
+            </div>
+            <div class="qa">
+              <span class="qa__q">Tem diabetes ou pré-diabetes?</span>
+              <span class="qa__opts">
+                <label><input type="radio" name="t_diabetes" value="sim"> Sim</label>
+                <label><input type="radio" name="t_diabetes" value="nao"> Não</label>
+              </span>
+            </div>
+            <div class="field qa__qual" data-if="t_diabetes=sim" hidden>
+              <label for="t_diabetes_qual">Qual tipo? <span class="hint">opcional</span></label>
+              <input type="text" id="t_diabetes_qual" name="t_diabetes_qual">
+            </div>
+            <div class="qa qa__qual" data-if="t_diabetes=sim" hidden>
+              <span class="qa__q">Usa insulina?</span>
+              <span class="qa__opts">
+                <label><input type="radio" name="t_insulina" value="sim"> Sim</label>
+                <label><input type="radio" name="t_insulina" value="nao"> Não</label>
+              </span>
+            </div>
+            <div class="qa">
+              <span class="qa__q">Tem doença nos rins ou no fígado?</span>
+              <span class="qa__opts">
+                <label><input type="radio" name="t_renal_hepatica" value="sim"> Sim</label>
+                <label><input type="radio" name="t_renal_hepatica" value="nao"> Não</label>
+              </span>
+            </div>
+            <div class="field qa__qual" data-if="t_renal_hepatica=sim" hidden>
+              <label for="t_renal_hepatica_qual">Qual? <span class="hint">opcional</span></label>
+              <input type="text" id="t_renal_hepatica_qual" name="t_renal_hepatica_qual">
+            </div>
+            <div class="qa">
+              <span class="qa__q">Tem pressão alta, doença do coração, colesterol ou triglicerídeos alterados?</span>
+              <span class="qa__opts">
+                <label><input type="radio" name="t_cardio" value="sim"> Sim</label>
+                <label><input type="radio" name="t_cardio" value="nao"> Não</label>
+              </span>
+            </div>
+            <div class="field qa__qual" data-if="t_cardio=sim" hidden>
+              <label for="t_cardio_qual">Qual? <span class="hint">opcional</span></label>
+              <input type="text" id="t_cardio_qual" name="t_cardio_qual">
+            </div>
+            <div class="qa">
+              <span class="qa__q">Tem ou já teve anorexia, bulimia ou compulsão alimentar?</span>
+              <span class="qa__opts">
+                <label><input type="radio" name="t_ta" value="sim"> Sim</label>
+                <label><input type="radio" name="t_ta" value="nao"> Não</label>
+              </span>
+            </div>
+            <div class="field qa__qual" data-if="t_ta=sim" hidden>
+              <label for="t_ta_qual">Qual e quando? <span class="hint">opcional</span></label>
+              <input type="text" id="t_ta_qual" name="t_ta_qual">
+            </div>
+            <div class="qa">
+              <span class="qa__q">Já fez cirurgia bariátrica ou outra cirurgia do aparelho digestivo?</span>
+              <span class="qa__opts">
+                <label><input type="radio" name="t_cirurgia" value="sim"> Sim</label>
+                <label><input type="radio" name="t_cirurgia" value="nao"> Não</label>
+              </span>
+            </div>
+            <div class="field qa__qual" data-if="t_cirurgia=sim" hidden>
+              <label for="t_cirurgia_qual">Qual e quando? <span class="hint">opcional</span></label>
+              <input type="text" id="t_cirurgia_qual" name="t_cirurgia_qual">
+            </div>
+            <div class="qa">
+              <span class="qa__q">Tem outra doença diagnosticada (tireoide, autoimune, intestinal, câncer, etc.)?</span>
+              <span class="qa__opts">
+                <label><input type="radio" name="t_outras" value="sim"> Sim</label>
+                <label><input type="radio" name="t_outras" value="nao"> Não</label>
+              </span>
+            </div>
+            <div class="field qa__qual" data-if="t_outras=sim" hidden>
+              <label for="t_outras_qual">Qual? <span class="hint">opcional</span></label>
+              <input type="text" id="t_outras_qual" name="t_outras_qual">
+            </div>
+            <div class="qa">
+              <span class="qa__q">Usa algum medicamento todos os dias?</span>
+              <span class="qa__opts">
+                <label><input type="radio" name="t_medicamento" value="sim"> Sim</label>
+                <label><input type="radio" name="t_medicamento" value="nao"> Não</label>
+              </span>
+            </div>
+            <div class="field qa__qual" data-if="t_medicamento=sim" hidden>
+              <label for="t_medicamento_qual">Qual? <span class="hint">opcional</span></label>
+              <input type="text" id="t_medicamento_qual" name="t_medicamento_qual">
+            </div>
+          </div>
+
+          <div id="scoffBlock" data-field="scoff" style="margin-top:24px">
+            <p class="eyebrow" style="margin-bottom:6px">Sobre sua relação com a comida</p>
+            <div class="qa">
+              <span class="qa__q">Você já provocou vômito por se sentir desconfortavelmente cheio(a)?</span>
+              <span class="qa__opts">
+                <label><input type="radio" name="scoff_1" value="sim"> Sim</label>
+                <label><input type="radio" name="scoff_1" value="nao"> Não</label>
+              </span>
+            </div>
+            <div class="qa">
+              <span class="qa__q">Você se preocupa por ter perdido o controle sobre o quanto come?</span>
+              <span class="qa__opts">
+                <label><input type="radio" name="scoff_2" value="sim"> Sim</label>
+                <label><input type="radio" name="scoff_2" value="nao"> Não</label>
+              </span>
+            </div>
+            <div class="qa">
+              <span class="qa__q">Perdeu mais de 6 kg em um período de 3 meses recentemente?</span>
+              <span class="qa__opts">
+                <label><input type="radio" name="scoff_3" value="sim"> Sim</label>
+                <label><input type="radio" name="scoff_3" value="nao"> Não</label>
+              </span>
+            </div>
+            <div class="qa">
+              <span class="qa__q">Você se acha gordo(a) mesmo quando outras pessoas dizem que você está magro(a)?</span>
+              <span class="qa__opts">
+                <label><input type="radio" name="scoff_4" value="sim"> Sim</label>
+                <label><input type="radio" name="scoff_4" value="nao"> Não</label>
+              </span>
+            </div>
+            <div class="qa">
+              <span class="qa__q">Diria que a comida domina a sua vida?</span>
+              <span class="qa__opts">
+                <label><input type="radio" name="scoff_5" value="sim"> Sim</label>
+                <label><input type="radio" name="scoff_5" value="nao"> Não</label>
+              </span>
+            </div>
+          </div>
+          <p class="error" id="triagemError">Responda todas as perguntas para continuar.</p>
+        </section>
+
+        <!-- ETAPA 4: Objetivo e rotina -->
+        <section class="step" data-step="4">
+          <h1 style="font-size:1.8rem">Objetivo e rotina</h1>
+
+          <fieldset data-field="objetivo">
+            <legend>Qual é seu principal objetivo?</legend>
+            <div class="options">
+              <label class="option"><input type="radio" name="objetivo" value="emagrecimento"> Emagrecer / perder gordura</label>
+              <label class="option"><input type="radio" name="objetivo" value="ganho_massa"> Ganhar massa magra</label>
+              <label class="option"><input type="radio" name="objetivo" value="recomposicao"> Recomposição corporal (perder gordura e ganhar músculo)</label>
+              <label class="option"><input type="radio" name="objetivo" value="performance"> Melhorar desempenho nos treinos</label>
+              <label class="option"><input type="radio" name="objetivo" value="saude"> Alimentação mais saudável / crescimento adequado</label>
+            </div>
+            <p class="error">Escolha uma opção.</p>
+          </fieldset>
+
+          <div class="row">
+            <div class="field" data-field="peso">
+              <label for="peso">Peso atual (kg)</label>
+              <input type="number" id="peso" name="peso" min="5" max="300" step="0.1" inputmode="decimal" required>
+              <p class="error">Informe seu peso.</p>
+            </div>
+            <div class="field" data-field="altura">
+              <label for="altura">Altura (cm)</label>
+              <input type="number" id="altura" name="altura" min="50" max="230" step="1" inputmode="numeric" required>
+              <p class="error">Informe sua altura em centímetros.</p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="field" data-field="treino_freq">
+              <label for="treino_freq">Quantas vezes treina ou pratica esporte por semana?</label>
+              <select id="treino_freq" name="treino_freq" required>
+                <option value="">Selecione</option>
+                <option value="0">Não treino</option>
+                <option value="1-2">1 a 2 vezes</option>
+                <option value="3-4">3 a 4 vezes</option>
+                <option value="5+">5 vezes ou mais</option>
+              </select>
+              <p class="error">Selecione uma opção.</p>
+            </div>
+            <div class="field">
+              <label for="modalidade">Modalidade(s) <span class="hint">opcional</span></label>
+              <input type="text" id="modalidade" name="modalidade" placeholder="Ex.: musculação, corrida">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="tentativas">O que você já tentou antes? <span class="hint">opcional</span></label>
+            <textarea id="tentativas" name="tentativas"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="origem">Como me conheceu? <span class="hint">opcional</span></label>
+            <select id="origem" name="origem">
+              <option value="">Selecione</option>
+              <option>Instagram</option>
+              <option>Indicação</option>
+              <option>Google</option>
+              <option>Outro</option>
+            </select>
+          </div>
+        </section>
+
+        <!-- RESULTADO: elegível -->
+        <section class="step" data-step="ok">
+          <div class="notice notice--ok">
+            <h2>Recebi suas respostas!</h2>
+            <p>Obrigado, <strong id="okNome"></strong>. <span id="okPadrao">Vou analisar seu pré-formulário e te chamar no WhatsApp para os próximos passos.</span><span id="okRevisar" hidden>Como você mencionou uma condição de saúde, vou avaliar seu caso com atenção e te respondo pelo WhatsApp antes de agendarmos.</span></p>
+            <div class="notice__actions">
+              <a class="btn" id="btnAgendar" href="#" target="_blank" rel="noopener" hidden>Agendar minha consulta</a>
+              <a class="btn btn--ghost" id="btnWhats" href="#" target="_blank" rel="noopener" hidden>Falar no WhatsApp</a>
+            </div>
+          </div>
+          <p class="legal-text" id="demoNote" style="margin-top:14px" hidden>Modo demonstração: nenhum dado foi enviado. Configure o webhook em config.js.</p>
+        </section>
+
+        <p class="error" id="submitError" role="alert">Não foi possível enviar agora. Verifique sua conexão e tente novamente.</p>
+
+        <div class="actions" id="actions">
+          <button type="button" class="btn btn--ghost" id="btnBack" hidden>Voltar</button>
+          <button type="button" class="btn" id="btnNext" style="margin-left:auto">Continuar</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="site.js"></script>
+  <script src="form.js"></script>
+</body>
+</html>
