@@ -6,7 +6,7 @@
 window.SITE_CONFIG = {
   // Identidade (provisório: troque quando definir o nome e o @)
   brand: "NutriForma",
-  name: "Seu Nome",
+  name: "Gabriel Paiva",
   crn: "Nutricionista · CRN-X 00000",
   instagram: "https://instagram.com/seu_arroba",
 
