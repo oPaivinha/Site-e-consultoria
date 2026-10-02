@@ -1,6 +1,7 @@
 import { exigirAdmin } from "@/lib/admin";
 import { Erro } from "@/components/estados";
 import { supabaseServidor } from "@/lib/supabase/server";
+import { GraficoCadastros } from "@/components/grafico-cadastros";
 
 type Resumo = {
   total: number; novos_7: number; novos_30: number; nao_confirmados: number;
@@ -10,7 +11,10 @@ type Resumo = {
 export default async function VisaoGeral() {
   await exigirAdmin();
   const supabase = await supabaseServidor();
-  const { data, error } = await supabase.rpc("admin_resumo");
+  const [{ data, error }, porDia] = await Promise.all([
+    supabase.rpc("admin_resumo"),
+    supabase.rpc("admin_cadastros_por_dia", { p_dias: 30 }),
+  ]);
 
   if (error) {
     return <Erro>Não foi possível carregar os números: {error.message}</Erro>;
@@ -39,6 +43,16 @@ export default async function VisaoGeral() {
           </div>
         ))}
       </div>
+
+      <section className="mt-6 rounded-card border border-linha bg-superficie p-5">
+        <h2 className="text-xl">Cadastros por dia</h2>
+        <p className="mb-4 text-sm text-suave">Últimos 30 dias. Passe o mouse (ou toque) numa coluna para ver o dia.</p>
+        {porDia.error ? (
+          <p role="alert" className="text-sm text-perigo">Não foi possível carregar o gráfico: {porDia.error.message}</p>
+        ) : (
+          <GraficoCadastros pontos={((porDia.data ?? []) as { dia: string; total: number }[]).map((p) => ({ dia: p.dia, total: Number(p.total) }))} />
+        )}
+      </section>
     </>
   );
 }
