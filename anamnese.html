@@ -78,6 +78,7 @@
         <!-- 2. SAÚDE -->
         <section class="step" data-step="2">
           <h1 class="page-title">Histórico de saúde</h1>
+          <p class="msg msg--ok" data-prefill-note hidden>Trouxe o que você já contou no pré-formulário. Confira e complete se precisar.</p>
 
           <div class="field" data-field="alergias" data-required>
             <label for="alergias">Alergias ou intolerâncias alimentares</label>
@@ -252,6 +253,7 @@
         <!-- 4. ATIVIDADE FÍSICA -->
         <section class="step" data-step="4">
           <h1 class="page-title">Atividade física</h1>
+          <p class="msg msg--ok" data-prefill-note hidden>Trouxe o que você já contou no pré-formulário. Confira e complete se precisar.</p>
 
           <div class="field" data-field="modalidades" data-required>
             <label for="modalidades">O que você pratica?</label>
@@ -572,12 +574,22 @@
             </select>
             <p class="error">Selecione uma opção.</p>
           </div>
-          <div class="field" data-field="come_rapido" data-required>
-            <span class="label">Come rápido ou mastiga pouco?</span>
+          <div class="field" data-field="tempo_refeicao" data-required>
+            <span class="label">Quanto tempo você costuma levar numa refeição principal?</span>
             <div class="options">
-              <label class="option"><input type="radio" name="come_rapido" value="sim"> Sim</label>
-              <label class="option"><input type="radio" name="come_rapido" value="as_vezes"> Às vezes</label>
-              <label class="option"><input type="radio" name="come_rapido" value="nao"> Não</label>
+              <label class="option"><input type="radio" name="tempo_refeicao" value="menos_10"> Menos de 10 minutos</label>
+              <label class="option"><input type="radio" name="tempo_refeicao" value="10_20"> 10 a 20 minutos</label>
+              <label class="option"><input type="radio" name="tempo_refeicao" value="20_30"> 20 a 30 minutos</label>
+              <label class="option"><input type="radio" name="tempo_refeicao" value="mais_30"> Mais de 30 minutos</label>
+            </div>
+            <p class="error">Selecione uma opção.</p>
+          </div>
+          <div class="field" data-field="mastiga_pouco" data-required>
+            <span class="label">Você sente que mastiga pouco ou engole quase sem mastigar?</span>
+            <div class="options">
+              <label class="option"><input type="radio" name="mastiga_pouco" value="quase_sempre"> Quase sempre</label>
+              <label class="option"><input type="radio" name="mastiga_pouco" value="as_vezes"> Às vezes</label>
+              <label class="option"><input type="radio" name="mastiga_pouco" value="raramente"> Raramente</label>
             </div>
             <p class="error">Selecione uma opção.</p>
           </div>
