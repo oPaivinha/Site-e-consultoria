@@ -64,11 +64,13 @@ Só vale se a planilha tiver pacientes de verdade. Precisa de Node.js instalado 
 Quem não tem conta recebe um e-mail de convite para criar a senha. Pode rodar quantas vezes quiser: nada é duplicado. A planilha não é alterada.
 
 ## No dia a dia
-- **Ver pacientes e respostas**: Supabase > **Table Editor**. A anamnese completa fica na coluna `respostas` da tabela `anamneses`.
-- **Começar o acompanhamento de alguém**: tabela `acompanhamentos`, preencha `inicio_acompanhamento`. O banco ativa o paciente e marca o 1º check-in para 15 dias depois.
-- **Paciente pediu PAUSAR**: tabela `acompanhamentos`, marque `pausado`.
-- **Exportar para Excel**: em qualquer tabela, botão **Export** > CSV.
-- **Excluir um paciente (pedido LGPD)**: **Authentication** > **Users** > apague o usuário. Todos os dados dele somem junto.
+Use o painel: https://site-e-consultoria.vercel.app (entra com a sua conta de admin).
+- **Ver pacientes e respostas**: Pacientes > abra a ficha. A linha do tempo mostra pré-formulário, anamnese e check-ins, com os alertas em destaque.
+- **Começar o acompanhamento de alguém**: na ficha, preencha o início do acompanhamento. O banco ativa o paciente e marca o 1º check-in para 15 dias depois.
+- **Paciente pediu PAUSAR**: na ficha, marque "Pausado".
+- **Exportar para Excel**: botão **Exportar CSV** em qualquer lista (respeita os filtros).
+- **Excluir um paciente (pedido LGPD)**: na ficha, **Excluir de vez**. Todos os dados dele somem junto.
+- **Quem mudou o quê**: menu Auditoria.
 
 ## Modelos de e-mail em português
 Cole em **Authentication** > **Emails** > **Templates**. Mantenha o `{{ .ConfirmationURL }}`.
