@@ -10,6 +10,7 @@ const campo = "w-full rounded-lg border border-linha bg-white px-3 py-2 text-sm 
 export default async function Pacientes({ searchParams }: { searchParams: Promise<Filtros> }) {
   await exigirAdmin();
   const f = await searchParams;
+  const base = { ...f, excluido: undefined } as Record<string, string | undefined>;
 
   let linhas;
   try {
@@ -31,7 +32,7 @@ export default async function Pacientes({ searchParams }: { searchParams: Promis
     const ativa = ordem === col;
     const dir = ativa && desc ? "asc" : ativa ? "desc" : col === "nome" || col === "email" ? "asc" : "desc";
     return (
-      <Link href={comParams("/pacientes", f as Record<string, string>, { ordem: col, dir, pagina: undefined })} className="inline-flex items-center gap-1 hover:text-verde">
+      <Link href={comParams("/pacientes", base, { ordem: col, dir, pagina: undefined })} className="inline-flex items-center gap-1 hover:text-verde">
         {children}
         {ativa && <span aria-hidden>{desc ? "↓" : "↑"}</span>}
       </Link>
@@ -46,13 +47,14 @@ export default async function Pacientes({ searchParams }: { searchParams: Promis
           <p className="text-sm text-suave">{total} {total === 1 ? "paciente encontrado" : "pacientes encontrados"}</p>
         </div>
         <a
-          href={comParams("/pacientes/exportar", f as Record<string, string>, { pagina: undefined })}
+          href={comParams("/pacientes/exportar", base, { pagina: undefined })}
           className="rounded-full border border-verde px-4 py-2 text-sm font-medium text-verde hover:bg-tom"
         >
           Exportar CSV
         </a>
       </div>
 
+      {f.excluido && <p role="status" className="mb-4 rounded-lg bg-verde-claro px-4 py-3 text-sm text-verde-escuro">Paciente excluído.</p>}
       <form method="get" className="mb-5 rounded-card border border-linha bg-superficie p-4">
         <div className="flex gap-2">
           <label className="min-w-0 flex-1">
@@ -172,11 +174,11 @@ export default async function Pacientes({ searchParams }: { searchParams: Promis
       {paginas > 1 && (
         <nav className="mt-4 flex items-center justify-between text-sm" aria-label="Páginas">
           {pagina > 1 ? (
-            <Link href={comParams("/pacientes", f as Record<string, string>, { pagina: String(pagina - 1) })} className="text-verde underline">Anterior</Link>
+            <Link href={comParams("/pacientes", base, { pagina: String(pagina - 1) })} className="text-verde underline">Anterior</Link>
           ) : <span />}
           <span className="text-suave">Página {pagina} de {paginas}</span>
           {pagina < paginas ? (
-            <Link href={comParams("/pacientes", f as Record<string, string>, { pagina: String(pagina + 1) })} className="text-verde underline">Próxima</Link>
+            <Link href={comParams("/pacientes", base, { pagina: String(pagina + 1) })} className="text-verde underline">Próxima</Link>
           ) : <span />}
         </nav>
       )}

@@ -7,3 +7,6 @@ function exigir(nome: string): string {
 
 export const supabaseUrl = () => exigir("SUPABASE_URL");
 export const supabaseAnonKey = () => exigir("SUPABASE_ANON_KEY");
+export const serviceRoleKey = () => exigir("SUPABASE_SERVICE_ROLE_KEY");
+// Endereço do site público (para onde apontam os links dos e-mails).
+export const siteUrl = () => (process.env.SITE_URL || "https://site-five-chi-48.vercel.app/").replace(/\/?$/, "/");

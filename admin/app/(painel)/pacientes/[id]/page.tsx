@@ -6,6 +6,7 @@ import { ALERTAS, OBJETIVOS, data, rotulo } from "@/lib/rotulos";
 import { humanizar, nomeCampo } from "@/lib/humanizar";
 import { Erro } from "@/components/estados";
 import { FormAcompanhamento, FormObservacao } from "./formularios";
+import { AcoesConta } from "./acoes-conta";
 
 // Colunas lidas explicitamente (o banco não libera "select *" em checkins e acompanhamentos).
 const COL_ACOMP = "ativo, pausado, inicio_acompanhamento, proximo_checkin, ultimo_envio, ultima_resposta, lembretes_enviados";
@@ -15,7 +16,7 @@ type Conta = { email: string; criado_em: string; email_confirmado_em: string | n
 type Item = { tipo: "pre" | "anamnese" | "checkin"; quando: string; dados: Record<string, unknown> };
 
 export default async function FichaPaciente({ params }: { params: Promise<{ id: string }> }) {
-  await exigirAdmin();
+  const eu = await exigirAdmin();
   const { id } = await params;
   if (!/^[0-9a-f-]{36}$/.test(id)) notFound();
 
@@ -123,6 +124,15 @@ export default async function FichaPaciente({ params }: { params: Promise<{ id: 
           <FormAcompanhamento profileId={id} inicio={a?.inicio_acompanhamento ?? ""} pausado={Boolean(a?.pausado)} />
         </Cartao>
       </div>
+
+      <AcoesConta
+        id={id}
+        nome={p.nome || p.email}
+        confirmado={Boolean(c?.email_confirmado_em)}
+        desativado={Boolean(p.deleted_at)}
+        admin={Boolean(c?.admin)}
+        souEu={eu.id === id}
+      />
 
       <section className="mt-4 rounded-card border border-linha bg-superficie p-4">
         <h2 className="mb-2 text-xl">Observações internas</h2>

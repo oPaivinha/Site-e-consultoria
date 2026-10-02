@@ -10,7 +10,7 @@ export type Paciente = {
 
 export type Filtros = {
   q?: string; confirmado?: string; status?: string; objetivo?: string; desde?: string; ate?: string;
-  menor?: string; alerta?: string; ordem?: string; dir?: string; pagina?: string;
+  menor?: string; alerta?: string; ordem?: string; dir?: string; pagina?: string; excluido?: string;
 };
 
 export const POR_PAGINA = 25;
