@@ -6,16 +6,20 @@ Site estático (HTML/CSS/JS puro, sem build). Pode ser hospedado de graça em Gi
 | Página | Para quê | Estado |
 |---|---|---|
 | index.html | Landing: proposta, como funciona, plano, sobre, FAQ | Pronta, faltam dados reais |
-| formulario.html | Pré-formulário com triagem (porta de entrada) | Pronta; integração com a thread de triagem |
-| anamnese.html | Anamnese completa, enviada após pagamento | Pronta; integração com a thread de triagem |
-| checkin.html | Check-in quinzenal (`checkin.html?p=<codigo>`); cópia de /automacoes, que é a dona do arquivo | Pronta |
+| formulario.html | Pré-formulário com triagem (porta de entrada). A última etapa cria a conta (e-mail e senha) | Pronta |
+| anamnese.html | Anamnese completa, enviada após pagamento. Exige login | Pronta |
+| checkin.html | Check-in quinzenal. Exige login | Pronta |
+| entrar.html | Login | Pronta |
+| esqueci-senha.html, nova-senha.html | Recuperar e trocar a senha (também usada no convite da importação) | Pronta |
+| auth/callback.html | Para onde o link de confirmação do e-mail leva | Pronta |
+| perfil.html | "Meu perfil": status do acompanhamento, editar dados, histórico de check-ins, sair | Pronta |
 | privacidade.html | Política LGPD | Rascunho, precisa revisão jurídica |
 
 ## Chamadas para ação
 Todas as CTAs ("Quero começar") levam ao pré-formulário. Depois: agendamento (config.schedulingUrl) → pagamento → anamnese → consulta → check-ins quinzenais (thread de automações).
 
 ## Integrações (config.js)
-- webhookUrl: recebe pré-formulário e anamnese (n8n/Make). Vazio = modo demonstração.
+- supabaseUrl e supabaseAnonKey: banco de dados e login (Supabase). Vazios = modo demonstração. Passo a passo em [supabase/LEIA-ME.md](supabase/LEIA-ME.md).
 - schedulingUrl: Cal.com/Calendly.
 - whatsapp: número profissional.
 
@@ -39,6 +43,15 @@ Especificação: /mnt/project-files/triagem/revisao-triagem-anamnese.md. Aplicad
 **Anamnese** (`anamnese.html` + `anamnese.js`)
 - Caixa de consentimento na etapa 1. Perguntas novas da seção 2 (doenças e cirurgias, hormônios, sintomas gerais, envio de exames, histórico de peso, cafeína, adoçante, horário de fome, mastigação, consumo da casa).
 - Intestino na Escala de Bristol (`bristol` 1 a 7), igual ao check-in. Água usa as mesmas faixas.
-- Link do paciente: `anamnese.html?p=<codigo>&s=<feminino|masculino>&idade=<anos>`. `p` vai no envio como `codigo`; `s=masculino` esconde o ciclo menstrual; `idade` < 12 mostra as perguntas para crianças (escola, quem decide, curva de crescimento). Sem parâmetros, mostra tudo menos o bloco infantil.
+- Link do paciente: `anamnese.html` (pede login). Sexo e idade vêm do perfil: masculino esconde o ciclo menstrual; idade < 12 mostra as perguntas para crianças (escola, quem decide, curva de crescimento). Em modo demonstração aceita `?s=<feminino|masculino>&idade=<anos>`.
 
 **Política**: seção 9 reescrita, nova seção 10 (crianças e adolescentes). `consentVersion` passou para `2026-10-v2`.
+
+## Dados e login (Supabase, 02/10/2026)
+- Os dados saíram da Planilha Google e foram para o Supabase (plano grátis). Tabelas e regras de acesso em `supabase/migrations/0001_inicial.sql`.
+- Cada paciente só vê e edita os próprios dados (RLS). A nutri vê tudo pelo painel do Supabase (Table Editor).
+- Cadastro: o pré-formulário vira o cadastro; as respostas vão em `signUp({ options: { data } })` e o trigger `handle_new_user` grava `profiles`, `acompanhamentos` e `pre_formularios`. Menores: a conta fica no e-mail do responsável.
+- Confirmação de e-mail obrigatória. Os links usam o fluxo "implicit" para funcionar mesmo abertos em outro aparelho.
+- O cliente oficial `@supabase/supabase-js` fica em `vendor/supabase.js` (cópia do pacote npm, versão 2.117.2), porque o site não tem build.
+- Automação do check-in: `supabase/apps-script/Code.gs` (lê o Supabase com a service_role guardada nas Propriedades do script).
+- Importação da planilha antiga: `scripts/importar_excel.mjs`, roda só no computador da nutri.

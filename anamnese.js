@@ -1,10 +1,11 @@
-// Anamnese em etapas. Valida campos marcados com data-required e envia ao webhook.
-// Parâmetros opcionais do link enviado ao paciente:
-//   ?p=<código do paciente>  liga a anamnese ao cadastro do pré-formulário
-//   &s=feminino|masculino     mostra o ciclo menstrual só para sexo feminino
-//   &idade=<anos>             idade < 12 mostra as perguntas para crianças
+// Anamnese em etapas. Valida campos marcados com data-required e grava na tabela "anamneses" do Supabase.
+// Exige login: o paciente é quem está logado. Sexo e idade vêm do perfil (cadastro do pré-formulário):
+//   sexo masculino esconde o ciclo menstrual; idade < 12 mostra as perguntas para crianças.
+// Em modo demonstração (sem Supabase em config.js) aceita ?s=feminino|masculino&idade=<anos> no link.
 (function () {
   var cfg = window.SITE_CONFIG || {};
+  var PN = window.PN || {};
+  var session = null;
   var form = document.getElementById("anamneseForm");
   var steps = Array.prototype.slice.call(form.querySelectorAll(".step"));
   var order = steps.map(function (s) { return s.dataset.step; }).filter(function (k) { return /^\d+$/.test(k); });
@@ -32,15 +33,22 @@
     submitError.classList.remove("is-visible");
   }
 
-  // ---------- parâmetros do link ----------
+  // ---------- perfil do paciente: sexo e idade ----------
+  function calcAge(iso) {
+    var d = new Date(iso);
+    if (!iso || isNaN(d)) return NaN;
+    var t = new Date(), a = t.getFullYear() - d.getFullYear();
+    if (t.getMonth() < d.getMonth() || (t.getMonth() === d.getMonth() && t.getDate() < d.getDate())) a--;
+    return a;
+  }
+  function applyProfile(sexo, idade) {
+    form.querySelectorAll("[data-sexo]").forEach(function (el) {
+      el.hidden = !!sexo && el.getAttribute("data-sexo") !== sexo;
+    });
+    form.querySelectorAll("[data-child]").forEach(function (el) { el.hidden = !(idade < 12); });
+  }
   var params = new URLSearchParams(window.location.search);
-  document.getElementById("codigo").value = params.get("p") || "";
-  var sexo = params.get("s");
-  var idade = parseInt(params.get("idade"), 10);
-  form.querySelectorAll("[data-sexo]").forEach(function (el) {
-    if (sexo && el.getAttribute("data-sexo") !== sexo) el.hidden = true;
-  });
-  form.querySelectorAll("[data-child]").forEach(function (el) { el.hidden = !(idade < 12); });
+  applyProfile(PN.ready ? null : params.get("s"), PN.ready ? NaN : parseInt(params.get("idade"), 10));
 
   // ---------- campos condicionais ----------
   // data-if="campo=valor": aparece só com esse valor
@@ -141,6 +149,25 @@
     return data;
   }
 
+  // Linha da tabela "anamneses": Bristol e água em colunas próprias (comparar com os check-ins), o resto em "respostas"
+  function toRow(d) {
+    var respostas = {};
+    Object.keys(d).forEach(function (k) {
+      if (["tipo", "enviado_em", "versao_consentimento", "consentimento", "consentimento_em"].indexOf(k) < 0) respostas[k] = d[k];
+    });
+    var bristol = parseInt(d.bristol, 10);
+    return {
+      profile_id: session.user.id,
+      enviado_em: d.enviado_em,
+      bristol: bristol >= 1 && bristol <= 7 ? bristol : null,
+      agua: d.agua || null,
+      respostas: respostas,
+      consentimento: d.consentimento,
+      consentimento_em: d.consentimento_em,
+      versao_consentimento: d.versao_consentimento
+    };
+  }
+
   function finish(nome, demo) {
     document.getElementById("okNome").textContent = (nome || "").split(" ")[0];
     var whats = document.getElementById("btnWhats");
@@ -161,7 +188,7 @@
     if (form.elements.website && form.elements.website.value) { finish("", false); return; }
     var payload = buildPayload();
 
-    if (!cfg.webhookUrl) {
+    if (!PN.ready) {
       console.log("[MODO DEMO] Anamnese que seria enviada:", payload);
       finish(payload.nome, true);
       return;
@@ -170,14 +197,11 @@
     sending = true;
     btnNext.disabled = true;
     btnNext.textContent = "Enviando...";
-    fetch(cfg.webhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "text/plain;charset=utf-8" }, // text/plain evita preflight CORS (necessário para Google Apps Script); o corpo continua JSON
-      body: JSON.stringify(payload)
-    }).then(function (res) {
-      if (!res.ok) throw new Error("HTTP " + res.status);
+    PN.sb.from("anamneses").insert(toRow(payload)).then(function (r) {
+      if (r.error) throw r.error;
       finish(payload.nome, false);
-    }).catch(function () {
+    }).catch(function (e) {
+      submitError.textContent = "Não foi possível enviar agora. " + PN.erro(e);
       submitError.classList.add("is-visible");
       btnNext.textContent = "Enviar";
     }).finally(function () {
@@ -214,4 +238,20 @@
   });
 
   render();
+
+  // Exige login e preenche o que já sabemos do cadastro
+  if (PN.ready) {
+    form.hidden = true;
+    PN.requireLogin().then(function (s) {
+      session = s;
+      return PN.loadProfile();
+    }).then(function (p) {
+      if (p) {
+        if (!form.elements.nome.value) form.elements.nome.value = p.nome || "";
+        if (!wa.value && p.whatsapp) { wa.value = String(p.whatsapp).replace(/^55/, ""); wa.dispatchEvent(new Event("input")); }
+        applyProfile(p.sexo, calcAge(p.nascimento));
+      }
+    }).catch(function () { /* sem perfil: o formulário segue com tudo à mostra */ })
+      .finally(function () { form.hidden = false; });
+  }
 })();

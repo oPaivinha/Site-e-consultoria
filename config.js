@@ -23,10 +23,13 @@ window.SITE_CONFIG = {
   // Link do Cal.com / Calendly para agendar após o formulário (opcional)
   schedulingUrl: "",
 
-  // Endereço do Google Apps Script (App da Web) que grava os formulários na planilha.
-  // Vazio = modo demonstração: nada é enviado, os dados aparecem só no console do navegador.
-  webhookUrl: "https://script.google.com/macros/s/AKfycbzdxc_uLpK324pMTX45z6FhRNCsEGTLMxIQywdfVzcebKca13egFWjQhDkkrnhmGIe6fA/exec",
+  // Supabase (banco de dados e login). Copie de Supabase > Project Settings > API.
+  // A chave "anon"/"publishable" é pública por natureza: pode ficar aqui.
+  // Quem protege os dados é o RLS do banco. NUNCA coloque a chave service_role neste arquivo.
+  // Vazios = modo demonstração: nada é enviado, os dados aparecem só no console do navegador.
+  supabaseUrl: "",      // Ex.: "https://abcdefghijklmno.supabase.co"
+  supabaseAnonKey: "",  // Ex.: "sb_publishable_..." ou "eyJhbGciOi..."
 
   // Versão do texto de consentimento (guarde junto com cada envio)
-  consentVersion: "2026-10-v2"
+  consentVersion: "2026-10-v3"
 };

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Confirmando | Paiva Nutri</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body class="form-page" data-page="callback">
+
+  <header class="topbar">
+    <div class="container topbar__inner">
+      <a href="../index.html" class="brand" data-brand>Paiva Nutri</a>
+      <a href="../index.html" class="muted" style="font-size:.92rem;text-decoration:none">← Voltar ao site</a>
+    </div>
+  </header>
+
+  <main class="form-wrap auth-card">
+    <div class="form-card">
+      <p class="msg msg--erro" id="demoMsg" hidden>Modo demonstração: o Supabase ainda não foi configurado em config.js. Nada é salvo.</p>
+      <h1 style="font-size:1.8rem" id="titulo">Confirmando seu e-mail...</h1>
+      <p class="msg" id="msg" role="status" hidden></p>
+      <div class="auth-links" id="links" hidden>
+        <a href="../entrar.html">Entrar</a>
+        <a href="../formulario.html">Fazer o pré-formulário</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="../config.js"></script>
+  <script src="../vendor/supabase.js"></script>
+  <script src="../auth.js"></script>
+  <script src="../site.js"></script>
+  <script src="../contas.js"></script>
+</body>
+</html>

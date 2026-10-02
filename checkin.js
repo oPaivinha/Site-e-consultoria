@@ -1,7 +1,10 @@
-// Check-in quinzenal em etapas. Mesmo padrão da anamnese: valida campos com data-required e envia ao webhook.
-// O paciente é identificado pelo código do link (checkin.html?p=CODIGO); sem código, pede o WhatsApp.
+// Check-in quinzenal em etapas. Mesmo padrão da anamnese: valida campos com data-required
+// e grava na tabela "checkins" do Supabase. Exige login: o paciente é quem está logado.
+// Ao gravar, o banco marca o próximo check-in para daqui a 15 dias (trigger checkin_recebido)
+// e a automação (Apps Script) avalia os sinais de alerta e avisa a nutri por e-mail.
 (function () {
-  var cfg = window.SITE_CONFIG || {};
+  var PN = window.PN || {};
+  var session = null;
   var form = document.getElementById("checkinForm");
   var steps = Array.prototype.slice.call(form.querySelectorAll(".step"));
   var order = steps.map(function (s) { return s.dataset.step; }).filter(function (k) { return /^\d+$/.test(k); });
@@ -14,13 +17,6 @@
   var btnBack = document.getElementById("btnBack");
   var actions = document.getElementById("actions");
   var submitError = document.getElementById("submitError");
-
-  var codigo = (new URLSearchParams(window.location.search).get("p") || "").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 40);
-  var fieldWhats = document.getElementById("fieldWhats");
-  if (!codigo) {
-    fieldWhats.hidden = false;
-    fieldWhats.setAttribute("data-required", "");
-  }
 
   function show(key) {
     steps.forEach(function (s) { s.classList.toggle("is-active", s.dataset.step === key); });
@@ -40,16 +36,6 @@
   function checked(name) {
     return Array.prototype.map.call(form.querySelectorAll('input[name="' + name + '"]:checked'), function (i) { return i.value; });
   }
-
-  // máscara de telefone
-  var wa = document.getElementById("whatsapp");
-  wa.addEventListener("input", function () {
-    var d = onlyDigits(wa.value).slice(0, 11);
-    var out = d;
-    if (d.length > 2) out = "(" + d.slice(0, 2) + ") " + d.slice(2);
-    if (d.length > 7) out = "(" + d.slice(0, 2) + ") " + d.slice(2, d.length - 4) + "-" + d.slice(-4);
-    wa.value = out;
-  });
 
   // opções exclusivas ("Nenhum"): marcar desmarca as demais e vice-versa
   form.addEventListener("change", function (e) {
@@ -89,9 +75,7 @@
     if (first.type === "radio" || first.type === "checkbox") {
       return Array.prototype.some.call(inputs, function (i) { return i.checked; });
     }
-    var v = (first.value || "").trim();
-    if (first.name === "whatsapp") { var n = onlyDigits(v).length; return n === 10 || n === 11; }
-    return v !== "";
+    return (first.value || "").trim() !== "";
   }
 
   function validate(key) {
@@ -112,10 +96,8 @@
     var alerta = checked("alerta").filter(function (v) { return v !== "nenhum"; });
     var peso = parseFloat(form.elements.peso.value);
     return {
-      tipo: "checkin",
+      profile_id: session ? session.user.id : null,
       enviado_em: new Date().toISOString(),
-      codigo: codigo,
-      whatsapp: codigo ? "" : "55" + onlyDigits(wa.value),
       adesao: parseInt(form.querySelector('input[name="adesao"]:checked').value, 10),
       refeicoes_dificeis: checked("refeicoes_dificeis"),
       fome: checked("fome")[0] || "",
@@ -146,7 +128,7 @@
     if (form.elements.website && form.elements.website.value) { finish(false); return; }
     var payload = buildPayload();
 
-    if (!cfg.webhookUrl) {
+    if (!PN.ready) {
       console.log("[MODO DEMO] Check-in que seria enviado:", payload);
       finish(true);
       return;
@@ -155,15 +137,11 @@
     sending = true;
     btnNext.disabled = true;
     btnNext.textContent = "Enviando...";
-    // text/plain evita a checagem de CORS do navegador; funciona com Google Apps Script e com n8n/Make.
-    fetch(cfg.webhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(payload)
-    }).then(function (res) {
-      if (!res.ok) throw new Error("HTTP " + res.status);
+    PN.sb.from("checkins").insert(payload).then(function (r) {
+      if (r.error) throw r.error;
       finish(false);
-    }).catch(function () {
+    }).catch(function (e) {
+      submitError.textContent = "Não foi possível enviar agora. " + PN.erro(e);
       submitError.classList.add("is-visible");
       btnNext.textContent = "Enviar";
     }).finally(function () {
@@ -200,4 +178,9 @@
   });
 
   render();
+
+  if (PN.ready) {
+    form.hidden = true;
+    PN.requireLogin().then(function (s) { session = s; form.hidden = false; });
+  }
 })();

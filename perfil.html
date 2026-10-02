@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Meu perfil | Paiva Nutri</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="form-page" data-page="perfil">
+
+  <header class="topbar">
+    <div class="container topbar__inner">
+      <a href="index.html" class="brand" data-brand>Paiva Nutri</a>
+      <a href="index.html" class="muted" style="font-size:.92rem;text-decoration:none">← Voltar ao site</a>
+    </div>
+  </header>
+
+  <main class="form-wrap">
+    <div class="form-card">
+      <p class="msg msg--erro" id="demoMsg" hidden>Modo demonstração: o Supabase ainda não foi configurado em config.js. Nada é salvo.</p>
+      <div id="conteudo" hidden>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap">
+          <h1 style="font-size:1.8rem">Olá, <span id="ola"></span></h1>
+          <button type="button" class="btn btn--ghost btn--small" id="btnSair">Sair</button>
+        </div>
+        <p class="muted" id="status"></p>
+
+        <div class="notice__actions" style="margin-bottom:8px">
+          <a class="btn" id="btnCheckin" href="checkin.html" hidden>Fazer o check-in</a>
+          <a class="btn btn--ghost" id="btnAnamnese" href="anamnese.html">Responder a anamnese</a>
+        </div>
+        <p class="legal-text" id="anamneseFeita" hidden>Anamnese enviada em <span id="anamneseData"></span>.</p>
+
+        <section class="panel">
+          <h2>Meus dados</h2>
+          <p class="msg" id="msg" role="alert" hidden></p>
+          <form id="perfilForm" novalidate>
+            <div class="field">
+              <span class="label">E-mail da conta</span>
+              <p style="margin:2px 0 0"><span id="contaEmail"></span> · <a href="nova-senha.html">trocar senha</a></p>
+            </div>
+            <div class="field">
+              <label for="nome">Nome completo</label>
+              <input type="text" id="nome" name="nome" autocomplete="name">
+            </div>
+            <div class="row">
+              <div class="field">
+                <label for="whatsapp">WhatsApp <span class="hint">com DDD</span></label>
+                <input type="tel" id="whatsapp" name="whatsapp" inputmode="tel" autocomplete="tel" placeholder="(11) 99999-9999">
+              </div>
+              <div class="field">
+                <label for="nascimento">Data de nascimento</label>
+                <input type="date" id="nascimento" name="nascimento">
+              </div>
+            </div>
+            <div class="row">
+              <div class="field">
+                <label for="sexo">Sexo biológico</label>
+                <select id="sexo" name="sexo">
+                  <option value="">Selecione</option>
+                  <option value="feminino">Feminino</option>
+                  <option value="masculino">Masculino</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="canal">Prefiro receber os check-ins por</label>
+                <select id="canal" name="canal">
+                  <option value="whatsapp">WhatsApp</option>
+                  <option value="email">E-mail</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label class="option">
+                <input type="checkbox" name="aceita_checkin" value="sim">
+                <span>Quero receber check-ins e lembretes a cada 15 dias. <span class="hint">você pode desligar quando quiser</span></span>
+              </label>
+            </div>
+
+            <div id="blocoResponsavel" hidden>
+              <h3 style="font-size:1.1rem;margin:24px 0 12px">Responsável legal</h3>
+              <div class="row">
+                <div class="field">
+                  <label for="responsavel_nome">Nome do responsável</label>
+                  <input type="text" id="responsavel_nome" name="responsavel_nome">
+                </div>
+                <div class="field">
+                  <label for="responsavel_parentesco">Parentesco</label>
+                  <input type="text" id="responsavel_parentesco" name="responsavel_parentesco">
+                </div>
+              </div>
+              <div class="row">
+                <div class="field">
+                  <label for="responsavel_whatsapp">WhatsApp do responsável</label>
+                  <input type="tel" id="responsavel_whatsapp" name="responsavel_whatsapp" inputmode="tel" placeholder="(11) 99999-9999">
+                </div>
+                <div class="field">
+                  <label for="responsavel_email">E-mail do responsável</label>
+                  <input type="email" id="responsavel_email" name="responsavel_email">
+                </div>
+              </div>
+              <div class="field">
+                <label for="email_paciente">E-mail do paciente <span class="hint">opcional</span></label>
+                <input type="email" id="email_paciente" name="email_paciente">
+              </div>
+            </div>
+
+            <button type="submit" class="btn" id="btnSalvar">Salvar alterações</button>
+          </form>
+        </section>
+
+        <section class="panel">
+          <h2>Meus check-ins</h2>
+          <ul class="list-plain" id="historico"></ul>
+          <p class="muted" id="semHistorico">Nenhum check-in enviado ainda.</p>
+        </section>
+
+        <p class="legal-text" style="margin-top:28px">Para pedir uma cópia ou a exclusão dos seus dados, fale comigo. Detalhes na <a href="privacidade.html">Política de Privacidade</a>.</p>
+      </div>
+    </div>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="vendor/supabase.js"></script>
+  <script src="auth.js"></script>
+  <script src="site.js"></script>
+  <script src="contas.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+# Chaves e segredos (a service_role nunca entra no repositório)
+.env*
+!.env.example
+
+# Dependências dos scripts locais
+node_modules/
+
+# Planilhas com dados de pacientes não vão para o GitHub
+*.xlsx
+*.xls
+*.csv

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Esqueci minha senha | Paiva Nutri</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="form-page" data-page="esqueci">
+
+  <header class="topbar">
+    <div class="container topbar__inner">
+      <a href="index.html" class="brand" data-brand>Paiva Nutri</a>
+      <a href="index.html" class="muted" style="font-size:.92rem;text-decoration:none">← Voltar ao site</a>
+    </div>
+  </header>
+
+  <main class="form-wrap auth-card">
+    <div class="form-card">
+      <p class="msg msg--erro" id="demoMsg" hidden>Modo demonstração: o Supabase ainda não foi configurado em config.js. Nada é salvo.</p>
+      <h1 style="font-size:1.8rem">Esqueci minha senha</h1>
+      <p class="muted">Informe o e-mail da sua conta. Vamos mandar um link para você criar uma senha nova.</p>
+      <p class="msg" id="msg" role="alert" hidden></p>
+
+      <form id="esqueciForm" novalidate>
+        <div class="field">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" name="email" autocomplete="email" required>
+        </div>
+        <button type="submit" class="btn btn--block" id="btnEnviar">Enviar link</button>
+      </form>
+
+      <div class="auth-links">
+        <a href="entrar.html">← Voltar para entrar</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="vendor/supabase.js"></script>
+  <script src="auth.js"></script>
+  <script src="site.js"></script>
+  <script src="contas.js"></script>
+</body>
+</html>
