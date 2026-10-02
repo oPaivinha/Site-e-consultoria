@@ -21,8 +21,9 @@ create table if not exists public.precos (
 comment on table public.precos is 'Valor cobrado por plano. Edite pelo painel (Pagamentos > Preços).';
 
 insert into public.precos (plano, nome, valor, parcelas_max) values
-  ('mensal', 'Mensal', 150.00, 1),
-  ('anual',  'Anual', 1800.00, 12)
+  ('mensal',     'Mensal',      190.00,  1),   -- R$190/mês
+  ('trimestral', 'Trimestral',  510.00,  3),   -- R$170/mês x 3
+  ('anual',      'Anual',      1800.00, 12)    -- R$150/mês x 12
 on conflict (plano) do nothing;
 
 drop trigger if exists precos_updated_at on public.precos;

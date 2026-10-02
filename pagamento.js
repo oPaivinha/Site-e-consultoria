@@ -185,7 +185,7 @@
   if (!PN.ready) {
     $("msgDemo").hidden = false;
     juntarPlanos(PLANOS.map(function (p) {
-      return { plano: p.id, nome: p.nome, valor: (p.valorMensal || 0) * (p.meses || 1), parcelas_max: p.meses > 1 ? 12 : 1 };
+      return { plano: p.id, nome: p.nome, valor: (p.valorMensal || 0) * (p.meses || 1), parcelas_max: Math.min(p.meses || 1, 12) };
     }));
     telaEscolha();
     return;

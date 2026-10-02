@@ -26,7 +26,7 @@ Todas as CTAs ("Quero começar") levam ao pré-formulário (os botões dos plano
 
 ## Pendências (dependem do Hugo)
 - Nome da marca, nome da nutricionista, CRN, Instagram, WhatsApp, foto, texto "Sobre mim".
-- Confirmar oferta: R$150/mês, plano de 3 meses.
+- Oferta (Hugo, 02/10/2026): Mensal R$190/mês, Trimestral R$170/mês, Anual R$150/mês. Preço só na tela de pagamento.
 - Dados da política de privacidade.
 - Onde hospedar e se cria repositório no GitHub.
 

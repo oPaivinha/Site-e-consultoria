@@ -26,7 +26,7 @@
           (p.meses > 1 ? '<p class="plan__note">' + p.meses + " meses · " + esc(reais(p.valorMensal * p.meses)) + " no total</p>" : "") +
         "</div>";
     } else {
-      preco = '<p class="plan__price-hidden">Valores apresentados na primeira conversa.</p>';
+      preco = '<p class="plan__price-hidden">O valor aparece na etapa de pagamento, depois da anamnese.</p>';
     }
     var inclui = (p.inclui || []).map(function (i) { return "<li>" + esc(i) + "</li>"; }).join("");
     var detalhes = (p.detalhes || []).map(function (d) { return "<li>" + esc(d) + "</li>"; }).join("");
