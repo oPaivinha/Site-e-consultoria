@@ -4,15 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Paiva Nutri | Nutrição online para emagrecer e ganhar massa magra</title>
-  <meta name="description" content="Acompanhamento nutricional online com plano alimentar individualizado, foco em emagrecimento e ganho de massa magra.">
+  <meta name="description" content="Acompanhamento nutricional online com plano alimentar individualizado, pensado para a sua rotina. Emagrecimento, ganho de massa magra e performance.">
+  <meta name="theme-color" content="#153628">
+  <!-- Marca a página como "com JavaScript": só assim os elementos começam escondidos para aparecer ao rolar -->
+  <script>document.documentElement.classList.add("js");</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <a class="skip-link" href="#inicio">Ir para o conteúdo</a>
+  <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
 
   <header class="topbar">
     <div class="container topbar__inner">
@@ -20,9 +23,9 @@
       <button class="nav-toggle" type="button" id="navToggle" aria-expanded="false" aria-controls="navMenu" aria-label="Abrir menu">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
       </button>
-      <nav class="nav" id="navMenu">
+      <nav class="nav" id="navMenu" aria-label="Principal">
         <a href="#como-funciona">Como funciona</a>
-        <a href="#plano">Plano</a>
+        <a href="#planos">Planos</a>
         <a href="#sobre">Sobre</a>
         <a href="#faq">Dúvidas</a>
         <a href="entrar.html" data-auth-link>Entrar</a>
@@ -31,138 +34,217 @@
     </div>
   </header>
 
-  <main>
-    <!-- HERO -->
+  <main id="conteudo">
+    <!-- HERO: título, chamada e os números do acompanhamento -->
     <section class="hero" id="inicio">
+      <!-- Formas orgânicas que se movem devagar no fundo (só decoração) -->
+      <div class="hero__shapes" aria-hidden="true">
+        <span class="blob blob--1"></span>
+        <span class="blob blob--2"></span>
+        <span class="blob blob--3"></span>
+      </div>
       <div class="container hero__inner">
         <div class="hero__text">
-          <p class="eyebrow">Nutrição online individualizada</p>
-          <h1>Estratégia alimentar para quem treina e quer <em>resultado de verdade</em>.</h1>
-          <p class="lead">Atendimento individualizado: o plano alimentar é pensado nas suas necessidades, na sua saúde e na sua rotina, com acompanhamento e ajustes todo mês. Sem dieta da moda, sem terrorismo nutricional.</p>
-          <div class="hero__cta">
+          <p class="eyebrow" data-reveal>Nutrição online individualizada</p>
+          <h1 data-reveal style="--i:1">Um plano alimentar feito para <em>a sua rotina</em>.</h1>
+          <p class="lead" data-reveal style="--i:2">Acompanhamento para emagrecer, ganhar massa magra ou render mais no treino, pensado nas suas necessidades, na sua saúde e no seu dia a dia. Sem dieta da moda e sem terrorismo nutricional.</p>
+          <div class="hero__cta" data-reveal style="--i:3">
             <a href="formulario.html" class="btn">Quero começar</a>
             <a href="#como-funciona" class="btn btn--ghost">Ver como funciona</a>
           </div>
-          <ul class="hero__tags">
+          <ul class="hero__tags" data-reveal style="--i:4" aria-label="Objetivos atendidos">
             <li>Emagrecimento</li>
             <li>Ganho de massa magra</li>
             <li>Performance</li>
           </ul>
         </div>
-        <div class="hero__card" aria-hidden="true">
-          <div class="stat"><span class="stat__num">100%</span><span class="stat__label">plano individualizado</span></div>
-          <div class="stat"><span class="stat__num">5 dias</span><span class="stat__label">para receber o plano</span></div>
-          <div class="stat"><span class="stat__num">Todo mês</span><span class="stat__label">retorno e acompanhamento</span></div>
+        <div class="hero__card" data-reveal style="--i:2">
+          <p class="hero__card-title">O seu acompanhamento</p>
+          <div class="stat">
+            <span class="stat__num">até <span data-count="5">5</span> dias</span>
+            <span class="stat__label">para receber o plano depois da consulta</span>
+          </div>
+          <div class="stat">
+            <span class="stat__num">a cada <span data-count="15">15</span> dias</span>
+            <span class="stat__label">um check-in para ver como você está</span>
+          </div>
+          <div class="stat">
+            <span class="stat__num"><span data-count="1">1</span> retorno por mês</span>
+            <span class="stat__label">para ajustar a estratégia com você</span>
+          </div>
+          <div class="hero__progress" aria-hidden="true"><span></span></div>
         </div>
       </div>
     </section>
 
-    <!-- COMO FUNCIONA -->
+    <!-- COMO FUNCIONA: linha do tempo que se desenha com a rolagem -->
     <section class="section" id="como-funciona">
       <div class="container">
-        <p class="eyebrow">Passo a passo</p>
-        <h2>Como funciona</h2>
-        <ol class="steps">
-          <li>
-            <span class="steps__n">1</span>
-            <h3>Pré-formulário</h3>
-            <p>Você responde algumas perguntas rápidas sobre objetivo, rotina e saúde. Leva uns 5 minutos.</p>
+        <div class="section-head" data-reveal>
+          <p class="eyebrow">Passo a passo</p>
+          <h2>Como funciona</h2>
+          <p>Do primeiro contato ao acompanhamento, cada etapa existe para entender você e ajustar o plano à sua vida.</p>
+        </div>
+        <ol class="timeline" id="timeline">
+          <li class="timeline__item" data-reveal>
+            <span class="timeline__n">1</span>
+            <div class="timeline__body">
+              <h3>Pré-formulário e sua conta</h3>
+              <p>Você responde perguntas rápidas sobre objetivo, rotina e saúde, em cerca de 5 minutos, e cria seu acesso ao site.</p>
+            </div>
           </li>
-          <li>
-            <span class="steps__n">2</span>
-            <h3>Agendamento e pagamento</h3>
-            <p>Você escolhe o melhor horário e confirma o plano por Pix ou cartão.</p>
+          <li class="timeline__item" data-reveal>
+            <span class="timeline__n">2</span>
+            <div class="timeline__body">
+              <h3>Análise e primeiro contato</h3>
+              <p>Eu leio suas respostas e falo com você pelo WhatsApp. Se houver alguma condição de saúde, avalio seu caso com cuidado antes de agendarmos.</p>
+            </div>
           </li>
-          <li>
-            <span class="steps__n">3</span>
-            <h3>Consulta completa</h3>
-            <p>Conversa sobre seu histórico, saúde, rotina e preferências, para entender o que funciona para você.</p>
+          <li class="timeline__item" data-reveal>
+            <span class="timeline__n">3</span>
+            <div class="timeline__body">
+              <h3>Agendamento e pagamento</h3>
+              <p>Escolhemos o melhor horário e você confirma por Pix ou cartão. Antes da consulta, você responde a anamnese no site.</p>
+            </div>
           </li>
-          <li>
-            <span class="steps__n">4</span>
-            <h3>Plano alimentar</h3>
-            <p>Em até 5 dias você recebe o plano individualizado, com orientações e substituições.</p>
+          <li class="timeline__item" data-reveal>
+            <span class="timeline__n">4</span>
+            <div class="timeline__body">
+              <h3>Consulta completa</h3>
+              <p>Por videochamada, conversamos sobre seu histórico, saúde, rotina e preferências para entender o que funciona para você.</p>
+            </div>
           </li>
-          <li>
-            <span class="steps__n">5</span>
-            <h3>Acompanhamento</h3>
-            <p>Check-ins quinzenais e retorno mensal para ajustar a estratégia.</p>
+          <li class="timeline__item" data-reveal>
+            <span class="timeline__n">5</span>
+            <div class="timeline__body">
+              <h3>Seu plano alimentar</h3>
+              <p>Em até 5 dias você recebe o plano individualizado, com orientações e substituições.</p>
+            </div>
+          </li>
+          <li class="timeline__item" data-reveal>
+            <span class="timeline__n">6</span>
+            <div class="timeline__body">
+              <h3>Acompanhamento</h3>
+              <p>Check-in a cada 15 dias e retorno mensal para ver sua evolução e ajustar o que for preciso.</p>
+            </div>
           </li>
         </ol>
       </div>
     </section>
 
-    <!-- PLANO -->
-    <section class="section section--tint" id="plano">
+    <!-- PLANOS: montado a partir do arquivo planos.js -->
+    <section class="section section--tint" id="planos">
       <div class="container">
-        <p class="eyebrow">Acompanhamento</p>
-        <h2>Acompanhamento de 3 meses</h2>
-        <div class="plan">
-          <div class="plan__price" data-price-block>
-            <span class="plan__currency">R$</span>
-            <span class="plan__value" data-price>150</span>
-            <span class="plan__period">/mês</span>
-            <p class="plan__note">Plano de 3 meses · <span data-total>R$ 450</span> no total</p>
-          </div>
-          <ul class="plan__list">
-            <li>Plano alimentar individualizado em até 5 dias</li>
-            <li>Retorno mensal</li>
-            <li>Check-ins quinzenais</li>
-            <li>Ajustes do plano conforme a sua evolução</li>
-          </ul>
-          <a href="formulario.html" class="btn btn--block">Quero começar</a>
+        <div class="section-head" data-reveal>
+          <p class="eyebrow">Planos</p>
+          <h2>Escolha como quer começar</h2>
+          <p>Todos os planos incluem consulta completa, plano individualizado e acompanhamento de perto.</p>
         </div>
+        <div id="planosApp" class="plans" data-reveal></div>
+        <noscript><p>Para ver os planos, ative o JavaScript do navegador ou <a href="formulario.html">responda o pré-formulário</a>.</p></noscript>
       </div>
     </section>
 
-    <!-- SOBRE -->
+    <!-- SOBRE MIM -->
     <section class="section" id="sobre">
       <div class="container about">
-        <div class="about__photo" role="img" aria-label="Espaço reservado para a foto do nutricionista">
-          <span>[PREENCHER: foto]</span>
+        <div class="about__visual" data-reveal>
+          <!-- Sem foto por enquanto: um bloco com as iniciais ocupa o lugar -->
+          <div class="about__monogram" role="img" aria-label="Iniciais de Gabriel Paiva">GP</div>
         </div>
-        <div>
-          <p class="eyebrow">Sobre mim</p>
-          <h2 data-name>Seu nome</h2>
-          <p class="muted" data-crn>Nutricionista</p>
-          <p><strong>[PREENCHER: sua história e formação]</strong> — um parágrafo curto sobre você: formação, o que te levou à nutrição e como você trabalha.</p>
+        <div class="about__text">
+          <p class="eyebrow" data-reveal>Sobre mim</p>
+          <h2 data-name data-reveal style="--i:1">Gabriel Paiva</h2>
+          <p class="muted" data-crn data-reveal style="--i:2">Nutricionista</p>
+          <p data-reveal style="--i:3"><mark class="fill">[PREENCHER: sua história e formação]</mark> Texto provisório: acredito que um bom plano alimentar é aquele que cabe na sua vida. Meu trabalho é entender sua rotina, seus gostos e seu objetivo para montar uma estratégia que você consiga seguir.</p>
+          <div class="about__cards">
+            <div class="card" data-reveal style="--i:4">
+              <h3>Formação</h3>
+              <p><mark class="fill">[PREENCHER: formação e CRN]</mark></p>
+            </div>
+            <div class="card" data-reveal style="--i:5">
+              <h3>Foco</h3>
+              <p>Emagrecimento, ganho de massa magra e performance.</p>
+            </div>
+            <div class="card" data-reveal style="--i:6">
+              <h3>Como trabalho</h3>
+              <p>Plano individualizado, sem dieta restritiva e com ajustes ao longo do caminho.</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- FAQ -->
+    <!-- PERGUNTAS FREQUENTES: abre uma por vez -->
     <section class="section section--tint" id="faq">
       <div class="container container--narrow">
-        <p class="eyebrow">Perguntas frequentes</p>
-        <h2>Dúvidas comuns</h2>
-        <details>
-          <summary>O atendimento é 100% online?</summary>
-          <p>Sim. A consulta é por videochamada e o acompanhamento acontece pelo WhatsApp.</p>
-        </details>
-        <details>
-          <summary>Preciso treinar para ser atendido?</summary>
-          <p>Não é obrigatório. O acompanhamento serve para quem treina e para quem quer começar a ter uma rotina mais ativa.</p>
-        </details>
-        <details>
-          <summary>Em quanto tempo recebo o plano?</summary>
-          <p>Em até 5 dias após a primeira consulta.</p>
-        </details>
-        <details>
-          <summary>Como funciona o pagamento?</summary>
-          <p>Você paga por Pix ou cartão. O agendamento é confirmado após o pagamento.</p>
-        </details>
-        <details>
-          <summary>Meus dados estão protegidos?</summary>
-          <p>Seus dados são usados apenas para o seu atendimento, conforme a LGPD. Veja a <a href="privacidade.html">Política de Privacidade</a>.</p>
-        </details>
+        <div class="section-head" data-reveal>
+          <p class="eyebrow">Perguntas frequentes</p>
+          <h2>Dúvidas comuns</h2>
+        </div>
+        <div class="faq" id="faqList">
+          <details>
+            <summary>O atendimento é 100% online?</summary>
+            <div class="faq__a">
+              <p>Sim. A consulta e o retorno mensal são por videochamada, e entre uma consulta e outra o contato é pelo WhatsApp.</p>
+              <p>Você só precisa de um celular ou computador com internet. Uma balança e uma fita métrica ajudam a acompanhar a evolução, mas não são obrigatórias.</p>
+            </div>
+          </details>
+          <details>
+            <summary>Preciso treinar para ser atendido?</summary>
+            <div class="faq__a"><p>Não. O acompanhamento serve para quem já treina e para quem quer começar a ter uma rotina mais ativa. O plano é montado a partir do que você faz hoje.</p></div>
+          </details>
+          <details>
+            <summary>Em quanto tempo recebo o plano?</summary>
+            <div class="faq__a"><p>Em até 5 dias depois da consulta completa, com orientações e substituições.</p></div>
+          </details>
+          <details>
+            <summary>Como funciona o pagamento?</summary>
+            <div class="faq__a">
+              <p>Você paga por Pix ou cartão, e o horário da consulta é confirmado depois do pagamento.</p>
+              <p>Remarcação e cancelamento: <mark class="fill">[PREENCHER: regra de remarcação e cancelamento]</mark></p>
+            </div>
+          </details>
+          <details>
+            <summary>Você atende gestantes, crianças e quem tem alguma doença?</summary>
+            <div class="faq__a">
+              <p>Sim. Menores de 18 anos são atendidos com a participação do pai, mãe ou responsável, que preenche os dados e autoriza o atendimento.</p>
+              <p>Se você tem alguma condição de saúde ou está gestante, eu avalio seu caso com cuidado antes de agendarmos. Quando for preciso, trabalho junto com seu médico ou indico outro profissional.</p>
+            </div>
+          </details>
+          <details>
+            <summary>E se eu não conseguir seguir o plano?</summary>
+            <div class="faq__a"><p>Faz parte do processo, e não existe julgamento. Você me conta no check-in o que não funcionou e a gente ajusta o plano para caber melhor na sua rotina.</p></div>
+          </details>
+          <details>
+            <summary>Como são os ajustes?</summary>
+            <div class="faq__a"><p>A cada 15 dias você responde um check-in curto sobre como foram os dias, e no retorno mensal revisamos juntos a evolução. A partir disso eu ajusto quantidades, horários e substituições.</p></div>
+          </details>
+          <details>
+            <summary>A dieta é restritiva? Vou ter que cortar o que eu gosto?</summary>
+            <div class="faq__a"><p>Não. O plano parte dos alimentos que você já come e gosta, com substituições para dar flexibilidade. A ideia é você conseguir manter, não sofrer por algumas semanas.</p></div>
+          </details>
+          <details>
+            <summary>O acompanhamento substitui o médico?</summary>
+            <div class="faq__a"><p>Não. A nutrição complementa o cuidado médico. Se você faz tratamento, continue com seu médico; se for útil, podemos conversar com ele.</p></div>
+          </details>
+          <details>
+            <summary>Como funciona o retorno mensal?</summary>
+            <div class="faq__a"><p>Uma vez por mês fazemos uma nova consulta por videochamada para rever sua evolução, ouvir como está a rotina e atualizar o plano.</p></div>
+          </details>
+          <details>
+            <summary>Meus dados estão protegidos?</summary>
+            <div class="faq__a"><p>Sim. Seus dados são usados apenas para o seu atendimento, conforme a LGPD, e só eu tenho acesso às suas respostas. Você pode pedir uma cópia ou a exclusão a qualquer momento. Veja a <a href="privacidade.html">Política de Privacidade</a>.</p></div>
+          </details>
+        </div>
       </div>
     </section>
 
-    <!-- CTA FINAL -->
+    <!-- CHAMADA FINAL -->
     <section class="cta-final">
-      <div class="container">
+      <div class="container" data-reveal>
         <h2>Pronto para começar?</h2>
-        <p>Responda o pré-formulário e dê o primeiro passo.</p>
+        <p>Responda o pré-formulário. Leva cerca de 5 minutos.</p>
         <a href="formulario.html" class="btn btn--light">Quero começar</a>
       </div>
     </section>
@@ -172,9 +254,13 @@
     <div class="container footer__inner">
       <div>
         <strong data-brand>Paiva Nutri</strong>
-        <p class="muted" data-crn>Nutricionista</p>
+        <p class="muted mb-0" data-crn>Nutricionista</p>
       </div>
       <div class="footer__links">
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#planos">Planos</a>
+        <a href="#faq">Dúvidas</a>
+        <a href="entrar.html">Entrar</a>
         <a href="privacidade.html">Política de privacidade</a>
         <a href="#" data-instagram target="_blank" rel="noopener" hidden>Instagram</a>
       </div>
@@ -186,5 +272,7 @@
   <script src="vendor/supabase.js"></script>
   <script src="auth.js"></script>
   <script src="site.js"></script>
+  <script src="planos.js"></script>
+  <script src="home.js"></script>
 </body>
 </html>
