@@ -16,8 +16,8 @@ Pode rodar o arquivo de novo sem problema: ele não apaga nada.
 Menu **Authentication**:
 1. **Sign In / Providers** > **Email**: deixe ligado, com **Confirm email** ativado. Em **Minimum password length**, coloque `8`. Salve.
 2. **URL Configuration**:
-   - **Site URL**: `https://opaivinha.github.io/Site-e-consultoria/`
-   - **Redirect URLs**, adicione: `https://opaivinha.github.io/Site-e-consultoria/**`
+   - **Site URL**: `https://site-five-chi-48.vercel.app/`
+   - **Redirect URLs**, adicione: `https://site-five-chi-48.vercel.app/**`
 3. **Emails** > **Templates**: troque os textos para português (modelos no fim deste arquivo).
 
 ## 4. Ligar o envio de e-mails pelo Gmail (obrigatório para pacientes reais)

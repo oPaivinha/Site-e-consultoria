@@ -9,7 +9,7 @@
 // Precisa de um arquivo .env.local na raiz do projeto (fora do Git) com:
 //   SUPABASE_URL=https://SEU-PROJETO.supabase.co
 //   SUPABASE_SERVICE_ROLE_KEY=...   (a chave secreta; nunca vai para o site nem para o GitHub)
-//   SITE_URL=https://opaivinha.github.io/Site-e-consultoria/
+//   SITE_URL=https://site-five-chi-48.vercel.app/
 //
 // Seguro para rodar mais de uma vez:
 //   - pacientes são conciliados pelo e-mail (para menores, o e-mail do responsável, que é o da conta);

@@ -25,7 +25,7 @@ var CONFIG = {
   MODO_TESTE: true,                                 // troque para false só quando estiver tudo conferido
   EMAIL_NUTRI: "seu-email@exemplo.com",             // onde você recebe alertas e o resumo diário
   NOME_NUTRI: "Gabriel Paiva",
-  SITE_URL: "https://opaivinha.github.io/Site-e-consultoria/",
+  SITE_URL: "https://site-five-chi-48.vercel.app/",
   LEMBRETE_1_DIAS: 2,   // dias após o envio sem resposta
   LEMBRETE_2_DIAS: 7,   // segundo lembrete + aviso para você
   HORA_ROTINA: 8        // hora do envio diário (fuso do projeto do Apps Script)
