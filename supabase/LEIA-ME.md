@@ -2,12 +2,10 @@
 
 Tudo aqui é grátis (plano Free do Supabase, Gmail e Google Apps Script). Siga na ordem.
 
-## 1. Criar o projeto
-1. Entre em [supabase.com](https://supabase.com) com sua conta e clique em **New project**.
-2. Nome: `paiva-nutri`. Região: **South America (São Paulo)**. Crie uma senha forte para o banco e guarde no seu gerenciador de senhas.
-3. Espere o projeto ficar pronto (1 a 2 minutos).
+## 1. Projeto (já criado)
+Projeto `paiva-nutri` (região us-east-1): `https://blmxwpjovsyglnwsklkp.supabase.co`.
 
-## 2. Criar as tabelas
+## 2. Criar as tabelas (já feito em 02/10/2026)
 1. Menu **SQL Editor** > **New query**.
 2. Cole o conteúdo inteiro de [`migrations/0001_inicial.sql`](migrations/0001_inicial.sql) e clique em **Run**.
 3. Em **Table Editor** devem aparecer: `profiles`, `acompanhamentos`, `pre_formularios`, `anamneses`, `checkins`, todas com o selo de RLS ligado.
@@ -33,7 +31,7 @@ O e-mail grátis do Supabase só entrega para os e-mails da sua equipe no painel
 
 O Gmail permite até 500 e-mails por dia, bem mais do que o consultório precisa.
 
-## 5. Ligar o site
+## 5. Ligar o site (já feito em 02/10/2026)
 1. **Project Settings** > **API Keys**: copie a **Project URL** e a chave **publishable** (ou `anon`).
 2. Cole em `config.js`, nos campos `supabaseUrl` e `supabaseAnonKey` (ou mande para o Claude fazer isso).
 

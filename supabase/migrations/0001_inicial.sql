@@ -140,7 +140,7 @@ create index if not exists checkins_profile_idx on public.checkins(profile_id, c
 
 -- updated_at automático
 create or replace function public.set_updated_at()
-returns trigger language plpgsql as $$
+returns trigger language plpgsql set search_path = '' as $$
 begin
   new.updated_at := now();
   return new;
@@ -156,24 +156,24 @@ create trigger acompanhamentos_updated_at before update on public.acompanhamento
 
 -- Conversões tolerantes: um valor estranho vira null em vez de impedir o cadastro.
 create or replace function public.try_date(v text) returns date
-language plpgsql immutable as $$
+language plpgsql immutable set search_path = '' as $$
 begin return nullif(v, '')::date; exception when others then return null; end $$;
 
 create or replace function public.try_numeric(v text) returns numeric
-language plpgsql immutable as $$
+language plpgsql immutable set search_path = '' as $$
 begin return nullif(v, '')::numeric; exception when others then return null; end $$;
 
 create or replace function public.try_bool(v text) returns boolean
-language sql immutable as $$
+language sql immutable set search_path = '' as $$
   select coalesce(lower(v) in ('true', 'sim', 's', '1'), false)
 $$;
 
 create or replace function public.try_timestamptz(v text) returns timestamptz
-language plpgsql immutable as $$
+language plpgsql immutable set search_path = '' as $$
 begin return nullif(v, '')::timestamptz; exception when others then return null; end $$;
 
 create or replace function public.json_text_array(j jsonb) returns text[]
-language sql immutable as $$
+language sql immutable set search_path = '' as $$
   select case when jsonb_typeof(j) = 'array'
               then array(select jsonb_array_elements_text(j))
               else '{}'::text[] end
@@ -270,7 +270,7 @@ create trigger on_auth_user_email_changed
 
 -- Ao preencher inicio_acompanhamento, ativa o paciente e marca o 1º check-in para 15 dias depois.
 create or replace function public.acompanhamento_inicio()
-returns trigger language plpgsql as $$
+returns trigger language plpgsql set search_path = '' as $$
 begin
   if new.inicio_acompanhamento is not null
      and (tg_op = 'INSERT' or old.inicio_acompanhamento is distinct from new.inicio_acompanhamento) then

@@ -27,8 +27,8 @@ window.SITE_CONFIG = {
   // A chave "anon"/"publishable" é pública por natureza: pode ficar aqui.
   // Quem protege os dados é o RLS do banco. NUNCA coloque a chave service_role neste arquivo.
   // Vazios = modo demonstração: nada é enviado, os dados aparecem só no console do navegador.
-  supabaseUrl: "",      // Ex.: "https://abcdefghijklmno.supabase.co"
-  supabaseAnonKey: "",  // Ex.: "sb_publishable_..." ou "eyJhbGciOi..."
+  supabaseUrl: "https://blmxwpjovsyglnwsklkp.supabase.co",
+  supabaseAnonKey: "sb_publishable_j1TRyOIcTlZ13wZSD5hNag_q7l51mEw",
 
   // Versão do texto de consentimento (guarde junto com cada envio)
   consentVersion: "2026-10-v3"
