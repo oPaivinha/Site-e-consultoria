@@ -3,7 +3,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const ITENS = [{ href: "/", rotulo: "Visão geral" }];
+const ITENS = [
+  { href: "/", rotulo: "Visão geral" },
+  { href: "/pacientes", rotulo: "Pacientes" },
+];
 
 export function Menu() {
   const atual = usePathname();

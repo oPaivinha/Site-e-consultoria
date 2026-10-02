@@ -1,4 +1,5 @@
 import { exigirAdmin } from "@/lib/admin";
+import { Erro } from "@/components/estados";
 import { supabaseServidor } from "@/lib/supabase/server";
 
 type Resumo = {
@@ -12,7 +13,7 @@ export default async function VisaoGeral() {
   const { data, error } = await supabase.rpc("admin_resumo");
 
   if (error) {
-    return <p className="rounded-lg bg-perigo-claro p-4 text-perigo">Não foi possível carregar os números: {error.message}</p>;
+    return <Erro>Não foi possível carregar os números: {error.message}</Erro>;
   }
   const r = data as Resumo;
 

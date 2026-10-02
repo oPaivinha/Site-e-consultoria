@@ -1,4 +1,0 @@
-# O site público não precisa do código do painel (o painel é outro projeto na Vercel).
-admin/
-scripts/
-supabase/
