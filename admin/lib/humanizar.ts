@@ -3,6 +3,8 @@ const PALAVRAS: Record<string, string> = {
   sim: "Sim", nao: "Não", ok: "Ok", nenhum: "Nenhum", nenhuma: "Nenhuma",
   "1_2": "1 ou 2", "3_5": "3 a 5", mais_5: "Mais de 5", menos_1l: "Menos de 1 L", "1_2l": "1 a 2 L",
   "2_3l": "2 a 3 L", mais_3l: "Mais de 3 L", agua: "Água",
+  menos_10: "Menos de 10 min", "10_20": "10 a 20 min", "20_30": "20 a 30 min", mais_30: "Mais de 30 min",
+  quase_sempre: "Quase sempre", as_vezes: "Às vezes", raramente: "Raramente",
 };
 
 export function humanizar(v: unknown): string {
@@ -28,6 +30,7 @@ const CAMPOS: Record<string, string> = {
   origem: "Como conheceu", diabetes: "Diabetes", insulina: "Insulina", cardio: "Doença cardiovascular",
   renal_hepatica: "Doença renal ou hepática", ta: "Transtorno alimentar", gestacao: "Gestação ou amamentação",
   cirurgia: "Cirurgia", medicamento: "Medicamento", outras: "Outras condições",
+  tempo_refeicao: "Tempo por refeição", mastiga_pouco: "Mastiga pouco", come_rapido: "Come rápido",
 };
 
 export function nomeCampo(k: string): string {
