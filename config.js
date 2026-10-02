@@ -23,9 +23,9 @@ window.SITE_CONFIG = {
   // Link do Cal.com / Calendly para agendar após o formulário (opcional)
   schedulingUrl: "",
 
-  // Endereço do webhook (n8n/Make) que recebe o formulário.
+  // Endereço do Google Apps Script (App da Web) que grava os formulários na planilha.
   // Vazio = modo demonstração: nada é enviado, os dados aparecem só no console do navegador.
-  webhookUrl: "",
+  webhookUrl: "https://script.google.com/macros/s/AKfycbzdxc_uLpK324pMTX45z6FhRNCsEGTLMxIQywdfVzcebKca13egFWjQhDkkrnhmGIe6fA/exec",
 
   // Versão do texto de consentimento (guarde junto com cada envio)
   consentVersion: "2026-10-v2"
