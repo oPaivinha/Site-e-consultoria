@@ -46,12 +46,17 @@ export default async function Pacientes({ searchParams }: { searchParams: Promis
           <h1 className="text-3xl">Pacientes</h1>
           <p className="text-sm text-suave">{total} {total === 1 ? "paciente encontrado" : "pacientes encontrados"}</p>
         </div>
-        <a
-          href={comParams("/pacientes/exportar", base, { pagina: undefined })}
-          className="rounded-full border border-verde px-4 py-2 text-sm font-medium text-verde hover:bg-tom"
-        >
-          Exportar CSV
-        </a>
+        <div className="flex flex-wrap gap-2">
+          <Link href="/pacientes/importar" className="rounded-full border border-verde px-4 py-2 text-sm font-medium text-verde hover:bg-tom">
+            Importar CSV
+          </Link>
+          <a
+            href={comParams("/pacientes/exportar", base, { pagina: undefined })}
+            className="rounded-full border border-verde px-4 py-2 text-sm font-medium text-verde hover:bg-tom"
+          >
+            Exportar CSV
+          </a>
+        </div>
       </div>
 
       {f.excluido && <p role="status" className="mb-4 rounded-lg bg-verde-claro px-4 py-3 text-sm text-verde-escuro">Paciente excluído.</p>}

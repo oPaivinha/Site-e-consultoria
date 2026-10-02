@@ -31,6 +31,27 @@ O painel é um **segundo projeto** na Vercel, separado do site.
 3. Em **Environment Variables**, coloque as variáveis da tabela acima.
 4. **Deploy**.
 
+## O que tem em cada tela
+| Tela | Para que serve |
+|---|---|
+| Visão geral | números do consultório e gráfico de cadastros por dia (30 dias) |
+| Pacientes | busca, filtros, ordenação, exportar e **importar** CSV; ficha com linha do tempo, alertas e ações da conta |
+| Acompanhamentos, Pré-formulários, Anamneses, Check-ins, Observações | lista com filtros, criar, editar, excluir (vai para a lixeira) e restaurar; exportar CSV |
+| Auditoria | quem mudou o quê, quando, com o antes e o depois |
+
+As telas das tabelas são montadas a partir de `lib/tabelas.ts`. Para mostrar uma coluna nova, acrescente-a lá.
+
+"Excluir" nunca apaga de verdade: preenche `deleted_at` e o registro vai para a lixeira. Só "Excluir de vez", na ficha do paciente, apaga a conta e tudo dela (para pedidos pela LGPD).
+
+## Importar pacientes
+Em **Pacientes > Importar CSV**. Baixe a planilha modelo na própria tela. O painel confere cada linha e mostra a prévia antes de gravar. O e-mail é a chave: se já existe conta, atualiza só as colunas preenchidas; se não existe, cria a conta (com ou sem convite por e-mail).
+
+## Tipos do banco
+`lib/database.types.ts` é gerado a partir do banco. Quando o banco mudar, gere de novo com a CLI do Supabase:
+```
+npx supabase gen types typescript --project-id blmxwpjovsyglnwsklkp > lib/database.types.ts
+```
+
 ## Criar o primeiro admin
 No Supabase, em **SQL Editor**, trocando pelo e-mail da conta:
 ```sql
@@ -45,4 +66,5 @@ Depois disso, dá para promover outras pessoas pelo próprio painel.
 - Antes de abrir qualquer página, o servidor pergunta ao banco `is_admin()`. Quem não é admin é deslogado e vê "Acesso negado". Não é só esconder botões: a verificação é no servidor.
 - O banco também protege por conta própria (RLS), então mesmo um erro no painel não expõe dados.
 - Toda criação, edição e exclusão feita aqui fica registrada na tabela `audit_log`.
-- A chave secreta só é usada no servidor, depois de conferir `is_admin()`, para o que a chave pública não consegue: reenviar confirmação, enviar link de nova senha, desativar e excluir contas.
+- A chave secreta só é usada no servidor, depois de conferir `is_admin()`, para o que a chave pública não consegue: reenviar confirmação, enviar link de nova senha, desativar, excluir e criar contas (importação).
+- Senhas e tokens nunca são gravados em log.
