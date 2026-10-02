@@ -96,7 +96,11 @@ function verificarNovos_() {
     var anterior = sb_("get", "checkins?profile_id=eq." + c.profile_id + "&id=lt." + c.id +
       "&order=created_at.desc&limit=1&select=adesao,bristol")[0] || null;
     var avisos = avaliar_(c, anterior);
-    sb_("patch", "checkins?id=eq." + c.id, { avisos_para_nutri: avisos.join(" | "), avisado_em: agora });
+    if (avisos.length) {
+      sb_("post", "notas_internas?on_conflict=checkin_id",
+        { profile_id: c.profile_id, checkin_id: c.id, texto: avisos.join(" | ") }, "resolution=ignore-duplicates");
+    }
+    sb_("patch", "checkins?id=eq." + c.id, { avisado_em: agora });
     if (avisos.length) {
       var nome = (c.profiles || {}).nome || "Paciente";
       MailApp.sendEmail(CONFIG.EMAIL_NUTRI, "[Check-in] " + nome + ": " + avisos[0],
@@ -219,7 +223,7 @@ function removerGatilhos() {
 // ---------------------------------------------------------------------------
 
 // Chamada à API REST do Supabase com a chave service_role (ignora o RLS: só para este script).
-function sb_(metodo, caminho, corpo) {
+function sb_(metodo, caminho, corpo, preferExtra) {
   var props = PropertiesService.getScriptProperties();
   var url = String(props.getProperty("SUPABASE_URL") || "").replace(/\/$/, "");
   var chave = props.getProperty("SUPABASE_SERVICE_ROLE_KEY");
@@ -227,7 +231,7 @@ function sb_(metodo, caminho, corpo) {
   var opcoes = {
     method: metodo,
     contentType: "application/json",
-    headers: { apikey: chave, Authorization: "Bearer " + chave, Prefer: "return=minimal" },
+    headers: { apikey: chave, Authorization: "Bearer " + chave, Prefer: "return=minimal" + (preferExtra ? "," + preferExtra : "") },
     muteHttpExceptions: true
   };
   if (corpo) opcoes.payload = JSON.stringify(corpo);

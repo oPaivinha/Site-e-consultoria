@@ -356,7 +356,6 @@ for (const l of checkins) {
     peso_kg: num(l.peso_kg),
     recado: txt(l.recado) || null,
     quer_contato: simNao(l.quer_contato),
-    avisos_para_nutri: txt(l.avisos_para_nutri) || null,
     avisado_em: new Date().toISOString()
   });
 }
