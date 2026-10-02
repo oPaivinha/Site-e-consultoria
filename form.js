@@ -3,11 +3,16 @@
 // (alertas + revisar: true) para o nutricionista avaliar o caso.
 // Menores de 18 anos são atendidos: aparece a etapa do responsável legal (consentimento
 // obrigatório) e o envio leva menor: true. O SCOFF não aparece para menores de 12.
+// A última etapa cria a conta no Supabase (e-mail e senha). As respostas vão junto no cadastro
+// (options.data) e o banco grava o perfil e o pré-formulário sozinho (trigger handle_new_user).
+// Menores: a conta fica no e-mail do responsável.
 (function () {
   var cfg = window.SITE_CONFIG || {};
+  var PN = window.PN || {};
+  if (PN.ready) PN.redirectIfLoggedIn();   // quem já tem conta e está logado vai para "Meu perfil"
   var form = document.getElementById("prefForm");
   var steps = Array.prototype.slice.call(form.querySelectorAll(".step"));
-  var order = ["1", "2", "3", "4"];     // etapas de preenchimento (a etapa "resp" entra para menores)
+  var order = ["1", "2", "3", "4", "conta"];  // etapas de preenchimento (a etapa "resp" entra para menores)
   var current = 0;
   var sending = false;
 
@@ -86,7 +91,7 @@
 
   // Monta a ordem das etapas conforme a idade e ajusta o que depende dela
   function applyAge() {
-    order = isMinor() ? ["1", "2", "resp", "3", "4"] : ["1", "2", "3", "4"];
+    order = isMinor() ? ["1", "2", "resp", "3", "4", "conta"] : ["1", "2", "3", "4", "conta"];
     document.getElementById("scoffBlock").hidden = isChild();
     form.querySelectorAll("[data-if-child]").forEach(function (el) { el.hidden = !isChild(); });
     form.querySelectorAll("[data-paciente-nome]").forEach(function (el) { el.textContent = val("nome") || "este paciente"; });
@@ -148,6 +153,10 @@
       need("altura", function () { var h = parseInt(val("altura"), 10); return h >= (adulto ? 120 : 50) && h <= 230; });
       need("treino_freq", function () { return val("treino_freq") !== ""; });
     }
+    if (key === "conta") {
+      need("senha", function () { return form.elements.senha.value.length >= 8; });
+      need("senha2", function () { return form.elements.senha2.value === form.elements.senha.value && form.elements.senha2.value !== ""; });
+    }
     if (!ok) {
       var firstErr = form.querySelector(".step.is-active .has-error, .step.is-active .error.is-visible");
       if (firstErr) firstErr.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -179,6 +188,16 @@
   }
 
 
+
+  // E-mail da conta: do paciente, ou do responsável quando é menor
+  function accountEmail() { return (isMinor() ? val("resp_email") : val("email")).toLowerCase(); }
+
+  function fillAccountStep() {
+    document.getElementById("contaEmail").textContent = accountEmail();
+    document.getElementById("contaEmailHint").textContent = isMinor()
+      ? "Como o paciente é menor de idade, a conta fica no e-mail do responsável. Para trocar, volte à etapa do responsável."
+      : "É o e-mail que você informou nos seus dados. Para trocar, volte à etapa de dados.";
+  }
 
   // ---------- envio ----------
   function buildPayload() {
@@ -230,11 +249,57 @@
       whats.href = "https://wa.me/" + cfg.whatsapp + "?text=" + msg;
       whats.hidden = false;
     }
+    document.getElementById("okEmail").hidden = demo;
+    document.getElementById("okEmailAddr").textContent = accountEmail();
     document.getElementById("demoNote").hidden = !demo;
     show("ok");
     actions.hidden = true;
     bar.style.width = "100%";
     label.textContent = "Concluído";
+  }
+
+  // Dados que vão no cadastro. O trigger handle_new_user grava em profiles e pre_formularios.
+  function signUpData(p) {
+    var r = p.responsavel || {};
+    return {
+      nome: p.nome,
+      whatsapp: p.whatsapp,
+      nascimento: p.nascimento,
+      sexo: p.sexo,
+      email_paciente: p.menor ? p.email : "",
+      aceita_checkin: p.aceita_checkin,
+      menor: p.menor,
+      responsavel_nome: r.nome || "",
+      responsavel_parentesco: r.parentesco || "",
+      responsavel_whatsapp: r.whatsapp || "",
+      responsavel_email: r.email || "",
+      consentimento_em: p.consentimento_em,
+      versao_consentimento: p.versao_consentimento,
+      pre_formulario: {
+        enviado_em: p.enviado_em,
+        objetivo: p.objetivo,
+        peso_kg: p.peso_kg,
+        altura_cm: p.altura_cm,
+        treino_freq: p.treino_freq,
+        modalidade: p.modalidade,
+        tentativas: p.tentativas,
+        origem: p.origem,
+        saude: p.saude,
+        scoff_sim: p.scoff_sim,
+        alertas: p.alertas,
+        revisar: p.revisar,
+        responsavel: p.responsavel,
+        consentimento: p.consentimento,
+        consentimento_em: p.consentimento_em,
+        versao_consentimento: p.versao_consentimento
+      }
+    };
+  }
+
+  function showSubmitError(text) {
+    submitError.textContent = text;
+    submitError.classList.add("is-visible");
+    submitError.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 
   function submit() {
@@ -244,8 +309,8 @@
 
     var payload = buildPayload();
 
-    if (!cfg.webhookUrl) {
-      console.log("[MODO DEMO] Dados que seriam enviados:", payload);
+    if (!PN.ready) {
+      console.log("[MODO DEMO] Cadastro que seria criado:", { email: accountEmail(), data: signUpData(payload) });
       finish(payload, true);
       return;
     }
@@ -253,15 +318,20 @@
     sending = true;
     btnNext.disabled = true;
     btnNext.textContent = "Enviando...";
-    fetch(cfg.webhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "text/plain;charset=utf-8" }, // text/plain evita preflight CORS (necessário para Google Apps Script); o corpo continua JSON
-      body: JSON.stringify(payload)
-    }).then(function (res) {
-      if (!res.ok) throw new Error("HTTP " + res.status);
+    PN.sb.auth.signUp({
+      email: accountEmail(),
+      password: form.elements.senha.value,
+      options: { data: signUpData(payload), emailRedirectTo: PN.callbackUrl }
+    }).then(function (r) {
+      if (r.error) throw r.error;
+      // E-mail já cadastrado: o Supabase devolve um usuário sem identidades e não envia nada
+      if (r.data.user && r.data.user.identities && r.data.user.identities.length === 0) {
+        throw { code: "user_already_exists" };
+      }
+      form.elements.senha.value = form.elements.senha2.value = "";
       finish(payload, false);
-    }).catch(function () {
-      submitError.classList.add("is-visible");
+    }).catch(function (e) {
+      showSubmitError(PN.erro(e));
       btnNext.textContent = "Enviar";
     }).finally(function () {
       sending = false;
@@ -269,12 +339,30 @@
     });
   }
 
+  // Reenviar o e-mail de confirmação
+  var cooldown = 0;
+  document.getElementById("btnReenviar").addEventListener("click", function () {
+    var btn = this;
+    var msg = document.getElementById("reenvioMsg");
+    if (!PN.ready || cooldown > Date.now()) return;
+    btn.disabled = true;
+    PN.sb.auth.resend({ type: "signup", email: accountEmail(), options: { emailRedirectTo: PN.callbackUrl } })
+      .then(function (r) {
+        if (r.error) throw r.error;
+        msg.textContent = "Pronto, enviamos de novo. Pode levar alguns minutos para chegar.";
+        cooldown = Date.now() + 60000;
+      })
+      .catch(function (e) { msg.textContent = PN.erro(e); })
+      .finally(function () { setTimeout(function () { btn.disabled = false; }, 60000); });
+  });
+
   // ---------- navegação ----------
   btnNext.addEventListener("click", function () {
     var key = order[current];
     if (!validate(key)) return;
 
     if (key === "2") applyAge();   // decide se a etapa do responsável entra
+    if (order[current + 1] === "conta") fillAccountStep();
 
     if (current === order.length - 1) { submit(); return; }
     current++;
@@ -289,6 +377,7 @@
   form.addEventListener("input", function (e) {
     var f = e.target.closest("[data-field]");
     if (f) f.classList.remove("has-error");
+    submitError.classList.remove("is-visible");
     if (e.target.name && /^(t_|scoff_)/.test(e.target.name)) {
       document.getElementById("triagemError").classList.remove("is-visible");
     }
