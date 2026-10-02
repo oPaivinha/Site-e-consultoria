@@ -18,12 +18,13 @@ export default async function Pacientes({ searchParams }: { searchParams: Promis
     return <Erro>Não foi possível carregar os pacientes: {(e as Error).message}</Erro>;
   }
 
-  const total = linhas[0]?.total ?? 0;
+  const total = Number(linhas[0]?.total ?? 0);
   const pagina = Math.max(1, Number.parseInt(f.pagina ?? "1", 10) || 1);
   const paginas = Math.max(1, Math.ceil(total / POR_PAGINA));
   const ordem = f.ordem ?? "created_at";
   const desc = f.dir !== "asc";
-  const temFiltro = Boolean(f.q || f.confirmado || f.status || f.objetivo || f.desde || f.ate || f.menor || f.alerta);
+  const maisFiltros = Boolean(f.confirmado || f.status || f.objetivo || f.desde || f.ate || f.menor || f.alerta);
+  const temFiltro = Boolean(f.q) || maisFiltros;
 
   // Cabeçalho de coluna que ordena ao clicar (clicar de novo inverte).
   const Ordenar = ({ col, children }: { col: string; children: React.ReactNode }) => {
@@ -52,11 +53,17 @@ export default async function Pacientes({ searchParams }: { searchParams: Promis
         </a>
       </div>
 
-      <form method="get" className="mb-5 grid gap-3 rounded-card border border-linha bg-superficie p-4 sm:grid-cols-2 lg:grid-cols-4">
-        <label className="sm:col-span-2">
-          <span className="mb-1 block text-xs font-medium text-suave">Buscar por nome ou e-mail</span>
-          <input name="q" defaultValue={f.q} className={campo} />
-        </label>
+      <form method="get" className="mb-5 rounded-card border border-linha bg-superficie p-4">
+        <div className="flex gap-2">
+          <label className="min-w-0 flex-1">
+            <span className="sr-only">Buscar por nome ou e-mail</span>
+            <input name="q" defaultValue={f.q} placeholder="Buscar por nome ou e-mail" className={campo} />
+          </label>
+          <button className="rounded-full bg-verde px-5 py-2 text-sm font-medium text-white hover:bg-verde-escuro">Filtrar</button>
+        </div>
+        <details open={maisFiltros} className="group mt-3">
+          <summary className="cursor-pointer text-sm text-verde select-none">Mais filtros{maisFiltros ? " (ativos)" : ""}</summary>
+          <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <label>
           <span className="mb-1 block text-xs font-medium text-suave">Situação</span>
           <select name="status" defaultValue={f.status ?? ""} className={campo}>
@@ -103,12 +110,11 @@ export default async function Pacientes({ searchParams }: { searchParams: Promis
             <option value="nao">Adultos</option>
           </select>
         </label>
+          </div>
+        </details>
         {f.ordem && <input type="hidden" name="ordem" value={f.ordem} />}
         {f.dir && <input type="hidden" name="dir" value={f.dir} />}
-        <div className="flex items-end gap-2 sm:col-span-2 lg:col-span-3 lg:justify-end">
-          {temFiltro && <Link href="/pacientes" className="px-3 py-2 text-sm text-suave underline">Limpar filtros</Link>}
-          <button className="rounded-full bg-verde px-5 py-2 text-sm font-medium text-white hover:bg-verde-escuro">Filtrar</button>
-        </div>
+        {temFiltro && <Link href="/pacientes" className="mt-3 inline-block text-sm text-suave underline">Limpar filtros</Link>}
       </form>
 
       {linhas.length === 0 ? (
