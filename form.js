@@ -9,6 +9,12 @@
 (function () {
   var cfg = window.SITE_CONFIG || {};
   var PN = window.PN || {};
+  // Plano escolhido na página inicial (formulario.html?plano=anual): fica guardado neste
+  // navegador e já vem marcado na tela de pagamento, depois da anamnese.
+  try {
+    var planoEscolhido = new URLSearchParams(window.location.search).get("plano");
+    if (planoEscolhido && /^[a-z0-9_-]{1,30}$/.test(planoEscolhido)) localStorage.setItem("pn_plano", planoEscolhido);
+  } catch (e) { /* navegador sem localStorage: a pessoa escolhe de novo no pagamento */ }
   if (PN.ready) PN.redirectIfLoggedIn();   // quem já tem conta e está logado vai para "Meu perfil"
   var form = document.getElementById("prefForm");
   var steps = Array.prototype.slice.call(form.querySelectorAll(".step"));

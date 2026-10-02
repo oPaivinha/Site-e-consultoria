@@ -44,3 +44,16 @@ export function data(v?: string | null, comHora = false) {
     ...(comHora ? { hour: "2-digit", minute: "2-digit" } : {}),
   });
 }
+
+// Pagamentos (Mercado Pago)
+export const PAGAMENTO: Record<string, string> = {
+  pendente: "Não concluído",
+  em_analise: "Em análise",
+  aprovado: "Pago",
+  recusado: "Recusado",
+  cancelado: "Cancelado",
+  devolvido: "Devolvido",
+};
+
+export const reais = (v: number | string | null | undefined) =>
+  v == null ? "" : Number(v).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });

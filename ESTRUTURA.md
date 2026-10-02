@@ -12,11 +12,12 @@ Site estático (HTML/CSS/JS puro, sem build). Pode ser hospedado de graça em Gi
 | entrar.html | Login | Pronta |
 | esqueci-senha.html, nova-senha.html | Recuperar e trocar a senha (também usada no convite da importação) | Pronta |
 | auth/callback.html | Para onde o link de confirmação do e-mail leva | Pronta |
-| perfil.html | "Meu perfil": status do acompanhamento, editar dados, histórico de check-ins, sair | Pronta |
+| perfil.html | "Meu perfil": status do acompanhamento, pagamento, editar dados, histórico de check-ins, sair | Pronta |
+| pagamento.html | Escolha do plano e pagamento (Mercado Pago, Pix ou cartão), depois da anamnese. Exige login. Guia: [supabase/PAGAMENTOS.md](supabase/PAGAMENTOS.md) | Pronta, falta Hugo ligar o Mercado Pago |
 | privacidade.html | Política LGPD | Rascunho, precisa revisão jurídica |
 
 ## Chamadas para ação
-Todas as CTAs ("Quero começar") levam ao pré-formulário. Depois: agendamento (config.schedulingUrl) → pagamento → anamnese → consulta → check-ins quinzenais (thread de automações).
+Todas as CTAs ("Quero começar") levam ao pré-formulário (os botões dos planos levam `?plano=<id>`). Depois: confirmação do e-mail → anamnese → pagamento (`pagamento.html`) → agendamento (config.schedulingUrl) → consulta → check-ins quinzenais.
 
 ## Integrações (config.js)
 - supabaseUrl e supabaseAnonKey: banco de dados e login (Supabase). Vazios = modo demonstração. Passo a passo em [supabase/LEIA-ME.md](supabase/LEIA-ME.md).

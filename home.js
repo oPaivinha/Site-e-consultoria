@@ -44,7 +44,7 @@
           ? '<details class="plan__more"><summary>O que está incluso</summary><div class="faq__a"><ul class="plan__details">' + detalhes + "</ul></div></details>"
           : "") +
         '<p class="plan__pay">Pagamento por Pix ou cartão.</p>' +
-        '<a href="formulario.html" class="btn btn--block">Quero começar</a>' +
+        '<a href="formulario.html?plano=' + encodeURIComponent(p.id) + '" class="btn btn--block">Quero começar</a>' +
       "</article>"
     );
   }
