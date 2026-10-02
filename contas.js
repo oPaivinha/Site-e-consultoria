@@ -185,9 +185,10 @@
       return Promise.all([
         PN.sb.from("acompanhamentos").select("ativo, pausado, inicio_acompanhamento, proximo_checkin").eq("profile_id", userId).maybeSingle(),
         PN.sb.from("anamneses").select("id, created_at").order("created_at", { ascending: false }).limit(1),
-        PN.sb.from("checkins").select("id, created_at, adesao").order("created_at", { ascending: false }).limit(10)
+        PN.sb.from("checkins").select("id, created_at, adesao").order("created_at", { ascending: false }).limit(10),
+        PN.sb.from("pagamentos").select("plano, valor, pago_em").eq("status", "aprovado").order("pago_em", { ascending: false }).limit(1)
       ]).then(function (res) {
-        var ac = res[0].data || {}, an = res[1].data || [], ck = res[2].data || [];
+        var ac = res[0].data || {}, an = res[1].data || [], ck = res[2].data || [], pg = res[3].data || [];
         var status;
         if (ac.ativo && !ac.pausado) {
           status = "Acompanhamento ativo desde " + dataBR(ac.inicio_acompanhamento) + "." +
@@ -202,6 +203,15 @@
         $("anamneseData").textContent = an.length ? dataBR(an[0].created_at) : "";
         $("btnAnamnese").textContent = an.length ? "Enviar anamnese de novo" : "Responder a anamnese";
         $("btnCheckin").hidden = !ac.ativo;
+        // Pagamento: depois da anamnese, enquanto não houver pagamento aprovado
+        $("btnPagamento").hidden = !an.length || pg.length > 0 || !!ac.ativo;
+        $("pagamentoInfo").hidden = !pg.length;
+        if (pg.length) {
+          $("pagamentoInfo").innerHTML = "";
+          $("pagamentoInfo").append("Pagamento do plano " + pg[0].plano + " confirmado em " + dataBR(pg[0].pago_em) + ". ");
+          var lk = document.createElement("a"); lk.href = "pagamento.html"; lk.textContent = "Ver pagamento";
+          $("pagamentoInfo").appendChild(lk);
+        }
         var ul = $("historico");
         ul.innerHTML = "";
         ck.forEach(function (c) {

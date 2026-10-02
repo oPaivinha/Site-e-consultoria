@@ -2,11 +2,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { exigirAdmin } from "@/lib/admin";
 import { supabaseServidor } from "@/lib/supabase/server";
-import { ALERTAS, OBJETIVOS, data, rotulo } from "@/lib/rotulos";
+import { ALERTAS, OBJETIVOS, PAGAMENTO, data, reais, rotulo } from "@/lib/rotulos";
 import { humanizar, nomeCampo } from "@/lib/humanizar";
 import { Erro } from "@/components/estados";
 import { FormAcompanhamento, FormObservacao } from "./formularios";
 import { AcoesConta } from "./acoes-conta";
+import { FormLiberacao } from "./pagamento";
 
 // Colunas lidas explicitamente (o banco não libera "select *" em checkins e acompanhamentos).
 const COL_ACOMP = "ativo, pausado, inicio_acompanhamento, proximo_checkin, ultimo_envio, ultima_resposta, lembretes_enviados";
@@ -21,7 +22,7 @@ export default async function FichaPaciente({ params }: { params: Promise<{ id: 
   if (!/^[0-9a-f-]{36}$/.test(id)) notFound();
 
   const supabase = await supabaseServidor();
-  const [perfil, conta, acomp, pres, anams, checks, notas] = await Promise.all([
+  const [perfil, conta, acomp, pres, anams, checks, notas, pags, liberacao] = await Promise.all([
     supabase.from("profiles").select("*").eq("id", id).maybeSingle(),
     supabase.rpc("admin_conta", { p_id: id }),
     supabase.from("acompanhamentos").select(COL_ACOMP).eq("profile_id", id).maybeSingle(),
@@ -29,9 +30,12 @@ export default async function FichaPaciente({ params }: { params: Promise<{ id: 
     supabase.from("anamneses").select("*").eq("profile_id", id).is("deleted_at", null).order("created_at", { ascending: false }),
     supabase.from("checkins").select(COL_CHECKIN).eq("profile_id", id).is("deleted_at", null).order("created_at", { ascending: false }),
     supabase.from("notas_internas").select("checkin_id, texto").eq("profile_id", id).is("deleted_at", null),
+    supabase.from("pagamentos").select("id, plano, valor, status, metodo, parcelas, pago_em, created_at").eq("profile_id", id)
+      .not("status", "in", "(pendente,cancelado)").order("created_at", { ascending: false }),
+    supabase.from("liberacoes_pagamento").select("profile_id").eq("profile_id", id).maybeSingle(),
   ]);
 
-  const falha = [perfil, conta, acomp, pres, anams, checks, notas].find((r) => r.error);
+  const falha = [perfil, conta, acomp, pres, anams, checks, notas, pags, liberacao].find((r) => r.error);
   if (falha?.error) return <Erro>Não foi possível carregar a ficha: {falha.error.message}</Erro>;
   if (!perfil.data) notFound();
 
@@ -124,6 +128,24 @@ export default async function FichaPaciente({ params }: { params: Promise<{ id: 
           <FormAcompanhamento profileId={id} inicio={a?.inicio_acompanhamento ?? ""} pausado={Boolean(a?.pausado)} />
         </Cartao>
       </div>
+
+      <section className="mt-4 rounded-card border border-linha bg-superficie p-4">
+        <h2 className="mb-2 text-xl">Pagamento</h2>
+        {(pags.data ?? []).length === 0 ? (
+          <p className="text-sm text-suave">Nenhum pagamento ainda.</p>
+        ) : (
+          <ul className="space-y-1 text-sm">
+            {(pags.data ?? []).map((g) => (
+              <li key={g.id}>
+                <strong>{rotulo(PAGAMENTO, g.status)}</strong>: plano {g.plano}, {reais(g.valor)}
+                {g.metodo ? ` por ${g.metodo}` : ""}{g.parcelas && g.parcelas > 1 ? ` em ${g.parcelas}x` : ""}
+                <span className="text-suave"> ({data(g.pago_em ?? g.created_at, true)})</span>
+              </li>
+            ))}
+          </ul>
+        )}
+        {ultimoPre?.revisar && <FormLiberacao profileId={id} liberado={Boolean(liberacao.data)} />}
+      </section>
 
       <AcoesConta
         id={id}

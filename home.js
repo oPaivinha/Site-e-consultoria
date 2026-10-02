@@ -26,7 +26,7 @@
           (p.meses > 1 ? '<p class="plan__note">' + p.meses + " meses · " + esc(reais(p.valorMensal * p.meses)) + " no total</p>" : "") +
         "</div>";
     } else {
-      preco = '<p class="plan__price-hidden">Valores apresentados na primeira conversa.</p>';
+      preco = '<p class="plan__price-hidden">O valor aparece na etapa de pagamento, depois da anamnese.</p>';
     }
     var inclui = (p.inclui || []).map(function (i) { return "<li>" + esc(i) + "</li>"; }).join("");
     var detalhes = (p.detalhes || []).map(function (d) { return "<li>" + esc(d) + "</li>"; }).join("");
@@ -44,7 +44,7 @@
           ? '<details class="plan__more"><summary>O que está incluso</summary><div class="faq__a"><ul class="plan__details">' + detalhes + "</ul></div></details>"
           : "") +
         '<p class="plan__pay">Pagamento por Pix ou cartão.</p>' +
-        '<a href="formulario.html" class="btn btn--block">Quero começar</a>' +
+        '<a href="formulario.html?plano=' + encodeURIComponent(p.id) + '" class="btn btn--block">Quero começar</a>' +
       "</article>"
     );
   }
