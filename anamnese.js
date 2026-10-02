@@ -1,6 +1,8 @@
 // Anamnese em etapas. Valida campos marcados com data-required e grava na tabela "anamneses" do Supabase.
 // Exige login: o paciente é quem está logado. Sexo e idade vêm do perfil (cadastro do pré-formulário):
 //   sexo masculino esconde o ciclo menstrual; idade < 12 mostra as perguntas para crianças.
+// O que a pessoa já respondeu no pré-formulário (doenças, medicamentos, treino) vem preenchido
+// para ela só conferir, em vez de responder de novo.
 // Em modo demonstração (sem Supabase em config.js) aceita ?s=feminino|masculino&idade=<anos> no link.
 (function () {
   var cfg = window.SITE_CONFIG || {};
@@ -239,6 +241,38 @@
 
   render();
 
+  // ---------- reaproveita o pré-formulário ----------
+  // Só preenche campos vazios. Não traz respostas sobre transtorno alimentar nem gestação.
+  var DOENCAS = {
+    diabetes: "Diabetes ou pré-diabetes",
+    renal_hepatica: "Doença nos rins ou no fígado",
+    cardio: "Pressão, coração ou colesterol",
+    cirurgia: "Cirurgia do aparelho digestivo",
+    outras: "Outra doença"
+  };
+  var FREQ = { "0": "0", "1-2": "1_2", "3-4": "3_4", "5+": "5_mais" };
+  function prefill(pf) {
+    if (!pf) return;
+    var usado = false;
+    function set(name, value) {
+      var el = form.elements[name];
+      if (!el || !value || (el.value || "").trim()) return;
+      el.value = value;
+      usado = true;
+    }
+    var s = pf.saude || {};
+    var doencas = Object.keys(DOENCAS).filter(function (k) { return s[k] && s[k].resposta === "sim"; })
+      .map(function (k) {
+        var extra = k === "diabetes" && s[k].usa_insulina === "sim" ? " (usa insulina)" : "";
+        return DOENCAS[k] + (s[k].qual ? ": " + s[k].qual : "") + extra;
+      });
+    if (doencas.length) set("doencas_cirurgias", doencas.join("\n"));
+    if (s.medicamento && s.medicamento.resposta === "sim") set("medicamentos", s.medicamento.qual);
+    set("modalidades", pf.modalidade);
+    set("freq_treino", FREQ[pf.treino_freq]);
+    if (usado) form.querySelectorAll("[data-prefill-note]").forEach(function (n) { n.hidden = false; });
+  }
+
   // Exige login e preenche o que já sabemos do cadastro
   if (PN.ready) {
     form.hidden = true;
@@ -251,6 +285,10 @@
         if (!wa.value && p.whatsapp) { wa.value = String(p.whatsapp).replace(/^55/, ""); wa.dispatchEvent(new Event("input")); }
         applyProfile(p.sexo, calcAge(p.nascimento));
       }
+      // último pré-formulário da própria pessoa (o RLS só deixa ler os dela)
+      return PN.sb.from("pre_formularios").select("saude, modalidade, treino_freq")
+        .eq("profile_id", session.user.id).order("enviado_em", { ascending: false }).limit(1)
+        .then(function (r) { if (!r.error && r.data && r.data[0]) prefill(r.data[0]); });
     }).catch(function () { /* sem perfil: o formulário segue com tudo à mostra */ })
       .finally(function () { form.hidden = false; });
   }
