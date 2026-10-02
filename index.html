@@ -12,10 +12,15 @@
 </head>
 <body>
 
+  <a class="skip-link" href="#inicio">Ir para o conteúdo</a>
+
   <header class="topbar">
     <div class="container topbar__inner">
       <a href="#inicio" class="brand" data-brand>Paiva Nutri</a>
-      <nav class="nav">
+      <button class="nav-toggle" type="button" id="navToggle" aria-expanded="false" aria-controls="navMenu" aria-label="Abrir menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <nav class="nav" id="navMenu">
         <a href="#como-funciona">Como funciona</a>
         <a href="#plano">Plano</a>
         <a href="#sobre">Sobre</a>
@@ -113,14 +118,14 @@
     <!-- SOBRE -->
     <section class="section" id="sobre">
       <div class="container about">
-        <div class="about__photo" role="img" aria-label="Espaço reservado para sua foto">
-          <span>Sua foto aqui</span>
+        <div class="about__photo" role="img" aria-label="Espaço reservado para a foto do nutricionista">
+          <span>[PREENCHER: foto]</span>
         </div>
         <div>
           <p class="eyebrow">Sobre mim</p>
           <h2 data-name>Seu nome</h2>
           <p class="muted" data-crn>Nutricionista</p>
-          <p>Escreva aqui um parágrafo curto sobre você: formação, o que te levou à nutrição esportiva e como você trabalha. Fale de forma próxima e direta, como numa conversa.</p>
+          <p><strong>[PREENCHER: sua história e formação]</strong> — um parágrafo curto sobre você: formação, o que te levou à nutrição e como você trabalha.</p>
         </div>
       </div>
     </section>

@@ -15,14 +15,16 @@
   <header class="topbar">
     <div class="container topbar__inner">
       <span class="brand" data-brand>Paiva Nutri</span>
-      <span class="muted" style="font-size:.92rem">Check-in quinzenal · <a href="perfil.html" class="muted">Minha conta</a></span>
+      <span class="topbar__aside"><span class="topbar__context">Check-in a cada 15 dias</span><a href="perfil.html">Minha conta</a></span>
     </div>
   </header>
 
   <main class="form-wrap">
     <div class="form-card">
-      <div class="progress" aria-hidden="true"><div class="progress__bar" id="bar"></div></div>
-      <p class="progress__label" id="progressLabel" aria-live="polite"></p>
+      <div class="progress-sticky">
+        <div class="progress" aria-hidden="true"><div class="progress__bar" id="bar"></div></div>
+        <p class="progress__label" id="progressLabel" aria-live="polite"></p>
+      </div>
 
       <!--
         Link enviado ao paciente: checkin.html (pede login; a sessão fica salva no aparelho).
@@ -35,7 +37,7 @@
 
         <!-- 1. PLANO -->
         <section class="step is-active" data-step="1">
-          <h1 style="font-size:1.8rem">Como foram estes 15 dias?</h1>
+          <h1 class="page-title">Como foram estes 15 dias?</h1>
           <p class="muted">Leva uns 2 minutos. Responda com sinceridade: não existe resposta errada, isso me ajuda a ajustar o plano para você.</p>
 
           <div class="field" data-field="adesao" data-required>
@@ -83,7 +85,7 @@
 
         <!-- 2. DESLIZES E ÁGUA -->
         <section class="step" data-step="2">
-          <h1 style="font-size:1.8rem">Deslizes e hidratação</h1>
+          <h1 class="page-title">Deslizes e hidratação</h1>
 
           <div class="field" data-field="deslizes" data-required>
             <span class="label">Quantas vezes você saiu do plano nestes 15 dias?</span>
@@ -124,7 +126,7 @@
 
         <!-- 3. INTESTINO -->
         <section class="step" data-step="3">
-          <h1 style="font-size:1.8rem">Funcionamento intestinal</h1>
+          <h1 class="page-title">Funcionamento intestinal</h1>
 
           <div class="field" data-field="freq_evacuacao" data-required>
             <label for="freq_evacuacao">Nestes 15 dias, com que frequência foi ao banheiro (número 2)?</label>
@@ -176,15 +178,15 @@
               <label class="option"><input type="checkbox" name="alerta" value="nenhum" data-exclusive> Nenhum</label>
             </div>
             <p class="error">Marque pelo menos uma opção.</p>
-            <div class="notice" id="alertaAviso" hidden style="margin-top:12px">
-              <p style="margin:0"><strong>Procure atendimento médico</strong> o quanto antes. Esses sinais precisam de avaliação presencial. Eu também vou ser avisado e entro em contato.</p>
+            <div class="notice mt-3" id="alertaAviso" hidden>
+              <p class="mb-0 mt-0"><strong>Procure atendimento médico</strong> o quanto antes. Esses sinais precisam de avaliação presencial. Eu também vou ser avisado e entro em contato.</p>
             </div>
           </div>
         </section>
 
         <!-- 4. ROTINA E RECADO -->
         <section class="step" data-step="4">
-          <h1 style="font-size:1.8rem">Para fechar</h1>
+          <h1 class="page-title">Para fechar</h1>
 
           <div class="field" data-field="energia" data-required>
             <span class="label">Como está sua energia no dia a dia e nos treinos?</span>
@@ -220,16 +222,16 @@
         <section class="step" data-step="ok">
           <div class="notice notice--ok">
             <h2>Check-in recebido!</h2>
-            <p style="margin-bottom:0">Obrigado por responder. Vou olhar com calma e, se precisar ajustar algo no plano, te chamo no WhatsApp.</p>
+            <p class="mb-0">Obrigado por responder. Vou olhar com calma e, se precisar ajustar algo no plano, te chamo no WhatsApp.</p>
           </div>
-          <p class="legal-text" id="demoNote" style="margin-top:14px" hidden>Modo demonstração: nenhum dado foi enviado. Configure o Supabase em config.js.</p>
+          <p class="legal-text mt-4" id="demoNote" hidden>Não foi possível enviar suas respostas agora. Tente novamente mais tarde.</p>
         </section>
 
         <p class="error" id="submitError" role="alert">Não foi possível enviar agora. Verifique sua conexão e tente novamente.</p>
 
         <div class="actions" id="actions">
           <button type="button" class="btn btn--ghost" id="btnBack" hidden>Voltar</button>
-          <button type="button" class="btn" id="btnNext" style="margin-left:auto">Continuar</button>
+          <button type="button" class="btn btn--next" id="btnNext">Continuar</button>
         </div>
       </form>
     </div>
@@ -243,6 +245,17 @@
     /* garante que [hidden] esconda até botões com display próprio */
     [hidden] { display: none !important; }
   </style>
+
+
+  <footer class="footer footer--compact">
+    <div class="container footer__inner">
+      <p class="muted"><strong data-brand>Paiva Nutri</strong> · <span data-crn>Nutricionista</span></p>
+      <div class="footer__links">
+        <a href="index.html">Início</a>
+        <a href="privacidade.html">Política de privacidade</a>
+      </div>
+    </div>
+  </footer>
 
   <script src="config.js"></script>
   <script src="vendor/supabase.js"></script>

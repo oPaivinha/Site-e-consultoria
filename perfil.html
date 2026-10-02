@@ -15,21 +15,21 @@
   <header class="topbar">
     <div class="container topbar__inner">
       <a href="index.html" class="brand" data-brand>Paiva Nutri</a>
-      <a href="index.html" class="muted" style="font-size:.92rem;text-decoration:none">← Voltar ao site</a>
+      <span class="topbar__aside"><a href="index.html">Voltar ao site</a></span>
     </div>
   </header>
 
   <main class="form-wrap">
     <div class="form-card">
-      <p class="msg msg--erro" id="demoMsg" hidden>Modo demonstração: o Supabase ainda não foi configurado em config.js. Nada é salvo.</p>
+      <p class="msg msg--aviso" id="demoMsg" hidden>Não foi possível conectar ao servidor agora. Tente novamente mais tarde.</p>
       <div id="conteudo" hidden>
-        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap">
-          <h1 style="font-size:1.8rem">Olá, <span id="ola"></span></h1>
+        <div class="profile-head">
+          <h1 class="page-title">Olá, <span id="ola"></span></h1>
           <button type="button" class="btn btn--ghost btn--small" id="btnSair">Sair</button>
         </div>
         <p class="muted" id="status"></p>
 
-        <div class="notice__actions" style="margin-bottom:8px">
+        <div class="notice__actions">
           <a class="btn" id="btnCheckin" href="checkin.html" hidden>Fazer o check-in</a>
           <a class="btn btn--ghost" id="btnAnamnese" href="anamnese.html">Responder a anamnese</a>
         </div>
@@ -41,7 +41,7 @@
           <form id="perfilForm" novalidate>
             <div class="field">
               <span class="label">E-mail da conta</span>
-              <p style="margin:2px 0 0"><span id="contaEmail"></span> · <a href="nova-senha.html">trocar senha</a></p>
+              <p class="mt-2 mb-0"><span id="contaEmail"></span> · <a href="nova-senha.html">trocar senha</a></p>
             </div>
             <div class="field">
               <label for="nome">Nome completo</label>
@@ -82,7 +82,7 @@
             </div>
 
             <div id="blocoResponsavel" hidden>
-              <h3 style="font-size:1.1rem;margin:24px 0 12px">Responsável legal</h3>
+              <h3 class="subhead">Responsável legal</h3>
               <div class="row">
                 <div class="field">
                   <label for="responsavel_nome">Nome do responsável</label>
@@ -119,10 +119,21 @@
           <p class="muted" id="semHistorico">Nenhum check-in enviado ainda.</p>
         </section>
 
-        <p class="legal-text" style="margin-top:28px">Para pedir uma cópia ou a exclusão dos seus dados, fale comigo. Detalhes na <a href="privacidade.html">Política de Privacidade</a>.</p>
+        <p class="legal-text mt-6">Para pedir uma cópia ou a exclusão dos seus dados, fale comigo. Detalhes na <a href="privacidade.html">Política de Privacidade</a>.</p>
       </div>
     </div>
   </main>
+
+
+  <footer class="footer footer--compact">
+    <div class="container footer__inner">
+      <p class="muted"><strong data-brand>Paiva Nutri</strong> · <span data-crn>Nutricionista</span></p>
+      <div class="footer__links">
+        <a href="index.html">Início</a>
+        <a href="privacidade.html">Política de privacidade</a>
+      </div>
+    </div>
+  </footer>
 
   <script src="config.js"></script>
   <script src="vendor/supabase.js"></script>

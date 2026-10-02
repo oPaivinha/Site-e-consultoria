@@ -30,10 +30,14 @@
     return isNaN(d) ? "" : d.toLocaleDateString("pt-BR");
   }
 
-  // Sem Supabase configurado: as telas abrem, mas avisam que é demonstração.
+  // Texto único para quando o servidor não responde (o detalhe técnico vai só para o console).
+  var SEM_CONEXAO = "Não foi possível conectar ao servidor agora. Tente novamente mais tarde.";
+
+  // Sem Supabase configurado: as telas abrem, mas avisam de forma discreta.
   if (!PN.ready) {
     var demo = $("demoMsg");
     if (demo) demo.hidden = false;
+    console.error("[Paiva Nutri] Supabase não configurado em config.js: supabaseUrl e supabaseAnonKey estão vazios.");
   }
 
   // ---------------------------------------------------------------------------
@@ -49,7 +53,7 @@
       btnResend.hidden = true;
       var email = form.email.value.trim().toLowerCase(), senha = form.senha.value;
       if (!PN.validEmail(email) || !senha) { showMsg(msg, "Informe seu e-mail e sua senha.", false); return; }
-      if (!PN.ready) { showMsg(msg, "Modo demonstração: configure o Supabase em config.js para entrar.", false); return; }
+      if (!PN.ready) { showMsg(msg, SEM_CONEXAO, false); return; }
       busy(btn, true, "Entrando...");
       PN.sb.auth.signInWithPassword({ email: email, password: senha }).then(function (r) {
         if (r.error) throw r.error;
@@ -82,7 +86,7 @@
       e.preventDefault();
       var email = fEsq.email.value.trim().toLowerCase();
       if (!PN.validEmail(email)) { showMsg(mEsq, "Informe um e-mail válido.", false); return; }
-      if (!PN.ready) { showMsg(mEsq, "Modo demonstração: configure o Supabase em config.js.", false); return; }
+      if (!PN.ready) { showMsg(mEsq, SEM_CONEXAO, false); return; }
       busy(bEsq, true, "Enviando...");
       PN.sb.auth.resetPasswordForEmail(email, { redirectTo: PN.novaSenhaUrl }).then(function (r) {
         if (r.error) throw r.error;
@@ -117,7 +121,7 @@
       var a = fNova.senha.value, b = fNova.senha2.value;
       if (a.length < 8) { showMsg(mNova, "A senha precisa ter pelo menos 8 caracteres.", false); return; }
       if (a !== b) { showMsg(mNova, "As senhas não são iguais.", false); return; }
-      if (!PN.ready) { showMsg(mNova, "Modo demonstração: configure o Supabase em config.js.", false); return; }
+      if (!PN.ready) { showMsg(mNova, SEM_CONEXAO, false); return; }
       busy(bNova, true, "Salvando...");
       PN.sb.auth.updateUser({ password: a }).then(function (r) {
         if (r.error) throw r.error;
@@ -249,7 +253,7 @@
         responsavel_whatsapp: rw ? "55" + rw : null,
         responsavel_email: fP.responsavel_email.value.trim() || null
       };
-      if (!PN.ready) { console.log("[MODO DEMO] Perfil que seria salvo:", dados); showMsg(mP, "Modo demonstração: nada foi salvo.", true); return; }
+      if (!PN.ready) { console.log("[Paiva Nutri] Sem conexão. Perfil que seria salvo:", dados); showMsg(mP, SEM_CONEXAO, false); return; }
       busy(bP, true, "Salvando...");
       PN.sb.from("profiles").update(dados).eq("id", userId).then(function (r) {
         if (r.error) throw r.error;
