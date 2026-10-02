@@ -15,14 +15,16 @@
   <header class="topbar">
     <div class="container topbar__inner">
       <span class="brand" data-brand>Paiva Nutri</span>
-      <span class="muted" style="font-size:.92rem">Anamnese nutricional · <a href="perfil.html" class="muted">Minha conta</a></span>
+      <span class="topbar__aside"><span class="topbar__context">Anamnese nutricional</span><a href="perfil.html">Minha conta</a></span>
     </div>
   </header>
 
   <main class="form-wrap">
     <div class="form-card">
-      <div class="progress" aria-hidden="true"><div class="progress__bar" id="bar"></div></div>
-      <p class="progress__label" id="progressLabel" aria-live="polite"></p>
+      <div class="progress-sticky">
+        <div class="progress" aria-hidden="true"><div class="progress__bar" id="bar"></div></div>
+        <p class="progress__label" id="progressLabel" aria-live="polite"></p>
+      </div>
 
       <form id="anamneseForm" novalidate autocomplete="on">
         <div class="hp" aria-hidden="true">
@@ -31,7 +33,7 @@
 
         <!-- 1. IDENTIFICAÇÃO E ROTINA -->
         <section class="step is-active" data-step="1">
-          <h1 style="font-size:1.8rem">Vamos nos conhecer melhor</h1>
+          <h1 class="page-title">Vamos nos conhecer melhor</h1>
           <p class="muted">Quanto mais completas as respostas, mais o seu plano fica a sua cara. Leva cerca de 15 minutos e você pode responder pelo celular.</p>
 
           <div class="field" data-field="nome" data-required>
@@ -64,7 +66,7 @@
             <p class="error">Selecione uma opção.</p>
           </div>
 
-          <div class="field" data-field="consent" data-required style="margin-top:20px">
+          <div class="field mt-5" data-field="consent" data-required>
             <label class="option">
               <input type="checkbox" name="consent" value="sim">
               <span>Autorizo o uso dos meus dados pessoais e de saúde informados nesta anamnese para o meu atendimento nutricional, conforme a <a href="privacidade.html" target="_blank" rel="noopener">Política de Privacidade</a>.</span>
@@ -75,7 +77,7 @@
 
         <!-- 2. SAÚDE -->
         <section class="step" data-step="2">
-          <h1 style="font-size:1.8rem">Histórico de saúde</h1>
+          <h1 class="page-title">Histórico de saúde</h1>
 
           <div class="field" data-field="alergias" data-required>
             <label for="alergias">Alergias ou intolerâncias alimentares</label>
@@ -173,7 +175,7 @@
 
         <!-- 3. SONO E ESTILO DE VIDA -->
         <section class="step" data-step="3">
-          <h1 style="font-size:1.8rem">Sono e estilo de vida</h1>
+          <h1 class="page-title">Sono e estilo de vida</h1>
 
           <div class="row">
             <div class="field" data-field="horario_dormir" data-required>
@@ -249,7 +251,7 @@
 
         <!-- 4. ATIVIDADE FÍSICA -->
         <section class="step" data-step="4">
-          <h1 style="font-size:1.8rem">Atividade física</h1>
+          <h1 class="page-title">Atividade física</h1>
 
           <div class="field" data-field="modalidades" data-required>
             <label for="modalidades">O que você pratica?</label>
@@ -325,7 +327,7 @@
 
         <!-- 5. INTESTINO -->
         <section class="step" data-step="5">
-          <h1 style="font-size:1.8rem">Funcionamento intestinal</h1>
+          <h1 class="page-title">Funcionamento intestinal</h1>
           <p class="muted">Pode ser um assunto desconfortável, mas é importante para ajustar o plano. Responda com tranquilidade.</p>
 
           <div class="field" data-field="freq_evacuacao" data-required>
@@ -386,7 +388,7 @@
 
         <!-- 6. HÁBITOS ALIMENTARES -->
         <section class="step" data-step="6">
-          <h1 style="font-size:1.8rem">Hábitos alimentares</h1>
+          <h1 class="page-title">Hábitos alimentares</h1>
 
           <div class="row">
             <div class="field" data-field="n_refeicoes" data-required>
@@ -579,7 +581,7 @@
             </div>
             <p class="error">Selecione uma opção.</p>
           </div>
-          <p class="label" style="margin-top:18px">Consumo da casa <span class="hint">opcional: ajuda a estimar o que vai "escondido" na comida</span></p>
+          <p class="label mt-5">Consumo da casa <span class="hint">opcional: ajuda a estimar o que vai "escondido" na comida</span></p>
           <div class="row">
             <div class="field" data-field="pessoas_casa">
               <label for="pessoas_casa">Pessoas que comem em casa</label>
@@ -612,7 +614,7 @@
           </div>
 
           <div data-child hidden>
-            <p class="eyebrow" style="margin-top:24px">Para crianças</p>
+            <p class="eyebrow mt-6">Para crianças</p>
           <div class="field" data-field="alimentacao_escola" data-required>
             <label for="alimentacao_escola">Na escola, a criança come</label>
             <select id="alimentacao_escola" name="alimentacao_escola">
@@ -646,7 +648,7 @@
 
         <!-- 7. RECORDATÓRIO 24H -->
         <section class="step" data-step="7">
-          <h1 style="font-size:1.8rem">Um dia de alimentação</h1>
+          <h1 class="page-title">Um dia de alimentação</h1>
           <p class="muted">Descreva o que você comeu e bebeu em um dia comum recente, com horário e quantidades aproximadas (ex.: &quot;2 ovos mexidos, 1 pão francês, 1 café com leite&quot;). Se não fez alguma refeição, escreva &quot;não fiz&quot;. Não precisa ser perfeito.</p>
 
           <div class="field" data-field="rec_cafe" data-required>
@@ -693,7 +695,7 @@
 
         <!-- 8. OBJETIVOS -->
         <section class="step" data-step="8">
-          <h1 style="font-size:1.8rem">Seus objetivos</h1>
+          <h1 class="page-title">Seus objetivos</h1>
 
           <div class="field" data-field="objetivo_detalhe" data-required>
             <label for="objetivo_detalhe">O que você quer alcançar?</label>
@@ -747,23 +749,34 @@
           <div class="notice notice--ok">
             <h2>Anamnese recebida!</h2>
             <p>Obrigado, <strong id="okNome"></strong>. Vou analisar tudo com cuidado antes da nossa consulta.</p>
-            <p style="margin-bottom:0">Se você tem exames recentes, me avise pelo WhatsApp para combinarmos como enviar.</p>
+            <p class="mb-0">Se você tem exames recentes, me avise pelo WhatsApp para combinarmos como enviar.</p>
             <div class="notice__actions">
               <a class="btn" id="btnWhats" href="#" target="_blank" rel="noopener" hidden>Falar no WhatsApp</a>
             </div>
           </div>
-          <p class="legal-text" id="demoNote" style="margin-top:14px" hidden>Modo demonstração: nenhum dado foi enviado. Configure o Supabase em config.js.</p>
+          <p class="legal-text mt-4" id="demoNote" hidden>Não foi possível enviar suas respostas agora. Tente novamente mais tarde.</p>
         </section>
 
         <p class="error" id="submitError" role="alert">Não foi possível enviar agora. Verifique sua conexão e tente novamente.</p>
 
         <div class="actions" id="actions">
           <button type="button" class="btn btn--ghost" id="btnBack" hidden>Voltar</button>
-          <button type="button" class="btn" id="btnNext" style="margin-left:auto">Continuar</button>
+          <button type="button" class="btn btn--next" id="btnNext">Continuar</button>
         </div>
       </form>
     </div>
   </main>
+
+
+  <footer class="footer footer--compact">
+    <div class="container footer__inner">
+      <p class="muted"><strong data-brand>Paiva Nutri</strong> · <span data-crn>Nutricionista</span></p>
+      <div class="footer__links">
+        <a href="index.html">Início</a>
+        <a href="privacidade.html">Política de privacidade</a>
+      </div>
+    </div>
+  </footer>
 
   <script src="config.js"></script>
   <script src="vendor/supabase.js"></script>

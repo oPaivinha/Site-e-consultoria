@@ -15,17 +15,19 @@
   <header class="topbar">
     <div class="container topbar__inner">
       <a href="index.html" class="brand" data-brand>Paiva Nutri</a>
-      <span style="font-size:.92rem">
-        <a href="entrar.html" class="muted" style="text-decoration:none;margin-right:16px">Já tenho conta</a>
-        <a href="index.html" class="muted" style="text-decoration:none">← Voltar ao site</a>
+      <span class="topbar__aside">
+        <a href="entrar.html">Já tenho conta</a>
+        <a href="index.html">Voltar ao site</a>
       </span>
     </div>
   </header>
 
   <main class="form-wrap">
     <div class="form-card">
-      <div class="progress" aria-hidden="true"><div class="progress__bar" id="bar"></div></div>
-      <p class="progress__label" id="progressLabel" aria-live="polite"></p>
+      <div class="progress-sticky">
+        <div class="progress" aria-hidden="true"><div class="progress__bar" id="bar"></div></div>
+        <p class="progress__label" id="progressLabel" aria-live="polite"></p>
+      </div>
 
       <form id="prefForm" novalidate autocomplete="on">
         <!-- honeypot anti-spam -->
@@ -35,7 +37,7 @@
 
         <!-- ETAPA 1: Consentimento -->
         <section class="step is-active" data-step="1">
-          <h1 style="font-size:1.8rem">Vamos começar</h1>
+          <h1 class="page-title">Vamos começar</h1>
           <p class="muted">Este pré-formulário leva cerca de 5 minutos. Com ele eu entendo seu objetivo e confirmo se o acompanhamento é adequado para você.</p>
 
           <div class="notice">
@@ -43,7 +45,7 @@
             <p class="legal-text">Vou coletar dados pessoais e de saúde (dados sensíveis) apenas para avaliar e conduzir seu atendimento nutricional, conforme a LGPD. Você pode pedir acesso, correção ou exclusão dos seus dados a qualquer momento. Detalhes na <a href="privacidade.html" target="_blank" rel="noopener">Política de Privacidade</a>.</p>
           </div>
 
-          <div class="field" style="margin-top:20px" data-field="consent">
+          <div class="field mt-5" data-field="consent">
             <label class="option">
               <input type="checkbox" name="consent" value="sim">
               <span>Autorizo o uso dos meus dados pessoais e de saúde para avaliação e atendimento nutricional, conforme a <a href="privacidade.html" target="_blank" rel="noopener">Política de Privacidade</a>. <span class="hint">obrigatório</span></span>
@@ -61,7 +63,7 @@
 
         <!-- ETAPA 2: Dados -->
         <section class="step" data-step="2">
-          <h1 style="font-size:1.8rem">Seus dados</h1>
+          <h1 class="page-title">Seus dados</h1>
 
           <div class="field" data-field="nome">
             <label for="nome">Nome completo</label>
@@ -102,7 +104,7 @@
 
         <!-- ETAPA R: Responsável legal (só para menores de 18) -->
         <section class="step" data-step="resp">
-          <h1 style="font-size:1.8rem">Responsável legal</h1>
+          <h1 class="page-title">Responsável legal</h1>
           <p class="muted">Como o atendimento é para alguém com menos de 18 anos, esta etapa deve ser preenchida pelo pai, mãe ou responsável legal.</p>
 
           <div class="field" data-field="resp_nome">
@@ -141,7 +143,7 @@
             </div>
             <p class="error">Escolha uma opção.</p>
           </fieldset>
-          <div class="field" data-field="resp_consent" style="margin-top:12px">
+          <div class="field mt-3" data-field="resp_consent">
             <label class="option">
               <input type="checkbox" name="resp_consent" value="sim">
               <span>Sou o(a) responsável legal por <strong data-paciente-nome>este paciente</strong> e autorizo o tratamento dos dados pessoais e de saúde dele(a) para avaliação e atendimento nutricional, conforme a <a href="privacidade.html" target="_blank" rel="noopener">Política de Privacidade</a>.</span>
@@ -152,7 +154,7 @@
 
         <!-- ETAPA 3: Saúde (nenhuma resposta encerra o fluxo; cada "sim" vira alerta) -->
         <section class="step" data-step="3">
-          <h1 style="font-size:1.8rem">Sobre sua saúde</h1>
+          <h1 class="page-title">Sobre sua saúde</h1>
           <p class="muted">Responda com sinceridade. Nenhuma resposta impede o atendimento: ela me ajuda a avaliar o seu caso com o cuidado que ele pede.</p>
 
           <div id="triagem" data-field="triagem">
@@ -253,8 +255,8 @@
             </div>
           </div>
 
-          <div id="scoffBlock" data-field="scoff" style="margin-top:24px">
-            <p class="eyebrow" style="margin-bottom:6px">Sobre sua relação com a comida</p>
+          <div id="scoffBlock" data-field="scoff" class="mt-6">
+            <p class="eyebrow mb-0">Sobre sua relação com a comida</p>
             <div class="qa">
               <span class="qa__q">Você já provocou vômito por se sentir desconfortavelmente cheio(a)?</span>
               <span class="qa__opts">
@@ -296,7 +298,7 @@
 
         <!-- ETAPA 4: Objetivo e rotina -->
         <section class="step" data-step="4">
-          <h1 style="font-size:1.8rem">Objetivo e rotina</h1>
+          <h1 class="page-title">Objetivo e rotina</h1>
 
           <fieldset data-field="objetivo">
             <legend>Qual é seu principal objetivo?</legend>
@@ -360,12 +362,12 @@
 
         <!-- ETAPA FINAL: Conta (e-mail e senha). Com ela o pré-formulário vira o cadastro. -->
         <section class="step" data-step="conta">
-          <h1 style="font-size:1.8rem">Crie seu acesso</h1>
+          <h1 class="page-title">Crie seu acesso</h1>
           <p class="muted">Com a conta você responde a anamnese e os check-ins, e vê e corrige seus dados quando quiser.</p>
 
           <div class="field">
             <span class="label">E-mail de acesso</span>
-            <p style="margin:4px 0 0"><strong id="contaEmail"></strong></p>
+            <p class="mt-2 mb-0"><strong id="contaEmail"></strong></p>
             <p class="hint" id="contaEmailHint">É o e-mail que você informou nos seus dados. Para trocar, volte à etapa de dados.</p>
           </div>
 
@@ -394,26 +396,37 @@
               <a class="btn btn--ghost" id="btnWhats" href="#" target="_blank" rel="noopener" hidden>Falar no WhatsApp</a>
             </div>
           </div>
-          <div class="notice" id="okEmail" style="margin-top:16px">
-            <h2 style="font-size:1.25rem">Enviamos um link para seu e-mail</h2>
+          <div class="notice mt-4" id="okEmail">
+            <h2 class="page-title">Enviamos um link para seu e-mail</h2>
             <p>Abra o e-mail que mandamos para <strong id="okEmailAddr"></strong> e clique no link para confirmar sua conta. Se não encontrar, olhe também no spam ou em promoções.</p>
             <div class="notice__actions">
               <button type="button" class="btn btn--ghost" id="btnReenviar">Reenviar e-mail</button>
             </div>
-            <p class="legal-text" id="reenvioMsg" role="status" style="margin-top:10px"></p>
+            <p class="legal-text mt-3" id="reenvioMsg" role="status"></p>
           </div>
-          <p class="legal-text" id="demoNote" style="margin-top:14px" hidden>Modo demonstração: nenhum dado foi enviado e nenhuma conta foi criada. Configure o Supabase em config.js.</p>
+          <p class="legal-text mt-4" id="demoNote" hidden>Não foi possível enviar suas respostas agora. Tente novamente mais tarde.</p>
         </section>
 
         <p class="error" id="submitError" role="alert">Não foi possível enviar agora. Verifique sua conexão e tente novamente.</p>
 
         <div class="actions" id="actions">
           <button type="button" class="btn btn--ghost" id="btnBack" hidden>Voltar</button>
-          <button type="button" class="btn" id="btnNext" style="margin-left:auto">Continuar</button>
+          <button type="button" class="btn btn--next" id="btnNext">Continuar</button>
         </div>
       </form>
     </div>
   </main>
+
+
+  <footer class="footer footer--compact">
+    <div class="container footer__inner">
+      <p class="muted"><strong data-brand>Paiva Nutri</strong> · <span data-crn>Nutricionista</span></p>
+      <div class="footer__links">
+        <a href="index.html">Início</a>
+        <a href="privacidade.html">Política de privacidade</a>
+      </div>
+    </div>
+  </footer>
 
   <script src="config.js"></script>
   <script src="vendor/supabase.js"></script>

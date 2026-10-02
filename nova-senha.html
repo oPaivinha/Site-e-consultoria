@@ -15,14 +15,14 @@
   <header class="topbar">
     <div class="container topbar__inner">
       <a href="index.html" class="brand" data-brand>Paiva Nutri</a>
-      <a href="index.html" class="muted" style="font-size:.92rem;text-decoration:none">← Voltar ao site</a>
+      <span class="topbar__aside"><a href="index.html">Voltar ao site</a></span>
     </div>
   </header>
 
   <main class="form-wrap auth-card">
     <div class="form-card">
-      <p class="msg msg--erro" id="demoMsg" hidden>Modo demonstração: o Supabase ainda não foi configurado em config.js. Nada é salvo.</p>
-      <h1 style="font-size:1.8rem">Crie sua senha</h1>
+      <p class="msg msg--aviso" id="demoMsg" hidden>Não foi possível conectar ao servidor agora. Tente novamente mais tarde.</p>
+      <h1 class="page-title">Crie sua senha</h1>
       <p class="msg" id="msg" role="alert" hidden></p>
 
       <form id="novaForm" novalidate hidden>
@@ -45,6 +45,17 @@
       </div>
     </div>
   </main>
+
+
+  <footer class="footer footer--compact">
+    <div class="container footer__inner">
+      <p class="muted"><strong data-brand>Paiva Nutri</strong> · <span data-crn>Nutricionista</span></p>
+      <div class="footer__links">
+        <a href="index.html">Início</a>
+        <a href="privacidade.html">Política de privacidade</a>
+      </div>
+    </div>
+  </footer>
 
   <script src="config.js"></script>
   <script src="vendor/supabase.js"></script>
