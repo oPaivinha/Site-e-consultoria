@@ -11,9 +11,9 @@ Marque conforme for fazendo. O passo a passo detalhado de cada item está no [LE
 ## Conferir no Supabase (Authentication)
 - [ ] **Confirm email ligado.** Sign In / Providers > Email > Confirm email ativado e senha mínima `8`.
 - [ ] **URL Configuration.**
-  - Site URL: `https://site-five-chi-48.vercel.app/`
+  - Site URL: `https://paivanutri.vercel.app/`
   - Redirect URLs (as quatro):
-    - `https://site-five-chi-48.vercel.app/**` (site no ar)
+    - `https://paivanutri.vercel.app/**` (site no ar)
     - `https://site-e-consultoria.vercel.app/**` (painel no ar)
     - `http://localhost:3000/**` (painel no seu computador)
     - `http://localhost:8000/**` (site no seu computador, se usar)
