@@ -1,0 +1,9 @@
+# Configurações das Edge Functions de pagamento.
+# As duas conferem quem chama dentro do próprio código: a mp-checkout valida o login com
+# auth.getUser, e a mp-webhook consulta o pagamento na API do Mercado Pago. Por isso
+# nenhuma exige o JWT na entrada (o verify_jwt antigo não funciona com as chaves novas).
+[functions.mp-checkout]
+verify_jwt = false
+
+[functions.mp-webhook]
+verify_jwt = false

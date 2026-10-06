@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Pagamento | Paiva Nutri</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="pagamento.css">
+</head>
+<body class="form-page" data-page="pagamento">
+
+  <header class="topbar">
+    <div class="container topbar__inner">
+      <a href="index.html" class="brand" data-brand>Paiva Nutri</a>
+      <span class="topbar__aside"><a href="perfil.html">Meu perfil</a></span>
+    </div>
+  </header>
+
+  <main class="form-wrap">
+    <div class="form-card">
+      <p class="muted" id="carregando">Carregando...</p>
+      <p class="msg msg--aviso" id="msgDemo" hidden>Modo demonstração: o pagamento ainda não está ligado. Nada será cobrado.</p>
+
+      <!-- Falta a anamnese -->
+      <section class="pay-state" id="estAnamnese" hidden>
+        <h1 class="page-title">Antes do pagamento, a anamnese</h1>
+        <p>A anamnese me ajuda a conhecer sua rotina e sua saúde antes da consulta. Leva uns 15 minutos. Assim que você enviar, esta tela libera o pagamento.</p>
+        <div class="notice__actions"><a class="btn" href="anamnese.html">Responder a anamnese</a></div>
+      </section>
+
+      <!-- Caso com alerta: a nutri avalia antes -->
+      <section class="pay-state" id="estAvaliacao" hidden>
+        <h1 class="page-title">Estou avaliando suas respostas</h1>
+        <p>Como você mencionou uma condição de saúde, quero olhar seu caso com calma antes de você pagar qualquer coisa. Eu te chamo pelo WhatsApp e, assim que eu liberar, o pagamento aparece aqui.</p>
+        <div class="notice__actions"><a class="btn btn--ghost" data-whats hidden target="_blank" rel="noopener">Falar no WhatsApp</a></div>
+      </section>
+
+      <!-- Voltou do Mercado Pago, ainda sem confirmação -->
+      <section class="pay-state" id="estProcessando" hidden>
+        <div class="notice">
+          <h1 class="page-title">Recebendo a confirmação...</h1>
+          <p class="mb-0" id="txtProcessando">O Mercado Pago está confirmando seu pagamento. Pelo Pix isso costuma levar poucos segundos. Esta página atualiza sozinha.</p>
+        </div>
+      </section>
+
+      <!-- Pagamento aprovado -->
+      <section class="pay-state" id="estPago" hidden>
+        <div class="notice notice--ok">
+          <h1 class="page-title">Pagamento confirmado!</h1>
+          <p id="txtPago"></p>
+          <p class="mb-0">O comprovante foi enviado pelo Mercado Pago para o seu e-mail. Agora é só marcar a consulta.</p>
+          <div class="notice__actions">
+            <a class="btn" id="btnAgendar" href="#" target="_blank" rel="noopener" hidden>Agendar minha consulta</a>
+            <a class="btn btn--ghost" data-whats hidden target="_blank" rel="noopener">Falar no WhatsApp</a>
+          </div>
+        </div>
+        <p class="legal-text mt-4">Quer renovar ou trocar de plano? <a href="#" id="lnkRenovar">Fazer um novo pagamento</a>.</p>
+      </section>
+
+      <!-- Escolher o plano e pagar -->
+      <section class="pay-state" id="estEscolha" hidden>
+        <p class="msg msg--erro" id="msgRetorno" role="alert" hidden></p>
+        <h1 class="page-title">Escolha seu plano e finalize</h1>
+        <p class="muted">Último passo. Depois do pagamento, você marca a consulta.</p>
+
+        <form id="payForm" novalidate>
+          <fieldset class="pay-plans" id="listaPlanos" aria-label="Planos"></fieldset>
+
+          <div class="panel pay-summary" id="resumo" hidden>
+            <h2>Resumo</h2>
+            <dl class="pay-lines">
+              <div><dt>Plano</dt><dd id="resPlano"></dd></div>
+              <div><dt>Duração</dt><dd id="resDuracao"></dd></div>
+              <div><dt>Total</dt><dd id="resTotal" class="pay-total"></dd></div>
+              <div><dt>Formas de pagamento</dt><dd id="resFormas"></dd></div>
+            </dl>
+          </div>
+
+          <div class="panel">
+            <h2>Como funciona</h2>
+            <ul class="pay-info">
+              <li>Você paga numa página segura do <strong>Mercado Pago</strong>. Os dados do seu cartão não passam por este site.</li>
+              <li><strong>Pix</strong> é confirmado na hora. No <strong>cartão de crédito</strong>, o parcelamento aparece na página do Mercado Pago.</li>
+              <li>Assim que o pagamento é aprovado, você volta para cá e já pode agendar a consulta.</li>
+              <li>O comprovante chega no seu e-mail.</li>
+            </ul>
+            <h3 class="subhead">Cancelamento e reembolso</h3>
+            <p class="legal-text mb-0" id="txtPolitica">Se desistir em até 7 dias depois do pagamento e a primeira consulta ainda não tiver acontecido, você recebe o valor integral de volta, pela mesma forma de pagamento. Para remarcar ou cancelar, é só me chamar no WhatsApp.</p>
+          </div>
+
+          <div class="field" data-field>
+            <label class="option">
+              <input type="checkbox" name="aceite" id="aceite">
+              <span>Li e concordo com as condições acima e com a <a href="privacidade.html" target="_blank">Política de Privacidade</a>.</span>
+            </label>
+            <p class="error" id="erroAceite">Marque para continuar.</p>
+          </div>
+
+          <p class="error" id="erroPagar" role="alert"></p>
+          <button type="submit" class="btn btn--block" id="btnPagar">Ir para o pagamento</button>
+          <p class="legal-text pay-secure">🔒 Pagamento processado pelo Mercado Pago.</p>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer footer--compact">
+    <div class="container footer__inner">
+      <p class="muted"><strong data-brand>Paiva Nutri</strong> · <span data-crn>Nutricionista</span></p>
+      <div class="footer__links">
+        <a href="index.html">Início</a>
+        <a href="privacidade.html">Política de privacidade</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="planos.js"></script>
+  <script src="vendor/supabase.js"></script>
+  <script src="auth.js"></script>
+  <script src="site.js"></script>
+  <script src="pagamento.js"></script>
+</body>
+</html>

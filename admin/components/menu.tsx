@@ -11,6 +11,7 @@ const ITENS = [
   { href: "/anamneses", rotulo: "Anamneses" },
   { href: "/checkins", rotulo: "Check-ins" },
   { href: "/observacoes", rotulo: "Observações" },
+  { href: "/pagamentos", rotulo: "Pagamentos" },
   { href: "/auditoria", rotulo: "Auditoria" },
 ];
 
