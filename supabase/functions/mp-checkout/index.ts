@@ -15,7 +15,7 @@ function chaveSecreta() {
   try { return JSON.parse(Deno.env.get("SUPABASE_SECRET_KEYS") || "{}").default as string; } catch { return ""; }
 }
 
-const SITE_URL = (Deno.env.get("SITE_URL") || "https://site-five-chi-48.vercel.app").replace(/\/+$/, "");
+const SITE_URL = (Deno.env.get("SITE_URL") || "https://paivanutri.vercel.app").replace(/\/+$/, "");
 const CORS = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
